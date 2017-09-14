@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.net.ServerSocket;
+import java.util.Calendar;
 import java.util.concurrent.Semaphore;
 
 import mossimulator.Model;
@@ -76,6 +77,27 @@ public class Connection extends Thread{
 				break;
 		}
 	}
+	public String GetFromSocket(){
+		if (socket.isClosed())
+			return "";
+		try {
+			DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
+			long startTime = System.currentTimeMillis();
+			String readSocket="";
+			while (socketIn.available()<=0 || (System.currentTimeMillis()-startTime)<Model.SECTOWAIT){
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}
+			}
+			while(socketIn.available()>0) {
+		        	readSocket += socketIn.readChar();
+			}
+			return readSocket;
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		return "";
+	}
 	public boolean Send(MOSMessage message){
 		int attempts = 0;
 		boolean result = false;
@@ -96,6 +118,8 @@ public class Connection extends Thread{
 					socketInput.writeChars(content);
 					socketInput.flush();
 					new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
+					System.out.println(message.getClass().getSimpleName() + " sent.");
+					message.AfterSending();
 					result = true;
 				}
 				catch(IOException e){
@@ -111,7 +135,7 @@ public class Connection extends Thread{
 						System.out.println(e.getMessage());
 					}
 				}
-			}while(Model.retransmission > attempts++ && !result && powerSwitch);
+			}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
 			mutexInner.release();
 			mutex.release();
 			}

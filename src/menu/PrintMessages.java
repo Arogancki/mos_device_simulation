@@ -18,9 +18,9 @@ public class PrintMessages extends Menu {
 			Iterator<MessageInfo> i = Model.messages.iterator();
 			outer:
 		    while (i.hasNext()) {
-		    	System.out.println(i.next()+"\n\n");
+		    	System.out.println(i.next());
 		    	while (true){
-		    		System.out.println("(N)ext - (E)xit");
+		    		System.out.println("(n)ext - (e)xit");
 			    	char input = (new Scanner(System.in)).nextLine().trim().toLowerCase().charAt(0);
 			    	if (input == 'n')
 			    		break;

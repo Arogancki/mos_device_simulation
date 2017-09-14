@@ -64,36 +64,23 @@ public abstract class MOSMessage {
 		    }
 	}
 	public abstract void PrepareToSend();
-	public static void AfterReceiving(){
-		
-	};
+	public void AfterSending(){}
+	public static void AfterReceiving(){}
 	public Document getDocument(){return xmlDoc;}
+	protected Model.MessageInfo getResponse(){
+		String message = port.GetMessage();
+		Model.MessageInfo result = null;
+		if (message!=""){
+			try {
+				result = new Model.MessageInfo(Model.MessageInfo.Direction.IN, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"+message);
+				result.CallReceiveFunction();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			System.out.println("Response not received");
+		}
+		return result;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

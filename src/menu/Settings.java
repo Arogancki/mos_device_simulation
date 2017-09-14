@@ -8,7 +8,7 @@ public class Settings extends Menu{
 		super("Settings", createSubMenu());
 	}
 	private static Menu[] createSubMenu(){
-		Menu[] result = {new ChangeIp() ,new ChangeMOSID(), new ChangeNCSID() };
+		Menu[] result = {new ChangeIp() ,new ChangeMOSID(), new ChangeNCSID(), new ChangeSecToWait() };
 		return result;
 	}
 	private static class ChangeIp extends Menu{
@@ -56,6 +56,28 @@ public class Settings extends Menu{
 			if (input.length()>0){
 				Model.NCSID = input;
 				System.out.println("Changed to: \"" + Model.NCSID + "\"");
+			}
+			else{
+				System.out.println("Nothing changed");
+			}
+		}
+	}
+	private static class ChangeSecToWait extends Menu{
+		ChangeSecToWait(){
+			super("Change time to wait", null);
+		}
+		protected void Active(){
+			if (Model.NCSID != "")
+				System.out.println("Current sec to wait for response: \"" + Model.SECTOWAIT + "\"\nEnter new: ");
+			String input = (new Scanner(System.in)).nextLine().trim();
+			if (input.length()>0){
+				try{
+					Model.SECTOWAIT = Integer.parseInt(input);
+					System.out.println("Changed to: \"" + Model.SECTOWAIT + "\"");
+				}
+				catch(NumberFormatException e){
+					System.out.println("Wrong format.");
+				}
 			}
 			else{
 				System.out.println("Nothing changed");
