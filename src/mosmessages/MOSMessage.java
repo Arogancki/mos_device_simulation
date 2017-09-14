@@ -65,7 +65,7 @@ public abstract class MOSMessage {
 	}
 	public abstract void PrepareToSend();
 	public void AfterSending(){}
-	public static void AfterReceiving(){}
+	public static void AfterReceiving(Model.MessageInfo message){}
 	public Document getDocument(){return xmlDoc;}
 	protected Model.MessageInfo getResponse(){
 		String message = port.GetMessage();

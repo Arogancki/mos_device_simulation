@@ -24,6 +24,7 @@ import mosmessages.MOSMessage;
 import mosmessages.profile0.Heartbeat;
 import mosmessages.profile0.ListMachInfo;
 import mosmessages.profile0.ReqMachInfo;
+import mosmessages.profile1.MOSACK;
 
 public class Model {
 	private static boolean powerSwitch = true;
@@ -32,6 +33,7 @@ public class Model {
 	public static String MOSID = "Mos Simulator";
 	public static String NCSID = "Mos Simulator";
 	public static int RETRANSMISSON = 3;
+	public static long STARTDATE = System.currentTimeMillis();
 	private static int messageID = 0;
 	private static Port lower = new Port(10540);
 	private static Port upper = new Port(10541);
@@ -58,31 +60,41 @@ public class Model {
 		}
 		public Document getDocument(){return xmlDoc;}
 		public String getString(){return message;}
+
 		public String getMosType(){
-			if (message.contains("heartbeat")) return "heartbeat";
-			if (message.contains("reqmachinfo")) return "reqmachinfo";
-			if (message.contains("listmachinfo")) return "listmachinfo";
-			return "";
+			NodeList nodeList = xmlDoc.getDocumentElement().getChildNodes();
+		    for (int i = 0; i < nodeList.getLength(); i++) {
+		        Node node = nodeList.item(i);
+		        if (node.getNodeType() == Node.ELEMENT_NODE) {
+		        	String nodeName = node.getNodeName().toLowerCase();
+		            if (!nodeName.equals("mosid") && !nodeName.equals("ncsid") && !nodeName.equals("messageid"))
+		            	return nodeName;
+		        }
+		    }
+		    return "";
 		}
 		public void CallReceiveFunction(){
-			switch (getMosType()) {
+			switch (getMosType().toLowerCase()) {
 			case "heartbeat":
-				Heartbeat.AfterReceiving();
+				Heartbeat.AfterReceiving(this);
             	break;
 			case "reqmachinfo":
-				ReqMachInfo.AfterReceiving();
+				ReqMachInfo.AfterReceiving(this);
             	break;
 			case "listmachinfo":
-				ListMachInfo.AfterReceiving();
+				ListMachInfo.AfterReceiving(this);
+            	break;
+			case "mosack":
+				MOSACK.AfterReceiving(this);
             	break;
 			default:
-				System.out.println("Unsupported message recived.");
+				System.out.println("Unsupported MOS message recived.");
 				break;
 			}
 		}
 		@Override
 		public String toString(){
-			return ( direction==Direction.IN ? "<- " : "-> " ) + time + " :: " + message;
+			return time + ( direction==Direction.IN ? " <- " : " -> " ) + getMosType() + " " + message;
 		}
 	}
 	public static class Port{

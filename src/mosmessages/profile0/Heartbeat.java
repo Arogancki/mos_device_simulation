@@ -15,7 +15,7 @@ public class Heartbeat extends MOSMessage {
 		super(Model.getLowerPort());
 	}
 	//@Override
-	public static void AfterReceiving(){
+	public static void AfterReceiving(Model.MessageInfo message){
 		System.out.println("Heartbeat received.");
 		if (!expectingForHeartbeat)
 			new Heartbeat().Send();
@@ -23,7 +23,8 @@ public class Heartbeat extends MOSMessage {
 	@Override
 	public void AfterSending(){
 		expectingForHeartbeat = true;
-		if (getResponse().getMosType()=="hearthbeat");
+		Model.MessageInfo recived = getResponse();
+		if (recived != null && recived.getMosType()=="hearthbeat");
 			expectingForHeartbeat = false;
 	}
 	@Override

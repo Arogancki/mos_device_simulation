@@ -10,4 +10,7 @@ public class MOSACK extends MOSMessage {
 	public void PrepareToSend() {
 		
 	}
+	public static void AfterReceiving(Model.MessageInfo message){
+		System.out.println("Reciving confirmed");
+	}
 }

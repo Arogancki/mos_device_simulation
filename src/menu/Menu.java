@@ -46,7 +46,7 @@ public class Menu{
 				length = 0,
 				i = 1;
 			for (Menu option : options){
-				length = option.name.length()+1;
+				length = option.name.length()+2;
 				maxLength = length > maxLength ? length : maxLength;
 				menu += i++ + "." + option.name + "\n";
 			}
@@ -65,6 +65,7 @@ public class Menu{
 				System.out.println("Please choose wisely...");
 				choise = Choose();
 			}
+			System.out.println();
 			options[choise-1].OnClick();
 			return choise;
 		}

@@ -6,7 +6,7 @@ public class SendMOSMessage extends Menu{
 		super("Send MOS message", createSubMenu());
 	}
 	private static Menu[] createSubMenu(){
-		Menu[] result = {new Profile0()};
+		Menu[] result = {new Profile0(), new Profile1()};
 		return result;
 	}
 	private static class Profile0 extends Menu{
@@ -39,6 +39,23 @@ public class SendMOSMessage extends Menu{
 			}
 			protected void Active(){
 				new mosmessages.profile0.ListMachInfo().Send();
+			}
+		}
+	}
+	private static class Profile1 extends Menu{
+		Profile1() {
+			super("Profile 1 – Basic Object Workflow", createSubMenu());
+		}
+		private static Menu[] createSubMenu(){
+			Menu[] result = {new MOSACK()};
+			return result;
+		}
+		private static class MOSACK extends Menu{
+			MOSACK() {
+				super("mosAck", null);
+			}
+			protected void Active(){
+				new mosmessages.profile1.MOSACK().Send();
 			}
 		}
 	}

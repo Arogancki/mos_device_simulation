@@ -73,6 +73,9 @@ public class Connection extends Thread{
 					System.out.println(e.getMessage());
 				}
 			}
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e){}
 			if (!powerSwitch)
 				break;
 		}
