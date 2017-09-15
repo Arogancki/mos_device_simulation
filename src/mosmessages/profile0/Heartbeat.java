@@ -1,14 +1,11 @@
 package mosmessages.profile0;
-import java.util.Date;
 import java.text.SimpleDateFormat;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Element;
+import java.util.Date;
 
 import mosmessages.MOSMessage;
 import mossimulator.Model;
+
+import org.w3c.dom.Element;
 
 public class Heartbeat extends MOSMessage {
 	public Heartbeat() {
@@ -24,7 +21,7 @@ public class Heartbeat extends MOSMessage {
 	public void AfterSending(){
 		expectingForHeartbeat = true;
 		Model.MessageInfo recived = getResponse();
-		if (recived != null && recived.getMosType()=="hearthbeat");
+		if (recived != null && recived.getMosType()==this.getClass().getSimpleName());
 			expectingForHeartbeat = false;
 	}
 	@Override

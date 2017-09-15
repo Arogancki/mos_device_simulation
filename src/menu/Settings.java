@@ -1,6 +1,7 @@
 package menu;
 
 import java.util.Scanner;
+
 import mossimulator.Model;
 
 public class Settings extends Menu{

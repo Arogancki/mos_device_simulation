@@ -1,5 +1,4 @@
 package menu;
-import mossimulator.Model;
 
 public class SendMOSMessage extends Menu{
 	SendMOSMessage() {

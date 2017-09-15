@@ -1,30 +1,23 @@
 package mossimulator;
-import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.ArrayList;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import connection.Connection;
 import mosmessages.MOSMessage;
 import mosmessages.profile0.Heartbeat;
 import mosmessages.profile0.ListMachInfo;
 import mosmessages.profile0.ReqMachInfo;
 import mosmessages.profile1.MOSACK;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import connection.Connection;
 
 public class Model {
 	private static boolean powerSwitch = true;

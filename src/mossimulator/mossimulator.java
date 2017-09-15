@@ -5,6 +5,6 @@ public class mossimulator {
 		while (Model.getPowerSwitch()){
 			menu.Menu.Start();
 		}
-		System.out.println("Closed");
+		System.out.print("Closed");
 	}
 }

@@ -1,11 +1,8 @@
 package mosmessages.profile0;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.w3c.dom.Element;
-
 import mosmessages.MOSMessage;
 import mossimulator.Model;
+
+import org.w3c.dom.Element;
 
 public class ReqMachInfo extends MOSMessage {
 	public ReqMachInfo() {

@@ -1,10 +1,10 @@
 package menu;
 
-import mossimulator.Model;
-import mossimulator.Model.MessageInfo;
-
 import java.util.Iterator;
 import java.util.Scanner;
+
+import mossimulator.Model;
+import mossimulator.Model.MessageInfo;
 
 public class PrintMessages extends Menu {
 	PrintMessages() {
@@ -17,19 +17,20 @@ public class PrintMessages extends Menu {
 		{
 			int z=0;
 			Iterator<MessageInfo> i = Model.messages.iterator();
-			outer:
-		    while (i.hasNext()) {
-		    	System.out.println(++z + ". " + i.next());
-		    	while (true){
+			while (i.hasNext()){
+		    	for (int j=0; j<5 && i.hasNext(); j++)
+		    		System.out.println(++z + ". " + i.next());
+		    	while (i.hasNext()){
 		    		System.out.println("(n)ext - (e)xit");
 			    	char input = (new Scanner(System.in)).nextLine().trim().toLowerCase().charAt(0);
 			    	if (input == 'n')
 			    		break;
 			    	else if (input == 'e')
-			    		break outer;
-		    	}
-		    		
-		    }
+			    		while (i.hasNext())
+			    			i.next();
+			    }
+	    		System.out.println();
+			}
 		}
 	}
 }

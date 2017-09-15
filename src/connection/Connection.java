@@ -2,17 +2,14 @@ package connection;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ConnectException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.net.ServerSocket;
-import java.util.Calendar;
 import java.util.concurrent.Semaphore;
 
+import mosmessages.MOSMessage;
 import mossimulator.Model;
 import mossimulator.Model.Port;
-import mosmessages.MOSMessage;
 
 public class Connection extends Thread{
 	private Socket socket = null;
