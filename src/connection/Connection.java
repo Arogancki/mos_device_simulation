@@ -84,9 +84,9 @@ public class Connection extends Thread{
 			DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
 			long startTime = System.currentTimeMillis();
 			String readSocket="";
-			while (socketIn.available()<=0 || (System.currentTimeMillis()-startTime)<Model.SECTOWAIT){
+			while (socketIn.available()<=0 && (System.currentTimeMillis()-startTime)<Model.SECTOWAIT*1000){
 				try {
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {}
 			}
 			while(socketIn.available()>0) {

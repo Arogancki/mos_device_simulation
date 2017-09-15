@@ -23,13 +23,14 @@ public class PrintMessages extends Menu {
 		    	while (i.hasNext()){
 		    		System.out.println("(n)ext - (e)xit");
 			    	char input = (new Scanner(System.in)).nextLine().trim().toLowerCase().charAt(0);
-			    	if (input == 'n')
+			    	if (input == 'n'){
+			    		System.out.println();
 			    		break;
+			    		}
 			    	else if (input == 'e')
 			    		while (i.hasNext())
 			    			i.next();
 			    }
-	    		System.out.println();
 			}
 		}
 	}

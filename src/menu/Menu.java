@@ -21,6 +21,7 @@ public class Menu{
 				instance.options = Arrays.copyOf(instance.options, instance.options.length-1);
 		    }
 			instance.OnClick();
+			System.out.println();
 		}
 		private String name;
 		private Menu[] options = null;
@@ -65,7 +66,6 @@ public class Menu{
 				System.out.println("Please choose wisely...");
 				choise = Choose();
 			}
-			System.out.println();
 			options[choise-1].OnClick();
 			return choise;
 		}
