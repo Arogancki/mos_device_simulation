@@ -12,6 +12,8 @@ import mossimulator.Model;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public abstract class MOSMessage {
 	protected Document xmlDoc;
@@ -46,9 +48,51 @@ public abstract class MOSMessage {
 			e.printStackTrace();
 		}
 	}
+	public static String PrintXML(Document xmlDoc){
+		class PrintNode{
+			private String result;
+			private String getLineEntry(int i){
+				if (i <= 0) return "";
+				return "\t"+getLineEntry(i-1);
+			}
+ 			public PrintNode(Element element){
+				result = get(element, 0);
+			}
+			private String get(Element element, int lineEntry){
+				StringBuffer result = new StringBuffer(getLineEntry(lineEntry)).append(element.getNodeName());
+				NodeList nodeList = element.getChildNodes();
+				if (nodeList.getLength() > 0)
+				{
+					if (nodeList.getLength() == 1 && nodeList.item(0).getNodeType() != Node.ELEMENT_NODE){
+						result.append(" : " + element.getTextContent());
+					}
+					else {
+						result.append(" {");
+						for (int i = 0; i < nodeList.getLength(); i++) {
+							Node node = nodeList.item(i);
+							if (node.getNodeType() == Node.ELEMENT_NODE)
+								result.append("\n").append(get((Element) node, lineEntry+1));
+						}
+						result.append("\n").append(getLineEntry(lineEntry)).append("}");
+					}
+				}
+				return result.toString();
+			}
+		    public String toString(){
+				return result;
+		    }
+		 }
+		 return new PrintNode(xmlDoc.getDocumentElement()).toString();
+	}
 	public void Send(){
 		PrepareToSend();
-		port.Send(this);
+		if (port.Send(this)){
+			System.out.println(getClass().getSimpleName() + " sent:\n" + MOSMessage.PrintXML(xmlDoc));
+			AfterSending();
+		}
+		else {
+			System.out.println("Coudln't send the message.");
+		}
 	};
 	@Override
 	public String toString(){

@@ -118,8 +118,6 @@ public class Connection extends Thread{
 					socketInput.writeChars(content);
 					socketInput.flush();
 					new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
-					System.out.println(message.getClass().getSimpleName() + " sent.");
-					message.AfterSending();
 					result = true;
 				}
 				catch(IOException e){

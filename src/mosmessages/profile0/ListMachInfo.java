@@ -19,6 +19,12 @@ public class ListMachInfo extends MOSMessage {
 	//@Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		System.out.println("ListMachInfo received:");
+		System.out.println(
+				
+				 message.getDocument().getDocumentElement().getNodeName() + 
+				 message.getDocument().getDocumentElement().getNodeValue()
+				
+				);
 		NodeList nodeList = message.getDocument().getElementsByTagName("listMachInfo").item(0).getChildNodes();
 	    for (int i = 0; i < nodeList.getLength(); i++) {
 	        Node node = nodeList.item(i);
