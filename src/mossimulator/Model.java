@@ -21,7 +21,7 @@ import connection.Connection;
 
 public class Model {
 	private static boolean powerSwitch = true;
-	public static int SECTOWAIT = 3;
+	public static long SECTOWAIT = 3L;
 	public static String TARGETHOST = "10.105.250.217";
 	public static String MOSID = "Mos Simulator";
 	public static String NCSID = "Mos Simulator";
@@ -68,26 +68,37 @@ public class Model {
 		}
 		public void CallReceiveFunction(){
 			switch (getMosType().toLowerCase()) {
+			// profile 0
 			case "heartbeat":
-				Heartbeat.AfterReceiving(this);
-            	break;
+				Heartbeat.AfterReceiving(this); break;
 			case "reqmachinfo":
-				ReqMachInfo.AfterReceiving(this);
-            	break;
+				ReqMachInfo.AfterReceiving(this); break;
 			case "listmachinfo":
-				ListMachInfo.AfterReceiving(this);
-            	break;
+				ListMachInfo.AfterReceiving(this); break;
+            //profile 1
 			case "mosack":
-				MOSACK.AfterReceiving(this);
-            	break;
+				MOSACK.AfterReceiving(this);break;
+			case "mosobj":
+				MOSACK.AfterReceiving(this); break;
+			case "mosreqobj":
+				MOSACK.AfterReceiving(this); break;
+			case "mosreqall":
+				MOSACK.AfterReceiving(this); break;
+			case "moslistall":
+				MOSACK.AfterReceiving(this); break;
+			//profile 2
+			//profile 3
+			//profile 4
+			//profile 5
+			//profile 6
+			//profile 7
 			default:
-				System.out.println("Unsupported MOS message recived.");
-				break;
+				System.out.println("Unsupported MOS message recived."); break;
 			}
 		}
 		@Override
 		public String toString(){
-			return time + ( direction==Direction.IN ? " <- " : " -> " ) + getMosType() + " " + message;
+			return time + ( direction==Direction.IN ? " <- " : " -> " ) + getMosType();
 		}
 	}
 	public static class Port{

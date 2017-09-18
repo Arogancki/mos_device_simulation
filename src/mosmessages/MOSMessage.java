@@ -88,10 +88,7 @@ public abstract class MOSMessage {
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
 		System.out.println(info + ":\n" + MOSMessage.PrintXML(xmlDoc));
-		if (port.Send(this)){
-			System.out.println(info + " done.");
-		}
-		else {
+		if (!port.Send(this)){
 			System.out.println("Coudln't send the message.");
 		}
 	};

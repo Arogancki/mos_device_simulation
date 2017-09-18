@@ -118,6 +118,7 @@ public class Connection extends Thread{
 					socketInput.writeChars(content);
 					socketInput.flush();
 					new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
+					System.out.println("Sent.");
 					message.AfterSending();
 					result = true;
 				}

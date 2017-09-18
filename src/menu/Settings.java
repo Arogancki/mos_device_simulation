@@ -73,7 +73,7 @@ public class Settings extends Menu{
 			String input = (new Scanner(System.in)).nextLine().trim();
 			if (input.length()>0){
 				try{
-					Model.SECTOWAIT = Integer.parseInt(input);
+					Model.SECTOWAIT = Long.valueOf(input).longValue();
 					System.out.println("Changed to: \"" + Model.SECTOWAIT + "\"");
 				}
 				catch(NumberFormatException e){

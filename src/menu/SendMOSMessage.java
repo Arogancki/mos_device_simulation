@@ -5,7 +5,7 @@ public class SendMOSMessage extends Menu{
 		super("Send MOS message", createSubMenu());
 	}
 	private static Menu[] createSubMenu(){
-		Menu[] result = {new Profile0(), new Profile1()};
+		Menu[] result = {new Profile0(), new Profile1(), new Profile2(), new Profile3(), new Profile4(), new Profile5(), new Profile6(), new Profile7()};
 		return result;
 	}
 	private static class Profile0 extends Menu{
@@ -46,7 +46,7 @@ public class SendMOSMessage extends Menu{
 			super("Profile 1 – Basic Object Workflow", createSubMenu());
 		}
 		private static Menu[] createSubMenu(){
-			Menu[] result = {new MOSACK()};
+			Menu[] result = {new MOSACK(), new MOSObj(),new MOSReqObj(), new MOSReqAll(), new MOSListAll()};
 			return result;
 		}
 		private static class MOSACK extends Menu{
@@ -56,6 +56,92 @@ public class SendMOSMessage extends Menu{
 			protected void Active(){
 				new mosmessages.profile1.MOSACK().Send();
 			}
+		}
+		private static class MOSObj extends Menu{
+			MOSObj() {
+				super("mosObj", null);
+			}
+			protected void Active(){
+				new mosmessages.profile1.MOSObj().Send();
+			}
+		}
+		private static class MOSReqObj extends Menu{
+			MOSReqObj() {
+				super("mosReqObj", null);
+			}
+			protected void Active(){
+				new mosmessages.profile1.MOSReqObj().Send();
+			}
+		}
+		private static class MOSReqAll extends Menu{
+			MOSReqAll() {
+				super("mosReqAll", null);
+			}
+			protected void Active(){
+				new mosmessages.profile1.MOSReqAll().Send();
+			}
+		}
+		private static class MOSListAll extends Menu{
+			MOSListAll() {
+				super("mosListAll", null);
+			}
+			protected void Active(){
+				new mosmessages.profile1.MOSListAll().Send();
+			}
+		}
+	}
+	private static class Profile2 extends Menu{
+		Profile2() {
+			super("Profile 2 – Basic Running Order / Content List Workflow", createSubMenu());
+		}
+		private static Menu[] createSubMenu(){
+			Menu[] result = {};
+			return result;
+		}
+	}
+	private static class Profile3 extends Menu{
+		Profile3() {
+			super("Profile 3 – Advanced Object Based Workflow", createSubMenu());
+		}
+		private static Menu[] createSubMenu(){
+			Menu[] result = {};
+			return result;
+		}
+	}
+	private static class Profile4 extends Menu{
+		Profile4() {
+			super("Profile 4 – Advanced RO/Content List Workflow", createSubMenu());
+		}
+		private static Menu[] createSubMenu(){
+			Menu[] result = {};
+			return result;
+		}
+	}
+	private static class Profile5 extends Menu{
+		Profile5() {
+			super("Profile 5 – Item Control", createSubMenu());
+		}
+		private static Menu[] createSubMenu(){
+			Menu[] result = {};
+			return result;
+		}
+	}
+	private static class Profile6 extends Menu{
+		Profile6() {
+			super("Profile 6 – MOS Redirection", createSubMenu());
+		}
+		private static Menu[] createSubMenu(){
+			Menu[] result = {};
+			return result;
+		}
+	}
+	private static class Profile7 extends Menu{
+		Profile7() {
+			super("Profile 7 – MOS RO/Content List Modification", createSubMenu());
+		}
+		private static Menu[] createSubMenu(){
+			Menu[] result = {};
+			return result;
 		}
 	}
 }
