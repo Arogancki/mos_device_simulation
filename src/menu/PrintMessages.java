@@ -15,10 +15,10 @@ public class PrintMessages extends Menu {
 			System.out.println("Nothing to print\n");
 		else
 		{
-			int z=0;
+			int z = 0, amountOnOnePage = 5;
 			Iterator<MessageInfo> i = Model.messages.iterator();
 			while (i.hasNext()){
-		    	for (int j=0; j<5 && i.hasNext(); j++)
+		    	for (int j=0; j<amountOnOnePage && i.hasNext(); j++)
 		    		System.out.println(++z + ". " + i.next());
 		    	while (i.hasNext()){
 		    		System.out.println("(n)ext - (e)xit");

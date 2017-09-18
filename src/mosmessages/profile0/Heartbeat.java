@@ -13,7 +13,7 @@ public class Heartbeat extends MOSMessage {
 	}
 	//@Override
 	public static void AfterReceiving(Model.MessageInfo message){
-		System.out.println("Heartbeat received.");
+		MOSMessage.AfterReceiving(message);
 		if (!expectingForHeartbeat)
 			new Heartbeat().Send();
 	}

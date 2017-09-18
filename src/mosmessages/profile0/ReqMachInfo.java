@@ -10,7 +10,7 @@ public class ReqMachInfo extends MOSMessage {
 	}
 	//@Override
 		public static void AfterReceiving(Model.MessageInfo message){
-			System.out.println("Received ReqMachInfo.\nAutoresponding: ListMachInfo.");
+			MOSMessage.AfterReceiving(message);
 			new ListMachInfo().Send();
 		}
 		@Override

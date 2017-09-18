@@ -86,9 +86,10 @@ public abstract class MOSMessage {
 	}
 	public void Send(){
 		PrepareToSend();
+		String info = "Sending - " + getClass().getSimpleName();
+		System.out.println(info + ":\n" + MOSMessage.PrintXML(xmlDoc));
 		if (port.Send(this)){
-			System.out.println(getClass().getSimpleName() + " sent:\n" + MOSMessage.PrintXML(xmlDoc));
-			AfterSending();
+			System.out.println(info + " done.");
 		}
 		else {
 			System.out.println("Coudln't send the message.");
@@ -109,7 +110,9 @@ public abstract class MOSMessage {
 	}
 	public abstract void PrepareToSend();
 	public void AfterSending(){}
-	public static void AfterReceiving(Model.MessageInfo message){}
+	public static void AfterReceiving(Model.MessageInfo message){
+		System.out.println("Recived - " + message.getMosType() + ":\n" + MOSMessage.PrintXML(message.getDocument()));
+	}
 	public Document getDocument(){return xmlDoc;}
 	protected Model.MessageInfo getResponse(){
 		String message = port.GetMessage();
