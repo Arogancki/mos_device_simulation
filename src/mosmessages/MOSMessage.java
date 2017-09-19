@@ -92,6 +92,16 @@ public abstract class MOSMessage {
 			System.out.println("Coudln't send the message.");
 		}
 	};
+	public boolean SendOnOpenSocket(){
+		PrepareToSend();
+		String info = "Sending - " + getClass().getSimpleName();
+		System.out.println(info + ":\n" + MOSMessage.PrintXML(xmlDoc));
+		boolean result = port.SendOnOpenSocket(this);
+		if (!result){
+			System.out.println("Coudln't send the message.");
+		}
+		return result;
+	}
 	@Override
 	public String toString(){
 		 try{

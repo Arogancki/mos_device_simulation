@@ -114,7 +114,7 @@ public class Model {
 		Port(int _number){
 			number = _number;
 			connection = new Connection(this);
-			//connection.start();
+			//connection.start(); this runs the "server" thread on socket
 		}
 		public int getPortNumber(){return number;}
 		public String GetMessage(){
@@ -122,6 +122,9 @@ public class Model {
 		}
 		public boolean Send(MOSMessage message){
 			return ((Connection)connection).Send(message);
+		}
+		public boolean SendOnOpenSocket(MOSMessage message){
+			return ((Connection)connection).SendOnOpenSocket(message);
 		}
 	}
 	public static int takeMessageId(){

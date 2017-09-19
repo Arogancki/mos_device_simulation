@@ -9,7 +9,7 @@ public class Settings extends Menu{
 		super("Settings", createSubMenu());
 	}
 	private static Menu[] createSubMenu(){
-		Menu[] result = {new ChangeIp() ,new ChangeMOSID(), new ChangeNCSID(), new ChangeSecToWait() };
+		Menu[] result = {new ChangeIp() ,new ChangeMOSID(), new ChangeNCSID(), new ChangeSecToWait(), new ChangeRETRANSMISSON() };
 		return result;
 	}
 	private static class ChangeIp extends Menu{
@@ -75,6 +75,28 @@ public class Settings extends Menu{
 				try{
 					Model.SECTOWAIT = Long.valueOf(input).longValue();
 					System.out.println("Changed to: \"" + Model.SECTOWAIT + "\"");
+				}
+				catch(NumberFormatException e){
+					System.out.println("Wrong format.");
+				}
+			}
+			else{
+				System.out.println("Nothing changed");
+			}
+		}
+	}
+	private static class ChangeRETRANSMISSON extends Menu{
+		ChangeRETRANSMISSON(){
+			super("Change amonth of retransmissions", null);
+		}
+		protected void Active(){
+			if (Model.NCSID != "")
+				System.out.println("Current amount of retransmissions: \"" + Model.RETRANSMISSON + "\"\nEnter new: ");
+			String input = (new Scanner(System.in)).nextLine().trim();
+			if (input.length()>0){
+				try{
+					Model.RETRANSMISSON = Integer.parseInt(input);
+					System.out.println("Changed to: \"" + Model.RETRANSMISSON + "\"");
 				}
 				catch(NumberFormatException e){
 					System.out.println("Wrong format.");

@@ -9,29 +9,7 @@ public class MOSACK extends MOSMessage {
 	private String objectUID = "";
 	private String objRev = "";
 	private String StatusDescription = "";
-	private Status status = Status.ACK;
-	public enum Status {
-		ACK ("ACK"),
-		OK ("OK"),
-		UPDATED ("UPDATED"),
-		MOVED ("MOVED"),
-		BUSY  ("BUSY "),
-		DELETED ("DELETED"),
-		NCS_CTRL ("NCS CTRL"),
-		MANUAL_CTRL ("MANUAL CTRL"),
-		READY ("READY"),
-		NOT_READY ("NOT READY"),
-		PLAY ("PLAY"),
-		STOP ("STOP");
-		
-		private final String status;
-		private Status(String _status){
-			status = _status;
-		}
-		public String toString(){
-			return status;
-		}
-	}
+	private mosmessages.defined.Status status = mosmessages.defined.Status.OK;
 	
 	public MOSACK() {
 		super(Model.getLowerPort());
@@ -100,10 +78,10 @@ public class MOSACK extends MOSMessage {
 		StatusDescription = statusDescription;
 		return this;
 	}
-	public Status getStatus() {
+	public mosmessages.defined.Status getStatus() {
 		return status;
 	}
-	public MOSACK setStatus(Status status) {
+	public MOSACK setStatus(mosmessages.defined.Status status) {
 		this.status = status;
 		return this;
 	}

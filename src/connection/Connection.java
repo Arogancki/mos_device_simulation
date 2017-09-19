@@ -98,6 +98,28 @@ public class Connection extends Thread{
 		}
 		return "";
 	}
+	public boolean SendOnOpenSocket(MOSMessage message){
+		boolean result = false;
+		if (socket.isClosed())
+			return result;
+		int attempts = 0;
+		do{
+			DataOutputStream socketInput;
+			try {
+				socketInput = new DataOutputStream(socket.getOutputStream());
+				String content = message.toString();
+				socketInput.writeChars(content);
+				socketInput.flush();
+				new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
+				System.out.println("Sent.");
+				message.AfterSending();
+				result=true;
+			} catch (IOException e) {
+				System.out.println("Unable to get output stream from socket.");
+			}
+		}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
+		return result;
+	}
 	public boolean Send(MOSMessage message){
 		int attempts = 0;
 		boolean result = false;

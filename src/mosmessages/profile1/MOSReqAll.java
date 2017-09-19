@@ -8,7 +8,7 @@ import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
 
 public class MOSReqAll extends MOSMessage {
-	private long pause = 1L; // delay between messages responses containing obj, if ==0 get mostListAll
+	private long pause = 0L; // delay between messages responses containing obj, if ==0 get mostListAll
 	public MOSReqAll() {
 		super(Model.getLowerPort());
 	}
@@ -16,7 +16,7 @@ public class MOSReqAll extends MOSMessage {
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MOSMessage.AfterReceiving(message);
-		new MOSACK().setStatus(MOSACK.Status.OK).Send();
+		new MOSACK().setStatus(mosmessages.defined.Status.OK).Send();
 		int pause = 0;
 		try {
 			pause = Integer.parseInt(message.GetFromXML("pause"));
@@ -38,6 +38,7 @@ public class MOSReqAll extends MOSMessage {
 	public void AfterSending() {
 		MessageInfo response = getResponse();
 		if (response.getMosType().equals("mosack")){
+			//boolean result = new MOSACK().SendOnOpenSocket();
 			if (pause <= 0){
 				getResponse();
 			}
@@ -56,11 +57,11 @@ public class MOSReqAll extends MOSMessage {
 
 		Element mosReqAll = xmlDoc.createElement("mosReqAll");
 		mos.appendChild(mosReqAll);
-
+/*
 		Element pause = xmlDoc.createElement("pause");
 		pause.appendChild(xmlDoc.createTextNode(Long.toString(getPause())));
 		mosReqAll.appendChild(pause);
-	}
+	*/}
 
 	public long getPause() {
 		return pause;
