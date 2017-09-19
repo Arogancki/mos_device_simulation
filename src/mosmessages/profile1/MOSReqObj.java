@@ -15,15 +15,19 @@ public class MOSReqObj extends MOSMessage {
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MOSMessage.AfterReceiving(message);
-		// TODO send description of the object
+		// TODO wyciaganac obiekt z kolekcji i wyslac
 	}
 
 	public void AfterSending() {
 		MessageInfo response = getResponse();
-		if (response.getMosType().toLowerCase().equals("mosobj")){
-			// TODO recived description of the object 
+		if (response.getMosType().toLowerCase().equals(MOSObj.class.getSimpleName().toLowerCase())){
+			String objID = response.GetFromXML("objID");
+			if (objID != null && objID.equals(objID)){
+				System.out.println("Received requested object.");
+				// TODO dodac do kolekcji obiketow
+			}
 		}
-		else if (response.getMosType().toLowerCase().equals("mosack")) {
+		else if (response.getMosType().toLowerCase().equals(MOSACK.class.getSimpleName().toLowerCase())) {
 			System.out.println("Object wasn't found.");
 		}
 	}

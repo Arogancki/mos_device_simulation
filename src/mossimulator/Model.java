@@ -13,6 +13,7 @@ import mosmessages.profile0.ReqMachInfo;
 import mosmessages.profile1.MOSACK;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -65,6 +66,12 @@ public class Model {
 		        }
 		    }
 		    return "";
+		}
+		public String GetFromXML(String tagname){
+			NodeList nodeList = xmlDoc.getElementsByTagName(tagname);
+			if (nodeList.getLength() > 0)
+				return nodeList.item(0).getTextContent();
+			return null;
 		}
 		public void CallReceiveFunction(){
 			switch (getMosType().toLowerCase()) {

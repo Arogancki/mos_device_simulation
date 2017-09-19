@@ -16,16 +16,37 @@ public class MOSReqAll extends MOSMessage {
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MOSMessage.AfterReceiving(message);
+		new MOSACK().setStatus(MOSACK.Status.OK).Send();
+		int pause = 0;
+		try {
+			pause = Integer.parseInt(message.GetFromXML("pause"));
+		}
+		catch(NumberFormatException|NullPointerException e){
+		}
+		finally{
+			if (pause > 0){
+				// TODO wysylanie pojedynczo kadego objektu co okreslony w pasue czas
+			}
+			else if (pause == 0){
+				new MOSListAll().Send();
+			}
+			else
+				System.out.println("Wrong pasue value: " + pause);
+		}
 	}
 
 	public void AfterSending() {
 		MessageInfo response = getResponse();
 		if (response.getMosType().equals("mosack")){
-			Model.SECTOWAIT += pause;
-			while (getResponse() != null){
-				
+			if (pause <= 0){
+				getResponse();
 			}
-			Model.SECTOWAIT -= pause; 
+			else{
+				Model.SECTOWAIT += pause;
+				while (getResponse() != null){
+				}
+				Model.SECTOWAIT -= pause;
+			}
 		}
 	}
 

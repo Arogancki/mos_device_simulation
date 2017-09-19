@@ -7,11 +7,12 @@ import mossimulator.Model;
 public class MOSACK extends MOSMessage {
 	
 	private String objectUID = "";
-	private int objRev = 0;
+	private String objRev = "";
 	private String StatusDescription = "";
 	private Status status = Status.ACK;
 	public enum Status {
 		ACK ("ACK"),
+		OK ("OK"),
 		UPDATED ("UPDATED"),
 		MOVED ("MOVED"),
 		BUSY  ("BUSY "),
@@ -47,7 +48,7 @@ public class MOSACK extends MOSMessage {
 		mosAck.appendChild(objID);
 
 		Element objRev = xmlDoc.createElement("objRev");
-		objRev.appendChild(xmlDoc.createTextNode(Integer.toString(getObjRev())));
+		objRev.appendChild(xmlDoc.createTextNode(getObjRev()));
 		mosAck.appendChild(objID);
 
 		Element status = xmlDoc.createElement("status");
@@ -72,13 +73,20 @@ public class MOSACK extends MOSMessage {
 		this.objectUID = objectUID;
 		return this;
 	}
-	public int getObjRev() {
+	public String getObjRev() {
 		return objRev;
 	}
-	public MOSACK setObjRev(int objRev) {
-		if (objRev > 999)
-			objRev = 999;
-		this.objRev = objRev;
+	public MOSACK setObjRev(String objRev) {
+		int toInt;
+		try {
+			toInt = Integer.parseInt(objRev);
+			if (toInt > 999)
+				toInt = 999;
+			this.objRev = Integer.toString(toInt);
+		}
+		catch (NumberFormatException e){
+			this.objRev = "";
+		}
 		return this;
 	}
 	public String getStatusDescription() {
