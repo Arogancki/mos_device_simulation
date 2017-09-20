@@ -8,7 +8,17 @@ public enum ObjAir {
 	private ObjAir(String _text){
 		text = _text;
 	}
+	static public ObjAir getFromString(String str){
+		try{
+			return ObjAir.valueOf(str);
+		}
+		catch (IllegalArgumentException e){
+			return null;
+		}
+	}
 	public String toString(){
 		return text;
 	}
+	
+	
 }

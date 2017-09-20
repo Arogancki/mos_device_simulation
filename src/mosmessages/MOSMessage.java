@@ -64,7 +64,7 @@ public abstract class MOSMessage {
 				if (nodeList.getLength() > 0)
 				{
 					if (nodeList.getLength() == 1 && nodeList.item(0).getNodeType() != Node.ELEMENT_NODE){
-						result.append(" : " + element.getTextContent());
+						result.append(" : \"" + element.getTextContent() + "\"");
 					}
 					else {
 						result.append(" {");
@@ -92,6 +92,19 @@ public abstract class MOSMessage {
 			System.out.println("Coudln't send the message.");
 		}
 	};
+	public boolean SendWithouClosing(){
+		PrepareToSend();
+		String info = "Sending - " + getClass().getSimpleName();
+		System.out.println(info + ":\n" + MOSMessage.PrintXML(xmlDoc));
+		boolean result = port.SendWithoutClosing(this);
+		if (!result){
+			System.out.println("Coudln't send the message.");
+		}
+		return result;
+	}
+	public void CloseSocket(){
+		port.CloseSocket();
+	}
 	public boolean SendOnOpenSocket(){
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
@@ -126,7 +139,7 @@ public abstract class MOSMessage {
 		Model.MessageInfo result = null;
 		if (message!=""){
 			try {
-				result = new Model.MessageInfo(Model.MessageInfo.Direction.IN, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"+message);
+				result = new Model.MessageInfo(Model.MessageInfo.Direction.IN, message);
 				result.CallReceiveFunction();
 			} catch (Throwable e) {
 				e.printStackTrace();

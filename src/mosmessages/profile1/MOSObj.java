@@ -1,9 +1,9 @@
 package mosmessages.profile1;
 
-import org.w3c.dom.Element;
-
 import mosmessages.MOSMessage;
 import mossimulator.Model;
+
+import org.w3c.dom.Element;
 
 public class MOSObj extends MOSMessage {
 	private mossimulator.MosObj mosObj = null;
@@ -20,12 +20,11 @@ public class MOSObj extends MOSMessage {
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MOSMessage.AfterReceiving(message);
-		//TODO  dodac do kolekcji zawierajacej wszystkie obiekty kierowanne objID - najlepiej zeby nadpisywala kolekcja kiedy bedzie kopia sortowane po tagu
+		new mossimulator.MosObj(message);
 		
 	}
 
 	public void AfterSending() {
-		mosObj.checkAsSemt();
 		Model.MessageInfo recived = getResponse();
 		if (recived == null || !recived.getMosType().toLowerCase().equals(MOSACK.class.getSimpleName().toLowerCase())){
 			System.out.println("Receiving not acknowledged");
@@ -36,24 +35,12 @@ public class MOSObj extends MOSMessage {
 	public void PrepareToSend() {
 		Element mos = xmlDoc.getDocumentElement();
 
-		Element mosAck = xmlDoc.createElement("mosAck");
-		mos.appendChild(mosAck);
+		Element e_mosObj = xmlDoc.createElement("mosObj");
+		mos.appendChild(e_mosObj);
 
-		Element objID = xmlDoc.createElement("objID");
-		objID.appendChild(xmlDoc.createTextNode(getObjectUID()));
-		mosAck.appendChild(objID);
-
-		Element objRev = xmlDoc.createElement("objRev");
-		objRev.appendChild(xmlDoc.createTextNode(getObjRev()));
-		mosAck.appendChild(objID);
-
-		Element status = xmlDoc.createElement("status");
-		status.appendChild(xmlDoc.createTextNode(getStatus().toString()));
-		mosAck.appendChild(status);
-		
-		Element statusDescription = xmlDoc.createElement("statusDescription");
-		statusDescription.appendChild(xmlDoc.createTextNode(getStatusDescription()));
-		mosAck.appendChild(statusDescription);
+		if (this.mosObj != null){
+			mosObj.BuildXml(e_mosObj, xmlDoc);
+		}
 		
 	}
 }

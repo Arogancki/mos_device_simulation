@@ -22,4 +22,12 @@ public enum Status {
 	public String toString(){
 		return status;
 	}
+	static public Status getFromString(String str){
+		try{
+			return Status.valueOf(str);
+		}
+		catch (IllegalArgumentException e){
+			return null;
+		}
+	}
 }

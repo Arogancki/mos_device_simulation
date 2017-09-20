@@ -12,4 +12,12 @@ public enum ObjType {
 	public String toString(){
 		return text;
 	}
+	static public ObjType getFromString(String str){
+		try {
+			return ObjType.valueOf(str);
+		}
+		catch (IllegalArgumentException e){
+			return null;
+		}
+	}
 }

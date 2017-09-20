@@ -120,6 +120,52 @@ public class Connection extends Thread{
 		}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
 		return result;
 	}
+	public void Close(){
+		try {
+			if (!socket.isClosed())
+				socket.close();	
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public boolean SendWithoutClosing(MOSMessage message){
+		int attempts = 0;
+		boolean result = false;
+		try{
+			mutexInner.acquire();
+			mutex.acquire();
+			try {
+				if (!socket.isClosed())
+					socket.close();	
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+			do{
+				try{
+					socket = new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber());
+					DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
+					String content = message.toString();
+					socketInput.writeChars(content);
+					socketInput.flush();
+					new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
+					System.out.println("Sent.");
+					message.AfterSending();
+					result = true;
+				}
+				catch(IOException e){
+					System.out.println("Unable to connect " + 
+							mossimulator.Model.TARGETHOST + ":" + port.getPortNumber() 
+							+ ".\n" + e.getMessage());
+				}
+			}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
+			mutexInner.release();
+			mutex.release();
+			}
+		catch(InterruptedException e){
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
 	public boolean Send(MOSMessage message){
 		int attempts = 0;
 		boolean result = false;

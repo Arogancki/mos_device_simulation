@@ -1,5 +1,9 @@
 package mosmessages.profile1;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import mosmessages.MOSMessage;
 import mossimulator.Model;
 
@@ -12,14 +16,32 @@ public class MOSListAll extends MOSMessage {
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MOSMessage.AfterReceiving(message);
+		NodeList nodeList = message.getDocument().getElementsByTagName("mosListAll");
+		for (int i=0; i<nodeList.getLength(); i++){
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE){
+				// wyciagac wartosci i wrzucac do stworzonego mosa przez set
+			}
+		}
 	}
 
 	public void AfterSending() {
-		
+		Model.MessageInfo recived = getResponse();
+		if (recived == null || !recived.getMosType().toLowerCase().equals(MOSACK.class.getSimpleName().toLowerCase())){
+			System.out.println("Receiving not acknowledged");
+		}
 	}
 
 	@Override
 	public void PrepareToSend() {
+		Element mos = xmlDoc.getDocumentElement();
+		Element mosListAll = xmlDoc.createElement("mosListAll");
+		mos.appendChild(mosListAll);
 		
+		for (String key : mossimulator.MosObj.GetKeys()) {
+			Element mosObj = xmlDoc.createElement("mosObj");
+			mosListAll.appendChild(mosObj);
+			mossimulator.MosObj.getMosObj(key).BuildXml(mosObj, xmlDoc);
+		}
 	}
 }

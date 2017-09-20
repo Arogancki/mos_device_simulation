@@ -3,6 +3,7 @@ package mosmessages.profile1;
 import org.w3c.dom.Element;
 
 import mosmessages.MOSMessage;
+import mosmessages.defined.Status;
 import mosmessages.profile0.Heartbeat;
 import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
@@ -25,7 +26,15 @@ public class MOSReqAll extends MOSMessage {
 		}
 		finally{
 			if (pause > 0){
-				// TODO wysylanie pojedynczo kadego objektu co okreslony w pasue czas
+				MOSACK ack = new MOSACK();
+				ack.setStatus(Status.OK);
+				boolean success = ack.SendWithouClosing();
+				if (success){
+					for (String key : mossimulator.MosObj.GetKeys()) {
+						new MOSObj().setMosObj(mossimulator.MosObj.getMosObj(key)).SendOnOpenSocket();
+					}
+				}
+				ack.CloseSocket();
 			}
 			else if (pause == 0){
 				new MOSListAll().Send();
@@ -57,11 +66,11 @@ public class MOSReqAll extends MOSMessage {
 
 		Element mosReqAll = xmlDoc.createElement("mosReqAll");
 		mos.appendChild(mosReqAll);
-/*
+
 		Element pause = xmlDoc.createElement("pause");
 		pause.appendChild(xmlDoc.createTextNode(Long.toString(getPause())));
 		mosReqAll.appendChild(pause);
-	*/}
+	}
 
 	public long getPause() {
 		return pause;

@@ -1,5 +1,7 @@
 package menu;
 
+import java.util.Scanner;
+
 public class SendMOSMessage extends Menu{
 	SendMOSMessage() {
 		super("Send MOS message", createSubMenu());
@@ -62,7 +64,21 @@ public class SendMOSMessage extends Menu{
 				super("mosObj", null);
 			}
 			protected void Active(){
-				new mosmessages.profile1.MOSObj().Send();
+				if (mossimulator.MosObj.isEmpty()){
+					System.out.println("MOSObj not fount.");
+				}
+				else{
+					System.out.println("Enter MOSObj UID.");
+					String input = (new Scanner(System.in)).nextLine().trim();
+					if (input.length()>0){
+						if (mossimulator.MosObj.Contains(input)){
+							new mosmessages.profile1.MOSObj().setMosObj(mossimulator.MosObj.getMosObj(input)).Send();						
+						}
+						else{
+							System.out.println("MOSObj not fount");
+						}
+					}
+				}
 			}
 		}
 		private static class MOSReqObj extends Menu{

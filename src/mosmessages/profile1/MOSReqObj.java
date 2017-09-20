@@ -1,6 +1,7 @@
 package mosmessages.profile1;
 
 import mosmessages.MOSMessage;
+import mosmessages.defined.Status;
 import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
 
@@ -15,16 +16,22 @@ public class MOSReqObj extends MOSMessage {
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MOSMessage.AfterReceiving(message);
-		// TODO wyciaganac obiekt z kolekcji i wyslac
+		String key = message.GetFromXML("objID");
+		if (mossimulator.MosObj.Contains(key)){
+			new MOSObj().setMosObj(mossimulator.MosObj.getMosObj(key)).Send();
+		}
+		else{
+			new MOSACK().setObjectUID(key).setStatus(Status.OK).setStatusDescription("MOSObj not found").Send();
+		}
+		
 	}
-
+	
 	public void AfterSending() {
 		MessageInfo response = getResponse();
 		if (response.getMosType().toLowerCase().equals(MOSObj.class.getSimpleName().toLowerCase())){
 			String objID = response.GetFromXML("objID");
 			if (objID != null && objID.equals(objID)){
 				System.out.println("Received requested object.");
-				// TODO dodac do kolekcji obiketow
 			}
 		}
 		else if (response.getMosType().toLowerCase().equals(MOSACK.class.getSimpleName().toLowerCase())) {

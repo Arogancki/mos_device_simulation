@@ -15,7 +15,7 @@ public class MOSACK extends MOSMessage {
 		super(Model.getLowerPort());
 	}
 	@Override
-	public void PrepareToSend() {
+	public void PrepareToSend(){
 		Element mos = xmlDoc.getDocumentElement();
 
 		Element mosAck = xmlDoc.createElement("mosAck");

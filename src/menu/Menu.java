@@ -11,6 +11,7 @@ public class Menu{
 			if(instance == null) {
 				Menu[] options ={
 						new SendMOSMessage(),
+						new MosObjManager(),
 						new PrintMessages(),
 						new Settings(),
 						new Menu("Exit", null) {

@@ -126,6 +126,12 @@ public class Model {
 		public boolean SendOnOpenSocket(MOSMessage message){
 			return ((Connection)connection).SendOnOpenSocket(message);
 		}
+		public boolean SendWithoutClosing(MOSMessage message){
+			return ((Connection)connection).SendWithoutClosing(message);
+		}
+		public void CloseSocket(){
+			((Connection)connection).Close();
+		}
 	}
 	public static int takeMessageId(){
 		return ++messageID;
