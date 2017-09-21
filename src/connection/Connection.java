@@ -47,9 +47,12 @@ public class Connection extends Thread{
 				serverSockets.put(port.getPortNumber(), serverSocket);
 				socket = serverSocket.accept();
 				mutexInner.acquire();
-				
+				System.out.println(socket.getRemoteSocketAddress());
 				DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
 				long startTime = System.currentTimeMillis();
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}
 				String readSocket="";
 				while (socketIn.available()<=0 && (System.currentTimeMillis()-startTime)<Model.SECTOWAIT*1000){
 					try {
@@ -205,7 +208,7 @@ public class Connection extends Thread{
 					DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
 					String content = message.toString();
 					socketInput.writeChars(content);
-					socketInput.flush();
+					//socketInput.flush();
 					new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
 					System.out.println("Sent.");
 					message.AfterSending();

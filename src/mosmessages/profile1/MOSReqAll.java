@@ -9,7 +9,7 @@ import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
 
 public class MOSReqAll extends MOSMessage {
-	private long pause = 0L; // delay between messages responses containing obj, if ==0 get mostListAll
+	private long pause = 50L; // delay between messages responses containing obj, if ==0 get mostListAll
 	public MOSReqAll() {
 		super(Model.getLowerPort());
 	}

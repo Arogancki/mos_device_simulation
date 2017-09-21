@@ -18,9 +18,9 @@ public class MosObj {
 	private String mosAbstract = "";
 	private String objGroup = "";
 	private mosmessages.defined.ObjType objType = mosmessages.defined.ObjType.VIDEO;
-	private long objTB = 50L;
+	private long objTB = 60L;
 	private String objRev = "";
-	private long objDur = 0L;
+	private long objDur = 2L;
 	private mosmessages.defined.Status status = mosmessages.defined.Status.NEW;
 	private mosmessages.defined.ObjAir objAir = mosmessages.defined.ObjAir.NOT_READY;
 	// objPaths
@@ -96,9 +96,9 @@ public class MosObj {
 		mosObj.appendChild(objType);
 		
 		try {
-		Element objTB = xmlDoc.createElement("objTB");
-		objTB.appendChild(xmlDoc.createTextNode(String.valueOf(this.getObjTB())));
-		mosObj.appendChild(objTB);
+			Element objTB = xmlDoc.createElement("objTB");
+			objTB.appendChild(xmlDoc.createTextNode(String.valueOf(this.getObjTB())));
+			mosObj.appendChild(objTB);
 		}catch (NumberFormatException e){}
 		
 		Element objRev = xmlDoc.createElement("objRev");
@@ -106,9 +106,9 @@ public class MosObj {
 		mosObj.appendChild(objRev);
 		
 		try {
-		Element objDur = xmlDoc.createElement("objDur");
-		objDur.appendChild(xmlDoc.createTextNode(String.valueOf(this.getObjDur())));
-		mosObj.appendChild(objDur);
+			Element objDur = xmlDoc.createElement("objDur");
+			objDur.appendChild(xmlDoc.createTextNode(String.valueOf(this.getObjDur())));
+			mosObj.appendChild(objDur);
 		}catch (NumberFormatException e){}
 		
 		Element status = xmlDoc.createElement("status");
@@ -278,6 +278,7 @@ public class MosObj {
 			if (key != 0){
 				objID = String.valueOf(key);
 				created = Instant.now().toString(); 
+				changed = Instant.now().toString(); 
 				createdBy = DEFAULT_USER;
 		        AddMosObj();
 			}

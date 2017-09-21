@@ -86,7 +86,11 @@ public class SendMOSMessage extends Menu{
 				super("mosReqObj", null);
 			}
 			protected void Active(){
-				new mosmessages.profile1.MOSReqObj().Send();
+				System.out.println("Enter MOSObj UID.");
+				String input = (new Scanner(System.in)).nextLine().trim();
+				if (input.length()>0){
+						new mosmessages.profile1.MOSReqObj().setObjID(input).Send();	
+				}
 			}
 		}
 		private static class MOSReqAll extends Menu{

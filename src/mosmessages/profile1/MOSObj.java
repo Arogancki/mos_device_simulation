@@ -20,8 +20,8 @@ public class MOSObj extends MOSMessage {
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MOSMessage.AfterReceiving(message);
-		new mossimulator.MosObj(message);
-		
+		mossimulator.MosObj newObj = new mossimulator.MosObj(message);
+		new MOSACK().setStatusDescription(newObj.getObjID()).SendOnOpenSocket();
 	}
 
 	public void AfterSending() {
@@ -44,13 +44,3 @@ public class MOSObj extends MOSMessage {
 		
 	}
 }
-
-// TODO zrobic nowe menu dajace mozliwosc edycji Mos obiektow:
-// 1 dodwanie
-// 2 usuwanie
-// edytowanie
-// pamietac ze po kazdym updacie trzeba wyslac message
-// pracuja one na tej samej kolejce mos obiektow
-// objID jest super zajebisie unikalny user ma go nie wprawadzac a musze sobie "dedukowac z odebranych od mosa"
-// przed wejsciem w tryb wysylam prosbe o inicjacyjnie odebranie wszystkich
-// nastepnie przed uzyciem kazdego obiektu najpier odbieram jego najnowsza wersje
