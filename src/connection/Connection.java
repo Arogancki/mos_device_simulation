@@ -5,18 +5,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
+import java.lang.Integer;
 
 import mosmessages.MOSMessage;
 import mossimulator.Model;
 import mossimulator.Model.Port;
 
 public class Connection extends Thread{
-	private Socket socket = null;
-	private Semaphore mutex = new Semaphore(1);
-	private Semaphore mutexInner = new Semaphore(1);
+	private volatile Socket socket = null;
+	private volatile ServerSocket serverSocket = null;
+	private volatile static Hashtable<Integer, ServerSocket> serverSockets = new Hashtable<Integer, ServerSocket>();
+	private volatile Semaphore mutex = new Semaphore(1);
+	private volatile Semaphore mutexSecond = new Semaphore(1);
+	private volatile Semaphore mutexInner = new Semaphore(1);
 	private Port port;
-	private boolean powerSwitch = true;
+	private volatile boolean powerSwitch = true;
 	public Connection(Port _receiver){
 		port = _receiver;
 		socket = new Socket();
@@ -33,9 +38,14 @@ public class Connection extends Thread{
 	}
 	public void run(){
 		while(true){
+			ServerSocket serverSocket = null;
 			try {
+				mutexSecond.acquire();
 				mutex.acquire();
-				socket = new ServerSocket(port.getPortNumber()).accept();
+				mutexSecond.release();
+				serverSocket = new ServerSocket(port.getPortNumber());
+				serverSockets.put(port.getPortNumber(), serverSocket);
+				socket = serverSocket.accept();
 				mutexInner.acquire();
 				DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
 				String content="";
@@ -64,15 +74,12 @@ public class Connection extends Thread{
 			}
 			finally {
 				try {
-					if (!socket.isClosed())
-						socket.close();
+					if (serverSocket!= null && !serverSocket.isClosed())
+						serverSocket.close();
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 				}
 			}
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e){}
 			if (!powerSwitch)
 				break;
 		}
@@ -127,19 +134,24 @@ public class Connection extends Thread{
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+		mutexInner.release();
+		mutexSecond.release();
+		mutex.release();
 	}
 	public boolean SendWithoutClosing(MOSMessage message){
 		int attempts = 0;
 		boolean result = false;
 		try{
 			mutexInner.acquire();
-			mutex.acquire();
+			mutexSecond.acquire();
 			try {
-				if (!socket.isClosed())
-					socket.close();	
+				if (!serverSocket.isClosed()){
+					serverSocket.close();	
+				}
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			mutex.acquire();
 			do{
 				try{
 					socket = new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber());
@@ -158,8 +170,6 @@ public class Connection extends Thread{
 							+ ".\n" + e.getMessage());
 				}
 			}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
-			mutexInner.release();
-			mutex.release();
 			}
 		catch(InterruptedException e){
 			System.out.println(e.getMessage());
@@ -171,13 +181,17 @@ public class Connection extends Thread{
 		boolean result = false;
 		try{
 			mutexInner.acquire();
-			mutex.acquire();
+			mutexSecond.acquire();
 			try {
-				if (!socket.isClosed())
-					socket.close();	
+				serverSocket = serverSockets.get(port.getPortNumber());
+				if (serverSocket!=null && !serverSocket.isClosed()){
+					serverSockets.remove(port.getPortNumber());
+					serverSocket.close();
+				}
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
+			mutex.acquire();
 			do{
 				try{
 					socket = new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber());
@@ -205,6 +219,7 @@ public class Connection extends Thread{
 				}
 			}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
 			mutexInner.release();
+			mutexSecond.release();
 			mutex.release();
 			}
 		catch(InterruptedException e){
