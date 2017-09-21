@@ -47,14 +47,21 @@ public class Connection extends Thread{
 				serverSockets.put(port.getPortNumber(), serverSocket);
 				socket = serverSocket.accept();
 				mutexInner.acquire();
+				
 				DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
-				String content="";
-				while(socketIn.available()>0) {
-					content += socketIn.readChar();
+				long startTime = System.currentTimeMillis();
+				String readSocket="";
+				while (socketIn.available()<=0 && (System.currentTimeMillis()-startTime)<Model.SECTOWAIT*1000){
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {}
 				}
-				System.out.println("New message received: " + content);
+				while(socketIn.available()>0) {
+		        	readSocket += socketIn.readChar();
+				}
+				System.out.println("New message received: " + readSocket);
 				try {
-					new Model.MessageInfo(Model.MessageInfo.Direction.IN, content);
+					new Model.MessageInfo(Model.MessageInfo.Direction.IN, readSocket).CallReceiveFunction();
 				} catch (Throwable e) {
 					System.out.println("Received broken message. ");
 				}
