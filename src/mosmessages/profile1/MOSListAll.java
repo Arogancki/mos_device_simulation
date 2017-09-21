@@ -21,6 +21,12 @@ public class MOSListAll extends MOSMessage {
 			Node node = nodeList.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE){
 				// wyciagac wartosci i wrzucac do stworzonego mosa przez set
+				String objID = ((Element) node).getElementsByTagName("objID").item(0).getFirstChild().getTextContent();
+				if (objID.length()<=0){
+					System.out.print("Counldn't receive MOSObj");
+					break;
+				}
+				
 			}
 		}
 	}

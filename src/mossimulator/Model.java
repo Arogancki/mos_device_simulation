@@ -114,7 +114,7 @@ public class Model {
 		Port(int _number){
 			number = _number;
 			connection = new Connection(this);
-			//connection.start(); this runs the "server" thread on socket
+			connection.start(); // run simulator also as an receiver (mos server)
 		}
 		public int getPortNumber(){return number;}
 		public String GetMessage(){

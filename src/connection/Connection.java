@@ -37,16 +37,16 @@ public class Connection extends Thread{
 				mutex.acquire();
 				socket = new ServerSocket(port.getPortNumber()).accept();
 				mutexInner.acquire();
-				DataInputStream  socketIn= new DataInputStream(socket.getInputStream());
+				DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
 				String content="";
 				while(socketIn.available()>0) {
 					content += socketIn.readChar();
 				}
-				System.out.println("mam to:" + content);
+				System.out.println("New message received: " + content);
 				try {
 					new Model.MessageInfo(Model.MessageInfo.Direction.IN, content);
 				} catch (Throwable e) {
-					System.out.println("Received broken message. " + content);
+					System.out.println("Received broken message. ");
 				}
 				mutexInner.release();
 				mutex.release();
