@@ -2,22 +2,22 @@ package mosmessages.profile1;
 
 import org.w3c.dom.Element;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mosmessages.defined.Status;
 import mosmessages.profile0.Heartbeat;
 import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
 
-public class MOSReqAll extends MOSMessage {
-	private long pause = 50L; // delay between messages responses containing obj, if ==0 get mostListAll
-	public MOSReqAll() {
+public class MosReqAll extends MosMessage {
+	private long pause = 0L; // delay between messages responses containing obj, if ==0 get mostListAll
+	public MosReqAll() {
 		super(Model.getLowerPort());
 	}
 
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
-		MOSMessage.AfterReceiving(message);
-		new MOSACK().setStatus(mosmessages.defined.Status.OK).Send();
+		MosMessage.AfterReceiving(message);
+		new MosAck().setStatus(mosmessages.defined.Status.OK).Send();
 		int pause = 0;
 		try {
 			pause = Integer.parseInt(message.GetFromXML("pause"));
@@ -26,18 +26,18 @@ public class MOSReqAll extends MOSMessage {
 		}
 		finally{
 			if (pause > 0){
-				MOSACK ack = new MOSACK();
+				MosAck ack = new MosAck();
 				ack.setStatus(Status.OK);
 				boolean success = ack.SendWithouClosing();
 				if (success){
 					for (String key : mossimulator.MosObj.GetKeys()) {
-						new MOSObj().setMosObj(mossimulator.MosObj.getMosObj(key)).SendOnOpenSocket();
+						new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).SendOnOpenSocket();
 					}
 				}
 				ack.CloseSocket();
 			}
 			else if (pause == 0){
-				new MOSListAll().Send();
+				new MosListAll().Send();
 			}
 			else
 				System.out.println("Wrong pasue value: " + pause);
@@ -47,7 +47,6 @@ public class MOSReqAll extends MOSMessage {
 	public void AfterSending() {
 		MessageInfo response = getResponse();
 		if (response.getMosType().equals("mosack")){
-			//boolean result = new MOSACK().SendOnOpenSocket();
 			if (pause <= 0){
 				getResponse();
 			}
@@ -76,7 +75,7 @@ public class MOSReqAll extends MOSMessage {
 		return pause;
 	}
 
-	public MOSReqAll setPause(long pause) {
+	public MosReqAll setPause(long pause) {
 		//max 0xFFFF FFFF
 		if (pause > 4294967295L)
 			pause = 4294967295L;
@@ -84,7 +83,7 @@ public class MOSReqAll extends MOSMessage {
 		return this;
 	}	
 	
-	public MOSReqAll resetPause(){
+	public MosReqAll resetPause(){
 		this.pause = 0;
 		return this;
 	}

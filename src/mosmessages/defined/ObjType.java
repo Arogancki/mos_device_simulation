@@ -14,7 +14,7 @@ public enum ObjType {
 	}
 	static public ObjType getFromString(String str){
 		try {
-			return ObjType.valueOf(str);
+			return ObjType.valueOf(str.toUpperCase());
 		}
 		catch (IllegalArgumentException e){
 			return null;

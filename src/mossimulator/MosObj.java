@@ -13,23 +13,23 @@ import org.w3c.dom.NodeList;
 
 public class MosObj {
 	static private Hashtable<String, MosObj> mosObjects = new Hashtable<String, MosObj>();
-	private String objID;
-	private String objSlug = "";
-	private String mosAbstract = "";
-	private String objGroup = "";
+	private String objID = null;
+	private String objSlug = "Slug";
+	private String mosAbstract = "mosAbstract";
+	private String objGroup = "objGroup";
 	private mosmessages.defined.ObjType objType = mosmessages.defined.ObjType.VIDEO;
-	private long objTB = 60L;
-	private String objRev = "";
+	private long objTB = 50L;
+	private String objRev = "1";
 	private long objDur = 2L;
 	private mosmessages.defined.Status status = mosmessages.defined.Status.NEW;
 	private mosmessages.defined.ObjAir objAir = mosmessages.defined.ObjAir.NOT_READY;
 	// objPaths
 	private final String DEFAULT_USER = "MOS SIMULATOR";
 	private String createdBy = DEFAULT_USER;
-	private String created = "";
-	private String changedBy = "";
-	private String changed = "";
-	private String description = "";
+	private String created = "00:00:00";
+	private String changedBy = "DEFAULT_USER";
+	private String changed ="00:00:00";
+	private String description = "description";
 	//mosExternalMetadata
 	private static long lastUnique = 1;
 	
@@ -272,6 +272,10 @@ public class MosObj {
 		else
 			System.out.println("Uncorrect UID.");
 	}
+	public MosObj(String _objID){
+		objID = _objID;
+		AddMosObj();
+	}
 	public MosObj(){
 		try{
 			Long key = getUniqueId();
@@ -419,6 +423,10 @@ public class MosObj {
 		if (changedBy==null)
 			return "";
 		return changedBy;
+	}
+	public MosObj setCreated(String _created) {
+		this.created = _created;
+		return this;
 	}
 	public MosObj setChangedBy(String changedBy) {
 		if (changedBy.length() > 127 )

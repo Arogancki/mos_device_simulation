@@ -1,16 +1,16 @@
 package mosmessages.profile0;
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 
 import org.w3c.dom.Element;
 
-public class ReqMachInfo extends MOSMessage {
+public class ReqMachInfo extends MosMessage {
 	public ReqMachInfo() {
 		super(Model.getLowerPort());
 	}
 	//@Override
 		public static void AfterReceiving(Model.MessageInfo message){
-			MOSMessage.AfterReceiving(message);
+			MosMessage.AfterReceiving(message);
 			new ListMachInfo().Send();
 		}
 		@Override

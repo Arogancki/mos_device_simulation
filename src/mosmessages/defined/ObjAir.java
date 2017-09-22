@@ -10,7 +10,7 @@ public enum ObjAir {
 	}
 	static public ObjAir getFromString(String str){
 		try{
-			return ObjAir.valueOf(str);
+			return ObjAir.valueOf(str.toUpperCase());
 		}
 		catch (IllegalArgumentException e){
 			return null;

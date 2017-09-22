@@ -1,17 +1,17 @@
 package mosmessages.profile1;
 import org.w3c.dom.Element;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 
-public class MOSACK extends MOSMessage {
+public class MosAck extends MosMessage {
 	
 	private String objectUID = "";
 	private String objRev = "";
 	private String StatusDescription = "";
 	private mosmessages.defined.Status status = mosmessages.defined.Status.OK;
 	
-	public MOSACK() {
+	public MosAck() {
 		super(Model.getLowerPort());
 	}
 	@Override
@@ -27,7 +27,7 @@ public class MOSACK extends MOSMessage {
 
 		Element objRev = xmlDoc.createElement("objRev");
 		objRev.appendChild(xmlDoc.createTextNode(getObjRev()));
-		mosAck.appendChild(objID);
+		mosAck.appendChild(objRev);
 
 		Element status = xmlDoc.createElement("status");
 		status.appendChild(xmlDoc.createTextNode(getStatus().toString()));
@@ -38,12 +38,16 @@ public class MOSACK extends MOSMessage {
 		mosAck.appendChild(statusDescription);
 	}
 	public static void AfterReceiving(Model.MessageInfo message){
-		MOSMessage.AfterReceiving(message);
+		MosMessage.AfterReceiving(message);
+	}
+	@Override
+	public void AfterSending(){
+		
 	}
 	public String getObjectUID() {
 		return objectUID;
 	}
-	public MOSACK setObjectUID(String objectUID) {
+	public MosAck setObjectUID(String objectUID) {
 		// 128 chars max
 		if (objectUID.length() > 127){
 			objectUID = objectUID.substring(0, 128);
@@ -54,7 +58,7 @@ public class MOSACK extends MOSMessage {
 	public String getObjRev() {
 		return objRev;
 	}
-	public MOSACK setObjRev(String objRev) {
+	public MosAck setObjRev(String objRev) {
 		int toInt;
 		try {
 			toInt = Integer.parseInt(objRev);
@@ -70,7 +74,7 @@ public class MOSACK extends MOSMessage {
 	public String getStatusDescription() {
 		return StatusDescription;
 	}
-	public MOSACK setStatusDescription(String statusDescription) {
+	public MosAck setStatusDescription(String statusDescription) {
 		// 128 chars max
 		if (statusDescription.length() > 127){
 			statusDescription = statusDescription.substring(0, 128);
@@ -81,7 +85,7 @@ public class MOSACK extends MOSMessage {
 	public mosmessages.defined.Status getStatus() {
 		return status;
 	}
-	public MOSACK setStatus(mosmessages.defined.Status status) {
+	public MosAck setStatus(mosmessages.defined.Status status) {
 		this.status = status;
 		return this;
 	}

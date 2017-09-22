@@ -6,21 +6,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ListMachInfo extends MOSMessage {
+public class ListMachInfo extends MosMessage {
 	public ListMachInfo() {
 		super(Model.getLowerPort());
 	}
 
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
-		MOSMessage.AfterReceiving(message);
+		MosMessage.AfterReceiving(message);
 	}
 
 	public void AfterSending() {

@@ -56,7 +56,7 @@ public class SendMOSMessage extends Menu{
 				super("mosAck", null);
 			}
 			protected void Active(){
-				new mosmessages.profile1.MOSACK().Send();
+				new mosmessages.profile1.MosAck().Send();
 			}
 		}
 		private static class MOSObj extends Menu{
@@ -68,11 +68,11 @@ public class SendMOSMessage extends Menu{
 					System.out.println("MOSObj not fount.");
 				}
 				else{
-					System.out.println("Enter MOSObj UID.");
+					System.out.println("Enter MOSObj UID:");
 					String input = (new Scanner(System.in)).nextLine().trim();
 					if (input.length()>0){
 						if (mossimulator.MosObj.Contains(input)){
-							new mosmessages.profile1.MOSObj().setMosObj(mossimulator.MosObj.getMosObj(input)).Send();						
+							new mosmessages.profile1.MosObj().setMosObj(mossimulator.MosObj.getMosObj(input)).Send();						
 						}
 						else{
 							System.out.println("MOSObj not fount");
@@ -86,10 +86,10 @@ public class SendMOSMessage extends Menu{
 				super("mosReqObj", null);
 			}
 			protected void Active(){
-				System.out.println("Enter MOSObj UID.");
+				System.out.println("Enter MOSObj UID:");
 				String input = (new Scanner(System.in)).nextLine().trim();
 				if (input.length()>0){
-						new mosmessages.profile1.MOSReqObj().setObjID(input).Send();	
+						new mosmessages.profile1.MosReqObj().setObjID(input).Send();	
 				}
 			}
 		}
@@ -98,7 +98,7 @@ public class SendMOSMessage extends Menu{
 				super("mosReqAll", null);
 			}
 			protected void Active(){
-				new mosmessages.profile1.MOSReqAll().Send();
+				new mosmessages.profile1.MosReqAll().Send();
 			}
 		}
 		private static class MOSListAll extends Menu{
@@ -106,7 +106,7 @@ public class SendMOSMessage extends Menu{
 				super("mosListAll", null);
 			}
 			protected void Active(){
-				new mosmessages.profile1.MOSListAll().Send();
+				new mosmessages.profile1.MosListAll().Send();
 			}
 		}
 	}
@@ -124,8 +124,62 @@ public class SendMOSMessage extends Menu{
 			super("Profile 3 – Advanced Object Based Workflow", createSubMenu());
 		}
 		private static Menu[] createSubMenu(){
-			Menu[] result = {};
+			Menu[] result = {new MosObjCreate()};
 			return result;
+		}
+		private static class MosObjCreate extends Menu{
+			MosObjCreate() {
+				super("MosObjCreate", null);
+			}
+			protected void Active(){
+				mosmessages.profile3.MosObjCreate message = new mosmessages.profile3.MosObjCreate();
+				String input = null;
+				System.out.println("Enter objSlug:");
+				input = (new Scanner(System.in)).nextLine().trim();
+				if (input.length()>0){
+					message.setObjSlug(input);
+				}
+				System.out.println("Enter objGroup:");
+				input = (new Scanner(System.in)).nextLine().trim();
+				message.setObjGroup(input);
+				System.out.println("Enter objType:");
+				input = (new Scanner(System.in)).nextLine().trim();
+				if (input.length()>0){
+					message.setObjType(mosmessages.defined.ObjType.getFromString(input.toUpperCase()));
+				}
+				System.out.println("Enter objTB:");
+				input = (new Scanner(System.in)).nextLine().trim();
+				if (input.length()>0){
+					try{
+						message.setObjTB(Long.valueOf(input));
+					}
+					catch(NumberFormatException e){
+						System.out.println("Wrong format.");
+					}
+				}
+				System.out.println("Enter objDur:");
+				input = (new Scanner(System.in)).nextLine().trim();
+				if (input.length()>0){
+					try{
+						message.setObjDur(Long.valueOf(input));
+					}
+					catch(NumberFormatException e){
+						System.out.println("Wrong format.");
+					}
+				}
+				message.setTimeAuto();
+				System.out.println("Enter createdBy:");
+				input = (new Scanner(System.in)).nextLine().trim();
+				if (input.length()>0){
+					message.setCreatedBy(input);
+				}
+				System.out.println("Enter description:");
+				input = (new Scanner(System.in)).nextLine().trim();
+				if (input.length()>0){
+					message.setDescription(input);
+				}
+				message.Send();
+			}
 		}
 	}
 	private static class Profile4 extends Menu{

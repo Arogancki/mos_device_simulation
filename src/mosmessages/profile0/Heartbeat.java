@@ -2,18 +2,18 @@ package mosmessages.profile0;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 
 import org.w3c.dom.Element;
 
-public class Heartbeat extends MOSMessage {
+public class Heartbeat extends MosMessage {
 	public Heartbeat() {
 		super(Model.getLowerPort());
 	}
 	//@Override
 	public static void AfterReceiving(Model.MessageInfo message){
-		MOSMessage.AfterReceiving(message);
+		MosMessage.AfterReceiving(message);
 		if (!expectingForHeartbeat)
 			new Heartbeat().Send();
 	}

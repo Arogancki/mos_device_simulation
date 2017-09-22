@@ -6,11 +6,11 @@ import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mosmessages.profile0.Heartbeat;
 import mosmessages.profile0.ListMachInfo;
 import mosmessages.profile0.ReqMachInfo;
-import mosmessages.profile1.MOSACK;
+import mosmessages.profile1.MosAck;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,8 +24,8 @@ public class Model {
 	private static boolean powerSwitch = true;
 	public static long SECTOWAIT = 3L;
 	public static String TARGETHOST = "10.105.250.217";
-	public static String MOSID = "Mos Simulator";
-	public static String NCSID = "Mos Simulator";
+	public static String MOSID = "COMMAND";
+	public static String NCSID = "NCSSimulator";
 	public static int RETRANSMISSON = 3;
 	public static long STARTDATE = System.currentTimeMillis();
 	private static int messageID = 0;
@@ -84,15 +84,15 @@ public class Model {
 				ListMachInfo.AfterReceiving(this); break;
             //profile 1
 			case "mosack":
-				MOSACK.AfterReceiving(this);break;
+				MosAck.AfterReceiving(this);break;
 			case "mosobj":
-				MOSACK.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this); break;
 			case "mosreqobj":
-				MOSACK.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this); break;
 			case "mosreqall":
-				MOSACK.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this); break;
 			case "moslistall":
-				MOSACK.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this); break;
 			//profile 2
 			//profile 3
 			//profile 4
@@ -110,7 +110,8 @@ public class Model {
 	}
 	public static class Port{
 		private int number;
-		private Thread connection;
+		// TODO change to private
+		public Thread connection;
 		Port(int _number){
 			number = _number;
 			connection = new Connection(this);
@@ -120,13 +121,13 @@ public class Model {
 		public String GetMessage(){
 			return ((Connection)connection).GetFromSocket();
 		}
-		public boolean Send(MOSMessage message){
+		public boolean Send(MosMessage message){
 			return ((Connection)connection).Send(message);
 		}
-		public boolean SendOnOpenSocket(MOSMessage message){
+		public boolean SendOnOpenSocket(MosMessage message){
 			return ((Connection)connection).SendOnOpenSocket(message);
 		}
-		public boolean SendWithoutClosing(MOSMessage message){
+		public boolean SendWithoutClosing(MosMessage message){
 			return ((Connection)connection).SendWithoutClosing(message);
 		}
 		public void CloseSocket(){

@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
 import java.lang.Integer;
+import java.io.OutputStream;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 import mossimulator.Model.Port;
 
@@ -105,6 +107,7 @@ public class Connection extends Thread{
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {}
+				socketIn = new DataInputStream(socket.getInputStream());
 			}
 			while(socketIn.available()>0) {
 		        	readSocket += socketIn.readChar();
@@ -115,7 +118,7 @@ public class Connection extends Thread{
 		}
 		return "";
 	}
-	public boolean SendOnOpenSocket(MOSMessage message){
+	public boolean SendOnOpenSocket(MosMessage message){
 		boolean result = false;
 		if (socket.isClosed())
 			return result;
@@ -125,7 +128,8 @@ public class Connection extends Thread{
 			try {
 				socketInput = new DataOutputStream(socket.getOutputStream());
 				String content = message.toString();
-				socketInput.writeChars(content);
+				byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
+				socketInput.write(toByte, 0 , content.length() * 2);
 				socketInput.flush();
 				new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
 				System.out.println("Sent.");
@@ -148,7 +152,7 @@ public class Connection extends Thread{
 		mutexSecond.release();
 		mutex.release();
 	}
-	public boolean SendWithoutClosing(MOSMessage message){
+	public boolean SendWithoutClosing(MosMessage message){
 		int attempts = 0;
 		boolean result = false;
 		try{
@@ -167,7 +171,8 @@ public class Connection extends Thread{
 					socket = new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber());
 					DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
 					String content = message.toString();
-					socketInput.writeChars(content);
+					byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
+					socketInput.write(toByte, 0 , content.length() * 2);
 					socketInput.flush();
 					new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
 					System.out.println("Sent.");
@@ -186,7 +191,7 @@ public class Connection extends Thread{
 		}
 		return result;
 	}
-	public boolean Send(MOSMessage message){
+	public boolean Send(MosMessage message){
 		int attempts = 0;
 		boolean result = false;
 		try{
@@ -207,8 +212,9 @@ public class Connection extends Thread{
 					socket = new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber());
 					DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
 					String content = message.toString();
-					socketInput.writeChars(content);
-					//socketInput.flush();
+					byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
+					socketInput.write(toByte, 0 , content.length() * 2);
+					socketInput.flush();
 					new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument());
 					System.out.println("Sent.");
 					message.AfterSending();

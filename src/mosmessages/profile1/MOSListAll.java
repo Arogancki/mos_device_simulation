@@ -4,18 +4,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 
-public class MOSListAll extends MOSMessage {
+public class MosListAll extends MosMessage {
 	
-	public MOSListAll() {
+	public MosListAll() {
 		super(Model.getLowerPort());
 	}
 
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
-		MOSMessage.AfterReceiving(message);
+		MosMessage.AfterReceiving(message);
 		NodeList nodeList = message.getDocument().getElementsByTagName("mosListAll");
 		for (int i=0; i<nodeList.getLength(); i++){
 			Node node = nodeList.item(i);
@@ -33,7 +33,7 @@ public class MOSListAll extends MOSMessage {
 
 	public void AfterSending() {
 		Model.MessageInfo recived = getResponse();
-		if (recived == null || !recived.getMosType().toLowerCase().equals(MOSACK.class.getSimpleName().toLowerCase())){
+		if (recived == null || !recived.getMosType().toLowerCase().equals(MosAck.class.getSimpleName().toLowerCase())){
 			System.out.println("Receiving not acknowledged");
 		}
 	}

@@ -1,32 +1,32 @@
 package mosmessages.profile1;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 
 import org.w3c.dom.Element;
 
-public class MOSObj extends MOSMessage {
+public class MosObj extends MosMessage {
 	private mossimulator.MosObj mosObj = null;
 	
-	public MOSObj() {
+	public MosObj() {
 		super(Model.getLowerPort());
 	}
 
-	public MOSObj setMosObj(mossimulator.MosObj _mosObj){
+	public MosObj setMosObj(mossimulator.MosObj _mosObj){
 		mosObj = _mosObj;
 		return this;
 	}
 	
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
-		MOSMessage.AfterReceiving(message);
+		MosMessage.AfterReceiving(message);
 		mossimulator.MosObj newObj = new mossimulator.MosObj(message);
-		new MOSACK().setStatusDescription(newObj.getObjID()).SendOnOpenSocket();
+		new MosAck().setStatusDescription(newObj.getObjID()).SendOnOpenSocket();
 	}
 
 	public void AfterSending() {
 		Model.MessageInfo recived = getResponse();
-		if (recived == null || !recived.getMosType().toLowerCase().equals(MOSACK.class.getSimpleName().toLowerCase())){
+		if (recived == null || !recived.getMosType().toLowerCase().equals(MosAck.class.getSimpleName().toLowerCase())){
 			System.out.println("Receiving not acknowledged");
 		}
 	}

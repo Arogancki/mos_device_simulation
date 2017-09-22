@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import org.w3c.dom.Document;
 
-import mosmessages.MOSMessage;
+import mosmessages.MosMessage;
 import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
 
@@ -32,7 +32,8 @@ public class PrintMessages extends Menu {
 			    	
 			    	String input = (new Scanner(System.in)).nextLine().trim().toLowerCase();
 			    	try {
-			    		System.out.println(MOSMessage.PrintXML(Model.messages.get(Integer.parseInt(input)-1).getDocument()));
+			    		System.out.println(MosMessage.PrintXML(Model.messages.get(Integer.parseInt(input)-1).getDocument()));
+			    		System.out.println(Model.messages.get(Integer.parseInt(input)-1).getString());
 			    	}catch (NumberFormatException e){}
 			    	catch (IndexOutOfBoundsException e){
 			    		System.out.println("Invalid index.");

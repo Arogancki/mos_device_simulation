@@ -2,6 +2,7 @@ package mosmessages.defined;
 
 public enum Status {
 	ACK ("ACK"),
+	NACK  ("NACK"),
 	OK ("OK"),
 	UPDATED ("UPDATED"),
 	MOVED ("MOVED"),
@@ -24,7 +25,7 @@ public enum Status {
 	}
 	static public Status getFromString(String str){
 		try{
-			return Status.valueOf(str);
+			return Status.valueOf(str.toUpperCase());
 		}
 		catch (IllegalArgumentException e){
 			return null;

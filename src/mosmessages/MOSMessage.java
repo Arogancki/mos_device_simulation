@@ -15,12 +15,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public abstract class MOSMessage {
+public abstract class MosMessage {
 	protected Document xmlDoc;
 	protected String name="";
 	protected int messageID;
 	protected Model.Port port;
-	protected MOSMessage(Model.Port _port){
+	protected MosMessage(Model.Port _port){
 		messageID = Model.takeMessageId();
 		name = this.getClass().getSimpleName() + ":" + messageID;
 		port = _port;
@@ -87,7 +87,7 @@ public abstract class MOSMessage {
 	public void Send(){
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
-		System.out.println(info + ":\n" + MOSMessage.PrintXML(xmlDoc));
+		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
 		if (!port.Send(this)){
 			System.out.println("Coudln't send the message.");
 		}
@@ -95,7 +95,7 @@ public abstract class MOSMessage {
 	public boolean SendWithouClosing(){
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
-		System.out.println(info + ":\n" + MOSMessage.PrintXML(xmlDoc));
+		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
 		boolean result = port.SendWithoutClosing(this);
 		if (!result){
 			System.out.println("Coudln't send the message.");
@@ -108,7 +108,7 @@ public abstract class MOSMessage {
 	public boolean SendOnOpenSocket(){
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
-		System.out.println(info + ":\n" + MOSMessage.PrintXML(xmlDoc));
+		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
 		boolean result = port.SendOnOpenSocket(this);
 		if (!result){
 			System.out.println("Coudln't send the message.");
@@ -131,7 +131,7 @@ public abstract class MOSMessage {
 	public abstract void PrepareToSend();
 	public void AfterSending(){}
 	public static void AfterReceiving(Model.MessageInfo message){
-		System.out.println("Recived - " + message.getMosType() + ":\n" + MOSMessage.PrintXML(message.getDocument()));
+		System.out.println("Recived - " + message.getMosType() + ":\n" + MosMessage.PrintXML(message.getDocument()));
 	}
 	public Document getDocument(){return xmlDoc;}
 	protected Model.MessageInfo getResponse(){
