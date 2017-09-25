@@ -1,4 +1,12 @@
 package mossimulator;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,20 +29,98 @@ import org.xml.sax.InputSource;
 import connection.Connection;
 
 public class Model {
+	private static String SAVEFILE = "settings.ser";
+	private static String MESSAVE = "messages.ser";
 	private static boolean powerSwitch = true;
-	public static long SECTOWAIT = 3L;
-	public static String TARGETHOST = "10.105.250.217";
-	public static String MOSID = "COMMAND";
-	public static String NCSID = "NCSSimulator";
-	public static int RETRANSMISSON = 3;
-	public static long STARTDATE = System.currentTimeMillis();
-	private static int messageID = 0;
-	private static Port lower = new Port(10540);
-	private static Port upper = new Port(10541);
+	public static long SECTOWAIT;
+	public static String TARGETHOST;
+	public static String MOSID;
+	public static String NCSID;
+	public static int RETRANSMISSON;
+	public static long STARTDATE;
+	public static int messageID;
+	public static int getLowerNu(){return lower.getPortNumber();}
+	public static int getUpperNu(){return upper.getPortNumber();}
+	private static Port lower;
+	private static Port upper;
+	private static SaveState saveState;
+	private static class SaveState implements Serializable{
+		private static final long serialVersionUID = 1L;
+		public long SECTOWAIT= 3L;
+		public String TARGETHOST= "10.105.250.217";
+		public String MOSID = "COMMAND";
+		public String NCSID= "NCSSimulator";
+		public int RETRANSMISSON= 3;
+		public long STARTDATE= System.currentTimeMillis();
+		public int messageID = 0;
+		public int lower = 10540;
+		public int upper = 10541;
+		public void serialize(){
+			try (FileOutputStream fileOut = new FileOutputStream(SAVEFILE);
+					ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+		         out.writeObject(this);
+		      }catch(IOException i) {
+		    	  System.out.println("Error: Coudln't find save file!");
+		      }
+		}
+	}
+	static {
+		try (FileInputStream fileIn = new FileInputStream(SAVEFILE);
+			ObjectInputStream ois = new ObjectInputStream(fileIn)){
+	         saveState = (SaveState) ois.readObject();
+	         SECTOWAIT = saveState.SECTOWAIT;
+	         TARGETHOST = saveState.TARGETHOST;
+	         MOSID = saveState.MOSID;
+			 NCSID = saveState.NCSID;
+			 RETRANSMISSON = saveState.RETRANSMISSON;
+			 STARTDATE = saveState.STARTDATE;
+			 messageID = saveState.messageID;
+			 lower =  new Port(saveState.lower);
+			 upper =  new Port(saveState.upper);
+		}
+		catch (IOException | ClassNotFoundException e){
+			saveState = new SaveState();
+			SECTOWAIT = 3L;
+			TARGETHOST = "10.105.250.217";
+			MOSID = "COMMAND";
+			NCSID = "NCSSimulator";
+			RETRANSMISSON = 3;
+			STARTDATE = System.currentTimeMillis();
+			messageID = 0;
+			lower = new Port(10540);
+			upper = new Port(10541);
+			System.out.println("Warrning: Save wasn't read! Starting with default values.");
+		}
+	}
 	public static Port getLowerPort(){return lower;};
 	public static Port getUpperPort(){return upper;};
-	public static LinkedList<MessageInfo> messages = new LinkedList<MessageInfo>();
-	public static class MessageInfo{
+	public static LinkedList<MessageInfo> messages = null;
+	public static boolean LoadList(){
+		try (FileInputStream fis = new FileInputStream(MESSAVE);
+	            ObjectInputStream ois = new ObjectInputStream(fis)){
+			messages = (LinkedList) ois.readObject();
+			return true;
+        }
+		catch(ClassNotFoundException|IOException c){
+        	  System.out.println("Warrning: Messages hasn't been loaded.");
+        	  messages = new LinkedList<MessageInfo>();
+        	  return false;
+        }
+	}
+	private static void AddToList(MessageInfo el){
+		if (messages==null){
+			LoadList();
+		}
+		messages.add(el);
+		try (FileOutputStream fos= new FileOutputStream(MESSAVE);
+		         ObjectOutputStream oos= new ObjectOutputStream(fos)){
+	         oos.writeObject(messages);
+	       }catch(IOException ioe){
+	            System.out.println("Warrning: Message hasn't been saved.");
+	        }
+	}
+	public static class MessageInfo implements Serializable{
+		private static final long serialVersionUID = 1L;
 		public enum Direction{
 			IN,OUT;
 		}
@@ -46,8 +132,8 @@ public class Model {
 			time =  (new SimpleDateFormat("yy/MM/dd HH:mm:ss.SSS")).format(new Date());
 			message = _message;
 			xmlDoc = _xmlDoc;
-			messages.add(this);
 			direction = _direction;
+			AddToList(this);
 		}
 		public MessageInfo(Direction direction, String _message) throws Throwable{
 			this(direction, _message, DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(_message))));
@@ -152,5 +238,37 @@ public class Model {
 	protected void finalize() throws Throwable{
 		Exit();
 		super.finalize();
+	}
+	public static void setSECTOWAIT(long _SECTOWAIT){
+		saveState.SECTOWAIT = _SECTOWAIT;
+		saveState.serialize();
+	}
+	public static void setTARGETHOST(String _TARGETHOST){
+		saveState.TARGETHOST = _TARGETHOST;
+		saveState.serialize();
+	}
+	public static void setMOSID(String _MOSID){
+		saveState.MOSID = _MOSID;
+		saveState.serialize();
+	}
+	public static void setNCSID(String _NCSID){
+		saveState.NCSID = _NCSID;
+		saveState.serialize();
+	}
+	public static void setRETRANSMISSON(int _RETRANSMISSON){
+		saveState.RETRANSMISSON = _RETRANSMISSON;
+		saveState.serialize();
+	}
+	public static void setmessageID(int _messageID){
+		saveState.messageID = _messageID;
+		saveState.serialize();
+	}
+	public static void setLower(int _port){
+		saveState.lower=_port;
+		saveState.serialize();
+	}
+	public static void setUpper(int _port){
+		saveState.upper=_port;
+		saveState.serialize();
 	}
 }

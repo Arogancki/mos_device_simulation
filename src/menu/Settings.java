@@ -21,7 +21,7 @@ public class Settings extends Menu{
 				System.out.println("Current target host: \"" + Model.TARGETHOST + "\"\nEnter new: ");
 			String input = (new Scanner(System.in)).nextLine().trim();
 			if (input.length()>0){
-				Model.TARGETHOST = input;
+				Model.setTARGETHOST(input);
 				System.out.println("Changed to: \"" + Model.TARGETHOST + "\"");
 			}
 			else{
@@ -38,7 +38,7 @@ public class Settings extends Menu{
 				System.out.println("Current MOS ID: \"" + Model.MOSID + "\"\nEnter new: ");
 			String input = (new Scanner(System.in)).nextLine().trim();
 			if (input.length()>0){
-				Model.MOSID = input;
+				Model.setMOSID(input);
 				System.out.println("Changed to: \"" + Model.MOSID + "\"");
 			}
 			else{
@@ -55,7 +55,7 @@ public class Settings extends Menu{
 				System.out.println("Current NCS ID: \"" + Model.NCSID + "\"\nEnter new: ");
 			String input = (new Scanner(System.in)).nextLine().trim();
 			if (input.length()>0){
-				Model.NCSID = input;
+				Model.setNCSID(input);
 				System.out.println("Changed to: \"" + Model.NCSID + "\"");
 			}
 			else{
@@ -73,7 +73,7 @@ public class Settings extends Menu{
 			String input = (new Scanner(System.in)).nextLine().trim();
 			if (input.length()>0){
 				try{
-					Model.SECTOWAIT = Long.valueOf(input).longValue();
+					Model.setSECTOWAIT(Long.valueOf(input).longValue());
 					System.out.println("Changed to: \"" + Model.SECTOWAIT + "\"");
 				}
 				catch(NumberFormatException e){
@@ -95,7 +95,7 @@ public class Settings extends Menu{
 			String input = (new Scanner(System.in)).nextLine().trim();
 			if (input.length()>0){
 				try{
-					Model.RETRANSMISSON = Integer.parseInt(input);
+					Model.setRETRANSMISSON(Integer.parseInt(input));
 					System.out.println("Changed to: \"" + Model.RETRANSMISSON + "\"");
 				}
 				catch(NumberFormatException e){

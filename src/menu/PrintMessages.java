@@ -14,6 +14,7 @@ public class PrintMessages extends Menu {
 		super("Print messages", null);
 	}
 	protected void Active(){
+		Model.LoadList();
 		if (Model.messages.isEmpty())
 			System.out.println("Nothing to print.");
 		else
