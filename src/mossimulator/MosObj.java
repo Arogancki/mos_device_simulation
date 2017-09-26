@@ -27,12 +27,11 @@ public class MosObj implements Serializable{
 		try (FileInputStream fis = new FileInputStream(MOSFILE);
 	            ObjectInputStream ois = new ObjectInputStream(fis)){
 			mosObjects = (Hashtable) ois.readObject();
-
-			System.out.println(mosObjects.keySet());
         }
 		catch(ClassNotFoundException|IOException c){
-        	  System.out.println("Warrning: Messages hasn't been loaded.");
+        	  System.out.println("Warrning: MosObjects wasn't read. Creating a new, empty savefile.");
         	  mosObjects = new Hashtable<String, MosObj>();
+        	  Serialize();
         }
 	}
 	private String objID = null;
@@ -183,14 +182,17 @@ public class MosObj implements Serializable{
 		else
 			return null;
 	}
-	private void AddMosObj(){
-		mosObjects.put(this.getObjID(), this);
+	private static void Serialize(){
 		try (FileOutputStream fileOut = new FileOutputStream(MOSFILE);
 				ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
 	         out.writeObject(mosObjects);
 	      }catch(IOException i) {
 	    	  System.out.println("MosObj serialize Error: Coudln't find save file!");
 	      }
+	}
+	private void AddMosObj(){
+		mosObjects.put(this.getObjID(), this);
+		Serialize();
 	}
 	private long getUniqueId(){
 		for (int i=0; i<2; i++){

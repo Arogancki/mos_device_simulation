@@ -91,7 +91,8 @@ public class Model {
 			messageID = 0;
 			lower = new Port(10540);
 			upper = new Port(10541);
-			System.out.println("Warrning: Save wasn't read! Starting with default values.");
+			System.out.println("Warrning: Save wasn't read! Creating a new save file with default values.");
+			saveState.serialize();
 		}
 	}
 	public static Port getLowerPort(){return lower;};
@@ -104,22 +105,26 @@ public class Model {
 			return true;
         }
 		catch(ClassNotFoundException|IOException c){
-        	  System.out.println("Warrning: Messages hasn't been loaded.");
+        	  System.out.println("Warrning: Messages wasn't read! Creating a new, empty save file.");
         	  messages = new LinkedList<MessageInfo>();
+        	  Serialize();
         	  return false;
         }
 	}
-	private static void AddToList(MessageInfo el){
-		if (messages==null){
-			LoadList();
-		}
-		messages.add(el);
+	private static void Serialize(){
 		try (FileOutputStream fos= new FileOutputStream(MESSAVE);
 		         ObjectOutputStream oos= new ObjectOutputStream(fos)){
 	         oos.writeObject(messages);
 	       }catch(IOException ioe){
 	            System.out.println("Warrning: Message hasn't been saved.");
 	        }
+	}
+	private static void AddToList(MessageInfo el){
+		if (messages==null){
+			LoadList();
+		}
+		messages.add(el);
+		Serialize();
 	}
 	public static class MessageInfo implements Serializable{
 		private static final long serialVersionUID = 1L;
