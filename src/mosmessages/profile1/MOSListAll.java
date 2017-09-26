@@ -12,25 +12,15 @@ public class MosListAll extends MosMessage {
 	public MosListAll() {
 		super(Model.getLowerPort());
 	}
-
 	// @Override
 	public static void AfterReceiving(Model.MessageInfo message){
 		MosMessage.AfterReceiving(message);
-		NodeList nodeList = message.getDocument().getElementsByTagName("mosListAll");
-		for (int i=0; i<nodeList.getLength(); i++){
-			Node node = nodeList.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE){
-				// wyciagac wartosci i wrzucac do stworzonego mosa przez set
-				String objID = ((Element) node).getElementsByTagName("objID").item(0).getFirstChild().getTextContent();
-				if (objID.length()<=0){
-					System.out.print("Counldn't receive MOSObj");
-					break;
-				}
-				
-			}
+		String[] objs = message.getString().split("<mosObj>");
+		for (int i=1; i<objs.length; i++){
+			new mossimulator.MosObj(new mossimulator.Model.MessageInfo(mossimulator.Model.MessageInfo.Direction.IN, "<mosObj>"+objs[i].split("</mosObj>")[0]+"</mosObj>", true));
 		}
+		System.out.println(objs.length-1 + " objects added.");
 	}
-
 	public void AfterSending() {
 		Model.MessageInfo recived = getResponse();
 		if (recived == null || !recived.getMosType().toLowerCase().equals(MosAck.class.getSimpleName().toLowerCase())){

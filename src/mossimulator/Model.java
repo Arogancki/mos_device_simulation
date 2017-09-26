@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import mosmessages.MosMessage;
 import mosmessages.profile0.Heartbeat;
@@ -25,12 +26,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import connection.Connection;
 
 public class Model {
-	private static String SAVEFILE = "settings.ser";
-	private static String MESSAVE = "messages.ser";
+	private final static String SAVEFILE = "settings.ser";
+	private static final String MESSAVE = "messages.ser";
 	private static boolean powerSwitch = true;
 	public static long SECTOWAIT;
 	public static String TARGETHOST;
@@ -81,8 +83,8 @@ public class Model {
 		catch (IOException | ClassNotFoundException e){
 			saveState = new SaveState();
 			SECTOWAIT = 3L;
-			TARGETHOST = "10.105.250.217";
-			MOSID = "COMMAND";
+			TARGETHOST = "0.0.0.1";
+			MOSID = "MOSSimulator";
 			NCSID = "NCSSimulator";
 			RETRANSMISSON = 3;
 			STARTDATE = System.currentTimeMillis();
@@ -128,6 +130,23 @@ public class Model {
 		private String time;
 		private String message;
 		private Document xmlDoc;
+		// create incognito message
+		public MessageInfo(Direction _direction, String _message, boolean x){
+			message = _message;
+			try {
+				xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(_message)));
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			direction = _direction;
+		}
 		public MessageInfo(Direction _direction, String _message, Document _xmlDoc){
 			time =  (new SimpleDateFormat("yy/MM/dd HH:mm:ss.SSS")).format(new Date());
 			message = _message;
@@ -191,13 +210,12 @@ public class Model {
 		}
 		@Override
 		public String toString(){
-			return time + ( direction==Direction.IN ? " <- " : " -> " ) + getMosType();
+			return ( direction==Direction.IN ? "<- " : "-> " ) + getMosType() + " (" + time + ")";
 		}
 	}
 	public static class Port{
 		private int number;
-		// TODO change to private
-		public Thread connection;
+		private Thread connection;
 		Port(int _number){
 			number = _number;
 			connection = new Connection(this);
@@ -221,7 +239,10 @@ public class Model {
 		}
 	}
 	public static int takeMessageId(){
-		return ++messageID;
+		messageID+=1;
+		saveState.messageID=messageID;
+		saveState.serialize();
+		return messageID;
 	}
 	public static void ListPorts(){
 		System.out.println("Lower:" + lower.getPortNumber());
@@ -241,26 +262,32 @@ public class Model {
 	}
 	public static void setSECTOWAIT(long _SECTOWAIT){
 		saveState.SECTOWAIT = _SECTOWAIT;
+		SECTOWAIT = _SECTOWAIT;
 		saveState.serialize();
 	}
 	public static void setTARGETHOST(String _TARGETHOST){
 		saveState.TARGETHOST = _TARGETHOST;
+		TARGETHOST = _TARGETHOST;
 		saveState.serialize();
 	}
 	public static void setMOSID(String _MOSID){
 		saveState.MOSID = _MOSID;
+		MOSID = _MOSID;
 		saveState.serialize();
 	}
 	public static void setNCSID(String _NCSID){
 		saveState.NCSID = _NCSID;
+		NCSID = _NCSID;
 		saveState.serialize();
 	}
 	public static void setRETRANSMISSON(int _RETRANSMISSON){
 		saveState.RETRANSMISSON = _RETRANSMISSON;
+		RETRANSMISSON = _RETRANSMISSON;
 		saveState.serialize();
 	}
 	public static void setmessageID(int _messageID){
 		saveState.messageID = _messageID;
+		messageID = _messageID;
 		saveState.serialize();
 	}
 	public static void setLower(int _port){
@@ -269,6 +296,11 @@ public class Model {
 	}
 	public static void setUpper(int _port){
 		saveState.upper=_port;
+		saveState.serialize();
+	}
+	public static void resetTime(){
+		saveState.STARTDATE = System.currentTimeMillis();
+		STARTDATE = System.currentTimeMillis();
 		saveState.serialize();
 	}
 }

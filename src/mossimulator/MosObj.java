@@ -1,18 +1,40 @@
 package mossimulator;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Set;
 
 import mosmessages.defined.ObjType;
+import mossimulator.Model.MessageInfo;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class MosObj {
-	static private Hashtable<String, MosObj> mosObjects = new Hashtable<String, MosObj>();
+public class MosObj implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private static final String MOSFILE = "mosobjs.ser";
+	static private Hashtable<String, MosObj> mosObjects = null;
+	static {
+		try (FileInputStream fis = new FileInputStream(MOSFILE);
+	            ObjectInputStream ois = new ObjectInputStream(fis)){
+			mosObjects = (Hashtable) ois.readObject();
+
+			System.out.println(mosObjects.keySet());
+        }
+		catch(ClassNotFoundException|IOException c){
+        	  System.out.println("Warrning: Messages hasn't been loaded.");
+        	  mosObjects = new Hashtable<String, MosObj>();
+        }
+	}
 	private String objID = null;
 	private String objSlug = "Slug";
 	private String mosAbstract = "mosAbstract";
@@ -163,13 +185,18 @@ public class MosObj {
 	}
 	private void AddMosObj(){
 		mosObjects.put(this.getObjID(), this);
+		try (FileOutputStream fileOut = new FileOutputStream(MOSFILE);
+				ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+	         out.writeObject(mosObjects);
+	      }catch(IOException i) {
+	    	  System.out.println("MosObj serialize Error: Coudln't find save file!");
+	      }
 	}
 	private long getUniqueId(){
 		for (int i=0; i<2; i++){
-			while (lastUnique<4294967295L){
-				if (!mosObjects.containsKey(lastUnique)){
+			while (lastUnique < 4294967295L){
+				if (!mosObjects.containsKey(String.valueOf(lastUnique)))
 					return lastUnique++;
-				}
 				lastUnique++;
 			}
 			lastUnique = 1;
@@ -293,7 +320,6 @@ public class MosObj {
 	}
 	public void Change(){
 		changed = Instant.now().toString();
-		changedBy = DEFAULT_USER;
 	}
 	public void Change(String _changedBy){
 		Change();
@@ -308,6 +334,7 @@ public class MosObj {
 		if (objSlug.length() > 127 )
 			return this;
 		this.objSlug = objSlug;
+		Change();
 		return this;
 	}
 	public String getMosAbstract() {
@@ -317,6 +344,7 @@ public class MosObj {
 	}
 	public MosObj setMosAbstract(String mosAbstract) {
 		this.mosAbstract = mosAbstract;
+		Change();
 		return this;
 	}
 	public String getObjGroup() {
@@ -326,6 +354,7 @@ public class MosObj {
 	}
 	public MosObj setObjGroup(String objGroup) {
 		this.objGroup = objGroup;
+		Change();
 		return this;
 	}
 	public mosmessages.defined.ObjType getObjType() {
@@ -334,6 +363,7 @@ public class MosObj {
 	public MosObj setObjType(mosmessages.defined.ObjType objtype) {
 		if (objtype==null)
 			return this;
+		Change();
 		this.objType = objtype;
 		return this;
 	}
@@ -346,6 +376,7 @@ public class MosObj {
 		//max 0xFFFF FFFF
 		if (objTB > 4294967295L)
 			objTB = 4294967295L;
+		Change();
 		this.objTB = objTB;
 		return this;
 	}
@@ -360,6 +391,7 @@ public class MosObj {
 			toInt = Integer.parseInt(objRev);
 			if (toInt > 999)
 				toInt = 999;
+			Change();
 			this.objRev = Integer.toString(toInt);
 		}
 		catch (NumberFormatException e){
@@ -378,6 +410,7 @@ public class MosObj {
 	public MosObj setObjDur(long objDur) {
 		if (objDur > 4294967295L)
 			objDur = 4294967295L;
+		Change();
 		this.objDur = objDur;
 		return this;
 	}
@@ -387,6 +420,7 @@ public class MosObj {
 	public MosObj setStatus(mosmessages.defined.Status status) {
 		if (status==null)
 			return this;
+		Change();
 		this.status = status;
 		return this;
 	}
@@ -396,6 +430,7 @@ public class MosObj {
 	public MosObj setObjAir(mosmessages.defined.ObjAir objAir) {
 		if (objAir==null)
 			return this;
+		Change();
 		this.objAir = objAir;
 		return this;
 	}
@@ -405,12 +440,9 @@ public class MosObj {
 		return createdBy;
 	}
 	public MosObj setCreatedBy(String createdBy) {
-		if (this.createdBy.equals("")){
-			System.out.println("Unable to change the creator");
-			return this;
-		}
 		if (createdBy.length() > 127 )
 			return this;
+		Change();
 		this.createdBy = createdBy;
 		return this;
 	}
@@ -426,12 +458,14 @@ public class MosObj {
 	}
 	public MosObj setCreated(String _created) {
 		this.created = _created;
+		Change();
 		return this;
 	}
 	public MosObj setChangedBy(String changedBy) {
 		if (changedBy.length() > 127 )
 			return this;
 		this.changedBy = changedBy;
+		Change();
 		return this;
 	}
 	public String getDescription() {
@@ -441,11 +475,23 @@ public class MosObj {
 	}
 	public MosObj setDescription(String description) {
 		this.description = description;
+		Change();
 		return this;
 	}
 	public String getChanged() {
 		if (changed==null)
 			return "";
 		return changed;
+	}
+	public MosObj setObjID(String id) {
+		if (id!=null)
+			this.objID=id;
+		Change();
+		return this;
+	}
+	public MosObj setChanged(String id) {
+		if (id!=null)
+			this.changed=id;
+		return this;
 	}
 }

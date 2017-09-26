@@ -16,10 +16,18 @@ public class Print {
 		}
 		else{
 			String[] args = input.toLowerCase().split(" ");
-			boolean removeFlag = false;
+			boolean deleteFlag = false;
+			boolean bodyFlag = false;
+			boolean readFlag = false;
 			for (int index = 0; index < args.length; index++){
-				if (args[index].equals("r") || args[index].equals("-r") || args[index].equals("remove") || args[index].equals("-remove")){
-					removeFlag = true;
+				if (args[index].equals("d") || args[index].equals("-d") || args[index].equals("delete") || args[index].equals("-delete")){
+					deleteFlag = true;
+				}
+				else if (args[index].equals("b") || args[index].equals("-b") || args[index].equals("body") || args[index].equals("-body")){
+					bodyFlag = true;
+				}
+				else if (args[index].equals("r") || args[index].equals("-r") || args[index].equals("read") || args[index].equals("-read") || args[index].equals("readable") || args[index].equals("-readable") || args[index].equals("readable") || args[index].equals("-readable")){
+					readFlag = true;
 				}
 				else{
 					String[] range = args[index].split(":");
@@ -28,27 +36,34 @@ public class Print {
 						int end = range.length > 1 ? Integer.parseInt(range[1]) : (args[index].contains(":")) ? Model.messages.size() : start;
 						start = start 	< 0 ? start + Model.messages.size() 	: start-1;
 						end = 	end 	< 0 ? end 	+ Model.messages.size() + 1 : end;
-						if (start > end){
+						if (start >= end){
 							System.out.println("Starting index mustn't be grater than ending index!");
 							continue;
 						}
-						if (removeFlag){
-							for (int i=start; i<end; i++){
-								 Model.messages.remove(i);
+						for (Iterator<MessageInfo> iterator = Model.messages.listIterator(start); start<end && iterator.hasNext(); start++){
+							Model.MessageInfo message = iterator.next();
+							if (deleteFlag){
+								Model.messages.remove(start);
+								iterator = Model.messages.listIterator(start);
+								System.out.print("Deleted: \n");
 							}
-						}
-						else{
-							for (Iterator<MessageInfo> iterator = Model.messages.listIterator(start); start<end && iterator.hasNext(); start++){
-								Model.MessageInfo message = iterator.next();
-								System.out.println(MosMessage.PrintXML(message.getDocument()) + "\n" + message.getString());
+							System.out.print(message.toString());
+							if (readFlag){
+								System.out.print(":\n" + MosMessage.PrintXML(message.getDocument()));
 							}
+							if (bodyFlag){
+								System.out.print("\n" + message.getString());
+							}
+							System.out.println();
 						}
 					}
 					catch(NumberFormatException e){
-						System.out.println("Wrong argument format: " + args[index] + ".");
+						System.out.println("Wrong argument: " + args[index] + ". Excepted int.");
+						break;
 					}
 					catch (IndexOutOfBoundsException e){
 			    		System.out.println("Invalid index: " + args[index] + ".");
+			    		break;
 			    	}
 				}
 			}

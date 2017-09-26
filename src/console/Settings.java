@@ -5,16 +5,43 @@ import mossimulator.Model;
 public class Settings {
 	static void start(String input){
 		String[] args = input.split(" ");
-		if (args.length < 2){
-			System.out.println("No enough arguments!");
-		}
-		else{
-			for (int index=0; index < args.length; index += 2){
-				String type = args[index].toLowerCase();
-				type = type.charAt(0)=='-' ? type.substring(1) : type;
+		for (int index=0; index < args.length; index += 2){
+			String type = args[index].toLowerCase();
+			type = type.charAt(0)=='-' ? type.substring(1) : type;
+			if (type.equals("resettime") || type.equals("reset_time") || type.equals("restart") || type.equals("res") || type.equals("reset") || type.equals("time")){
+				Model.resetTime();
+				System.out.println("Operational time reseted.");
+				index--;
+			}
+			else if (type.equals("s") || type.equals("show") ){
+				System.out.println("Target host: " + Model.TARGETHOST + ".");	
+				System.out.println("MOSID: " + Model.MOSID + ".");
+				System.out.println("NCSID: " + Model.NCSID + ".");
+				System.out.println("Maximum waiting time for response: " + Model.SECTOWAIT + " (seconds).");						
+				System.out.println("Maximum retransmissions: " + Model.RETRANSMISSON + ".");
+				System.out.println("MessageID: " + Model.messageID + ".");
+				System.out.println("Lower port: " + Model.getLowerNu() + ".");
+				System.out.println("Upper port: " + Model.getUpperNu() + ".");
+				long nowMilli = System.currentTimeMillis() - Model.STARTDATE;
+				long miliseconds = nowMilli % 1000;
+				long seconds = (nowMilli / 1000) % 100;
+				long minutes = (nowMilli / 60000) % 60;
+				long hours = (nowMilli / 3600000) % 24;
+				long days = nowMilli / 86400000;
+				System.out.println(
+					"Operational Time: "	
+					+ (days == 0 ? "" : days + "d ")
+					+ (hours == 0 ? "" : hours + "h ")
+					+ (minutes == 0 ? "" : minutes + "m ") + seconds + "."
+					+ miliseconds + "s"
+				);
+				index--;
+			}
+			else {
 				int optionIndex=index+1;
-				if (optionIndex >= args.length){
+				if (optionIndex >= args.length ){
 					System.out.println("Missing option form argument: " + type + ".");
+					break;
 				}
 				else{
 					String option = args[optionIndex];
@@ -33,10 +60,11 @@ public class Settings {
 					else if (type.equals("wait") || type.equals("w")){
 						try {
 							Model.setSECTOWAIT(Long.valueOf(option));
-							System.out.println("Maximum waiting time for response " + Model.SECTOWAIT + " changed to " + option + "(seconds).");
+							System.out.println("Maximum waiting time for response " + Model.SECTOWAIT + " changed to " + option + " (seconds).");
 						}
 						catch (NumberFormatException e){
-							System.out.println("Wrong format for argument: " + type + ".");
+							System.out.println("Wrong format for argument: " + type + " Excepted Long.");
+							break;
 						}
 					}
 					else if (type.equals("retransmissions") || type.equals("retransmission") || type.equals("r")){
@@ -45,7 +73,8 @@ public class Settings {
 							System.out.println("Maximum retransmissions " + Model.RETRANSMISSON + " changed to " + option + ".");
 						}
 						catch (NumberFormatException e){
-							System.out.println("Wrong format for argument: " + type + ".");
+							System.out.println("Wrong format for argument: " + type + " Excepted int.");
+							break;
 						}
 					}
 					else if (type.equals("messageid") || type.equals("mes") || type.equals("mesid")){
@@ -54,7 +83,8 @@ public class Settings {
 							System.out.println("MessageID " + Model.messageID + " changed to " + option + ".");
 						}
 						catch (NumberFormatException e){
-							System.out.println("Wrong format for argument: " + type + ".");
+							System.out.println("Wrong format for argument: " + type + " Excepted int.");
+							break;
 						}
 					}
 					else if (type.equals("lp") || type.equals("lower")){
@@ -63,7 +93,8 @@ public class Settings {
 							System.out.println("Lower port " + Model.getLowerNu() + " changed to " + option + ".");
 						}
 						catch (NumberFormatException e){
-							System.out.println("Wrong format for argument: " + type + ".");
+							System.out.println("Wrong format for argument: " + type + " Excepted int.");
+							break;
 						}
 					}
 					else if (type.equals("up") || type.equals("upper")){
@@ -72,12 +103,13 @@ public class Settings {
 							System.out.println("Upper port " + Model.getUpperNu() + " changed to " + option + ".");
 						}
 						catch (NumberFormatException e){
-							System.out.println("Wrong format for argument: " + type + ".");
+							System.out.println("Wrong format for argument: " + type + " Excepted int.");
+							break;
 						}
 					}
-					else if (type.equals("resettime") || type.equals("reset_time") || type.equals("restart") || type.equals("res") || type.equals("reset") || type.equals("time")){
-						Model.STARTDATE = System.currentTimeMillis();
-						System.out.println("Operational time reseted.");
+					else{
+						System.out.println("Unsupported option for Settings: " + option);
+						break;
 					}
 				}
 			}
