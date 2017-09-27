@@ -8,28 +8,22 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.Set;
-
-import mosmessages.defined.ObjType;
-import mossimulator.Model.MessageInfo;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class MosObj implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private static final String MOSFILE = "mosobjs.ser";
+	private static final String MOSFILE = "MosObjs.ser";
 	static private Hashtable<String, MosObj> mosObjects = null;
 	static {
 		try (FileInputStream fis = new FileInputStream(MOSFILE);
 	            ObjectInputStream ois = new ObjectInputStream(fis)){
-			mosObjects = (Hashtable) ois.readObject();
+			mosObjects = (Hashtable<String, MosObj>) ois.readObject();
         }
 		catch(ClassNotFoundException|IOException c){
-        	  System.out.println("Warrning: MosObjects wasn't read. Creating a new, empty savefile.");
+        	  System.out.println("Warrning: MosObjects save file wasn't read. Creating a new, empty save file.");
         	  mosObjects = new Hashtable<String, MosObj>();
         	  Serialize();
         }

@@ -7,7 +7,7 @@ import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
 
 public class Print {
-	static void start(String input){
+	static void start(String[] args){
 		if (!Model.LoadList()){
 			
 		}
@@ -15,18 +15,17 @@ public class Print {
 			System.out.println("Message list is empty.");
 		}
 		else{
-			String[] args = input.toLowerCase().split(" ");
 			boolean deleteFlag = false;
 			boolean bodyFlag = false;
 			boolean readFlag = false;
-			for (int index = 0; index < args.length; index++){
-				if (args[index].equals("d") || args[index].equals("-d") || args[index].equals("delete") || args[index].equals("-delete")){
+			for (int index = 1; index < args.length; index++){
+				if (args[index].equalsIgnoreCase("d") || args[index].equalsIgnoreCase("-d") || args[index].equalsIgnoreCase("delete") || args[index].equalsIgnoreCase("-delete")){
 					deleteFlag = true;
 				}
-				else if (args[index].equals("b") || args[index].equals("-b") || args[index].equals("body") || args[index].equals("-body")){
+				else if (args[index].equalsIgnoreCase("b") || args[index].equalsIgnoreCase("-b") || args[index].equalsIgnoreCase("body") || args[index].equalsIgnoreCase("-body")){
 					bodyFlag = true;
 				}
-				else if (args[index].equals("r") || args[index].equals("-r") || args[index].equals("read") || args[index].equals("-read") || args[index].equals("readable") || args[index].equals("-readable") || args[index].equals("readable") || args[index].equals("-readable")){
+				else if (args[index].equalsIgnoreCase("r") || args[index].equalsIgnoreCase("-r") || args[index].equalsIgnoreCase("read") || args[index].equalsIgnoreCase("-read") || args[index].equalsIgnoreCase("readable") || args[index].equalsIgnoreCase("-readable") || args[index].equalsIgnoreCase("readable") || args[index].equalsIgnoreCase("-readable")){
 					readFlag = true;
 				}
 				else{
@@ -43,7 +42,7 @@ public class Print {
 						for (Iterator<MessageInfo> iterator = Model.messages.listIterator(start); start<end && iterator.hasNext(); start++){
 							Model.MessageInfo message = iterator.next();
 							if (deleteFlag){
-								Model.messages.remove(start);
+								Model.RemoveFromList(start);
 								iterator = Model.messages.listIterator(start);
 								System.out.print("Deleted: \n");
 							}

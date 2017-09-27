@@ -8,8 +8,6 @@ import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
-import java.lang.Integer;
-import java.io.OutputStream;
 
 import mosmessages.MosMessage;
 import mossimulator.Model;

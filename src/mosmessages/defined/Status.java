@@ -6,7 +6,7 @@ public enum Status {
 	OK ("OK"),
 	UPDATED ("UPDATED"),
 	MOVED ("MOVED"),
-	BUSY  ("BUSY "),
+	BUSY  ("BUSY"),
 	DELETED ("DELETED"),
 	NCS_CTRL ("NCS CTRL"),
 	MANUAL_CTRL ("MANUAL CTRL"),

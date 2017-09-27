@@ -1,8 +1,6 @@
 package mossimulator;
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,7 +20,6 @@ import mosmessages.profile0.ReqMachInfo;
 import mosmessages.profile1.MosAck;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -31,8 +28,8 @@ import org.xml.sax.SAXException;
 import connection.Connection;
 
 public class Model {
-	private final static String SAVEFILE = "settings.ser";
-	private static final String MESSAVE = "messages.ser";
+	private final static String SAVEFILE = "Settings.ser";
+	private static final String MESSAVE = "Messages.ser";
 	private static boolean powerSwitch = true;
 	public static long SECTOWAIT;
 	public static String TARGETHOST;
@@ -91,7 +88,7 @@ public class Model {
 			messageID = 0;
 			lower = new Port(10540);
 			upper = new Port(10541);
-			System.out.println("Warrning: Save wasn't read! Creating a new save file with default values.");
+			System.out.println("Warrning: Settings save file wasn't read! Creating new save file with default values.");
 			saveState.serialize();
 		}
 	}
@@ -101,11 +98,11 @@ public class Model {
 	public static boolean LoadList(){
 		try (FileInputStream fis = new FileInputStream(MESSAVE);
 	            ObjectInputStream ois = new ObjectInputStream(fis)){
-			messages = (LinkedList) ois.readObject();
+			messages = (LinkedList<MessageInfo>) ois.readObject();
 			return true;
         }
 		catch(ClassNotFoundException|IOException c){
-        	  System.out.println("Warrning: Messages wasn't read! Creating a new, empty save file.");
+        	  System.out.println("Warrning: Messages save file wasn't read! Creating a new, empty save file.");
         	  messages = new LinkedList<MessageInfo>();
         	  Serialize();
         	  return false;
@@ -126,6 +123,10 @@ public class Model {
 		messages.add(el);
 		Serialize();
 	}
+	public static void RemoveFromList(int key){
+		Model.messages.remove(key);
+		Serialize();
+	}
 	public static class MessageInfo implements Serializable{
 		private static final long serialVersionUID = 1L;
 		public enum Direction{
@@ -135,19 +136,12 @@ public class Model {
 		private String time;
 		private String message;
 		private Document xmlDoc;
-		// create incognito message
+		// creates incognito message
 		public MessageInfo(Direction _direction, String _message, boolean x){
 			message = _message;
 			try {
 				xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(_message)));
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
+			} catch (SAXException|IOException|ParserConfigurationException e) {
 				e.printStackTrace();
 			}
 			direction = _direction;

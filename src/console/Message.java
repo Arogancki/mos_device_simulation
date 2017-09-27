@@ -11,8 +11,8 @@ import mosmessages.profile1.MosReqObj;
 
 public class Message {
 	private static String[] args;
-	static void start(String input){
-		args = input.toLowerCase().split(" ");
+	static void start(String[] input){
+		args = input;
 		for (int index = 0; index < args.length; index++){
 			if (args[index].equalsIgnoreCase("heartbeat")){
 				new Heartbeat().Send();
@@ -39,7 +39,7 @@ public class Message {
 				index = mosreqobj(index);
 			}
 			else {
-				System.out.println("Unsupported option: " + args[index] + "!");
+				System.out.println("Unsupported option: " + args[index] + ".");
 				break;
 			}
 		}
@@ -100,6 +100,7 @@ public class Message {
 	private static int mosobj(int index){
 		MosObj mess = new MosObj();
 		mossimulator.MosObj obj = new mossimulator.MosObj();
+		mess.setMosObj(obj);
 		while(true){
 			index++;
 			if (index >= args.length){
@@ -185,7 +186,7 @@ public class Message {
 			}
 			else if (args[index].equalsIgnoreCase("description") || args[index].equalsIgnoreCase("-description")){
 				if (++index < args.length){
-					obj.setChanged(args[index]);
+					obj.setDescription(args[index]);
 				}
 				else{
 					System.out.println("Missing pause value for " + args[index-1] + "!");

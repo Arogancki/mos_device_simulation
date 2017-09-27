@@ -3,17 +3,16 @@ package console;
 import mossimulator.Model;
 
 public class Settings {
-	static void start(String input){
-		String[] args = input.split(" ");
-		for (int index=0; index < args.length; index += 2){
-			String type = args[index].toLowerCase();
+	static void start(String[] args){
+		for (int index=1; index < args.length; index += 2){
+			String type = args[index];
 			type = type.charAt(0)=='-' ? type.substring(1) : type;
-			if (type.equals("resettime") || type.equals("reset_time") || type.equals("restart") || type.equals("res") || type.equals("reset") || type.equals("time")){
+			if (type.equalsIgnoreCase("resettime") || type.equalsIgnoreCase("reset_time") || type.equalsIgnoreCase("restart") || type.equalsIgnoreCase("res") || type.equalsIgnoreCase("reset") || type.equalsIgnoreCase("time")){
 				Model.resetTime();
 				System.out.println("Operational time reseted.");
 				index--;
 			}
-			else if (type.equals("s") || type.equals("show") ){
+			else if (type.equalsIgnoreCase("s") || type.equalsIgnoreCase("show") ){
 				System.out.println("Target host: " + Model.TARGETHOST + ".");	
 				System.out.println("MOSID: " + Model.MOSID + ".");
 				System.out.println("NCSID: " + Model.NCSID + ".");
@@ -45,19 +44,19 @@ public class Settings {
 				}
 				else{
 					String option = args[optionIndex];
-					if (type.equals("h") || type.equals("host")){
+					if (type.equalsIgnoreCase("h") || type.equalsIgnoreCase("host")){
 						Model.setTARGETHOST(option);
 						System.out.println("Target host " + Model.TARGETHOST + " changed to " + option + ".");	
 					}
-					else if (type.equals("mosid") || type.equals("mid")){
+					else if (type.equalsIgnoreCase("mosid") || type.equalsIgnoreCase("mid")){
 						Model.setMOSID(option);
 						System.out.println("MOSID " + Model.MOSID + " changed to " + option + ".");
 					}
-					else if (type.equals("ncsid") || type.equals("nid")){
-						Model.setMOSID(option);
+					else if (type.equalsIgnoreCase("ncsid") || type.equalsIgnoreCase("nid")){
+						Model.setNCSID(option);
 						System.out.println("NCSID " + Model.NCSID + " changed to " + option + ".");
 					}
-					else if (type.equals("wait") || type.equals("w")){
+					else if (type.equalsIgnoreCase("wait") || type.equalsIgnoreCase("w")){
 						try {
 							Model.setSECTOWAIT(Long.valueOf(option));
 							System.out.println("Maximum waiting time for response " + Model.SECTOWAIT + " changed to " + option + " (seconds).");
@@ -67,7 +66,7 @@ public class Settings {
 							break;
 						}
 					}
-					else if (type.equals("retransmissions") || type.equals("retransmission") || type.equals("r")){
+					else if (type.equalsIgnoreCase("retransmissions") || type.equalsIgnoreCase("retransmission") || type.equalsIgnoreCase("r")){
 						try {
 							Model.setRETRANSMISSON(Integer.parseInt(option));
 							System.out.println("Maximum retransmissions " + Model.RETRANSMISSON + " changed to " + option + ".");
@@ -77,9 +76,9 @@ public class Settings {
 							break;
 						}
 					}
-					else if (type.equals("messageid") || type.equals("mes") || type.equals("mesid")){
+					else if (type.equalsIgnoreCase("messageid") || type.equalsIgnoreCase("mes") || type.equalsIgnoreCase("mesid")){
 						try {
-							Model.setRETRANSMISSON(Integer.parseInt(option));
+							Model.setmessageID(Integer.parseInt(option));
 							System.out.println("MessageID " + Model.messageID + " changed to " + option + ".");
 						}
 						catch (NumberFormatException e){
@@ -87,7 +86,7 @@ public class Settings {
 							break;
 						}
 					}
-					else if (type.equals("lp") || type.equals("lower")){
+					else if (type.equalsIgnoreCase("lp") || type.equalsIgnoreCase("lower")){
 						try {
 							Model.setLower(Integer.parseInt(option));
 							System.out.println("Lower port " + Model.getLowerNu() + " changed to " + option + ".");
@@ -97,7 +96,7 @@ public class Settings {
 							break;
 						}
 					}
-					else if (type.equals("up") || type.equals("upper")){
+					else if (type.equalsIgnoreCase("up") || type.equalsIgnoreCase("upper")){
 						try {
 							Model.setUpper(Integer.parseInt(option));
 							System.out.println("Upper port " + Model.getUpperNu() + " changed to " + option + ".");

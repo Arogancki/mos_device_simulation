@@ -2,9 +2,6 @@ package menu;
 
 import java.util.Iterator;
 import java.util.Scanner;
-
-import org.w3c.dom.Document;
-
 import mosmessages.MosMessage;
 import mossimulator.Model;
 import mossimulator.Model.MessageInfo;

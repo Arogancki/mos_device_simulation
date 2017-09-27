@@ -1,11 +1,9 @@
 package mosmessages.profile1;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import mosmessages.MosMessage;
 import mossimulator.Model;
+
+import org.w3c.dom.Element;
 
 public class MosListAll extends MosMessage {
 	

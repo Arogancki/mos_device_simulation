@@ -2,9 +2,6 @@ package menu;
 
 import java.util.Scanner;
 
-import mossimulator.Model;
-
-
 public class MosObjManager extends Menu{
 	MosObjManager() {
 		super("MOSObj manager", createSubMenu());

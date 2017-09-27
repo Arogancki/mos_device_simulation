@@ -1,12 +1,11 @@
 package mosmessages.profile1;
 
-import org.w3c.dom.Element;
-
 import mosmessages.MosMessage;
 import mosmessages.defined.Status;
-import mosmessages.profile0.Heartbeat;
 import mossimulator.Model;
 import mossimulator.Model.MessageInfo;
+
+import org.w3c.dom.Element;
 
 public class MosReqAll extends MosMessage {
 	private long pause = 0L; // delay between messages responses containing obj, if ==0 get mostListAll
