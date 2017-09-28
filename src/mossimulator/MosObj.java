@@ -316,6 +316,7 @@ public class MosObj implements Serializable{
 	}
 	public void Change(){
 		changed = Instant.now().toString();
+		Serialize();
 	}
 	public void Change(String _changedBy){
 		Change();
@@ -359,8 +360,8 @@ public class MosObj implements Serializable{
 	public MosObj setObjType(mosmessages.defined.ObjType objtype) {
 		if (objtype==null)
 			return this;
-		Change();
 		this.objType = objtype;
+		Change();
 		return this;
 	}
 	public long getObjTB() {
@@ -372,8 +373,8 @@ public class MosObj implements Serializable{
 		//max 0xFFFF FFFF
 		if (objTB > 4294967295L)
 			objTB = 4294967295L;
-		Change();
 		this.objTB = objTB;
+		Change();
 		return this;
 	}
 	public String getObjRev() {
@@ -387,12 +388,12 @@ public class MosObj implements Serializable{
 			toInt = Integer.parseInt(objRev);
 			if (toInt > 999)
 				toInt = 999;
-			Change();
 			this.objRev = Integer.toString(toInt);
 		}
 		catch (NumberFormatException e){
 			this.objRev = "";
 		}
+		Change();
 		return this;
 	}
 	public String getObjID() {
@@ -406,8 +407,8 @@ public class MosObj implements Serializable{
 	public MosObj setObjDur(long objDur) {
 		if (objDur > 4294967295L)
 			objDur = 4294967295L;
-		Change();
 		this.objDur = objDur;
+		Change();
 		return this;
 	}
 	public mosmessages.defined.Status getStatus() {
@@ -416,8 +417,8 @@ public class MosObj implements Serializable{
 	public MosObj setStatus(mosmessages.defined.Status status) {
 		if (status==null)
 			return this;
-		Change();
 		this.status = status;
+		Change();
 		return this;
 	}
 	public mosmessages.defined.ObjAir getObjAir() {
@@ -426,8 +427,8 @@ public class MosObj implements Serializable{
 	public MosObj setObjAir(mosmessages.defined.ObjAir objAir) {
 		if (objAir==null)
 			return this;
-		Change();
 		this.objAir = objAir;
+		Change();
 		return this;
 	}
 	public String getCreatedBy() {
@@ -438,8 +439,8 @@ public class MosObj implements Serializable{
 	public MosObj setCreatedBy(String createdBy) {
 		if (createdBy.length() > 127 )
 			return this;
-		Change();
 		this.createdBy = createdBy;
+		Change();
 		return this;
 	}
 	public String getCreated() {
@@ -488,6 +489,7 @@ public class MosObj implements Serializable{
 	public MosObj setChanged(String id) {
 		if (id!=null)
 			this.changed=id;
+		Change();
 		return this;
 	}
 }

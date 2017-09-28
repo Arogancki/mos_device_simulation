@@ -32,7 +32,7 @@ public class MosListAll extends MosMessage {
 		Element mosListAll = xmlDoc.createElement("mosListAll");
 		mos.appendChild(mosListAll);
 		
-		for (String key : mossimulator.MosObj.GetKeys()) {
+		for (String key : mossimulator.MosObj.GetKeys()){
 			Element mosObj = xmlDoc.createElement("mosObj");
 			mosListAll.appendChild(mosObj);
 			mossimulator.MosObj.getMosObj(key).BuildXml(mosObj, xmlDoc);
