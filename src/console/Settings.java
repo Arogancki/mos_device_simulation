@@ -35,7 +35,7 @@ public class Settings {
 					+ miliseconds + "s"
 				);
 				index--;
-			}
+			}			
 			else {
 				int optionIndex=index+1;
 				if (optionIndex >= args.length ){
