@@ -28,12 +28,23 @@ public class Connection extends Thread{
 	}
 	public void TurnOff(){
 		powerSwitch = false;
-		if (!socket.isClosed()){
-			try {
-				socket.close();
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
+		try {
+			mutexSecond.acquire();
+			mutexInner.acquire();
+			mutex.acquire();
+			if (!socket.isClosed()){
+				try {
+					socket.close();
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+				}
 			}
+			mutexSecond.release();
+			mutexInner.release();
+			mutex.release();
+		}
+		catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
 	}
 	public void run(){
@@ -63,11 +74,21 @@ public class Connection extends Thread{
 		        	readSocket += socketIn.readChar();
 				}
 				System.out.println("New message received: " + readSocket);
+				MosMessage.setIsListening(true);
 				try {
 					new Model.MessageInfo(Model.MessageInfo.Direction.IN, readSocket).CallReceiveFunction();
+					// aby zrobic reagowanie tutej trzeba zrobic druga funkcje caalreceivefuncion
+					// ktora bedzie wykorzystywala otwarty juz socket i z niego brala in
+					// bedzie uzywac sendwithoutclosiing i close
+					// aby zrobic odbieranie wysylanie musze stworzyc 4 potry (dla przyhodch jesli sa ruzne)
+					// i tylko dla wysylacjacych nie startowac run
+					// aby zrobic to w comand line aplikacjia musi miec przelacznik z server i wtedy dzialac
+					// w trybie interaktywnym 
+					// wtedy ni emozna zmieniac ustawien
 				} catch (Throwable e) {
 					System.out.println("Received broken message. ");
 				}
+				MosMessage.setIsListening(false);
 				mutexInner.release();
 				mutex.release();
 			}

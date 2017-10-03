@@ -1,0 +1,1315 @@
+Target host 10.105.250.2 changed to 10.105.250.1.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "199"
+	heartbeat {
+		time : "2017-10-02T03:55:30"
+	}
+}
+Unable to connect 10.105.250.1:10540.
+Connection refused: connect
+Unable to connect 10.105.250.1:10540.
+Connection refused: connect
+Unable to connect 10.105.250.1:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.1 changed to 10.105.250.2.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "200"
+	heartbeat {
+		time : "2017-10-02T03:55:34"
+	}
+}
+Unable to connect 10.105.250.2:10540.
+Connection refused: connect
+Unable to connect 10.105.250.2:10540.
+Connection refused: connect
+Unable to connect 10.105.250.2:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.2 changed to 10.105.250.3.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "201"
+	heartbeat {
+		time : "2017-10-02T03:55:39"
+	}
+}
+Unable to connect 10.105.250.3:10540.
+Connection refused: connect
+Unable to connect 10.105.250.3:10540.
+Connection refused: connect
+Unable to connect 10.105.250.3:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.3 changed to 10.105.250.4.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "202"
+	heartbeat {
+		time : "2017-10-02T03:55:43"
+	}
+}
+Unable to connect 10.105.250.4:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.4:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.4:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.4 changed to 10.105.250.5.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "203"
+	heartbeat {
+		time : "2017-10-02T03:56:47"
+	}
+}
+Unable to connect 10.105.250.5:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.5:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.5:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.5 changed to 10.105.250.6.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "204"
+	heartbeat {
+		time : "2017-10-02T03:57:50"
+	}
+}
+Unable to connect 10.105.250.6:10540.
+Connection refused: connect
+Unable to connect 10.105.250.6:10540.
+Connection refused: connect
+Unable to connect 10.105.250.6:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.6 changed to 10.105.250.7.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "205"
+	heartbeat {
+		time : "2017-10-02T03:57:55"
+	}
+}
+Unable to connect 10.105.250.7:10540.
+Connection refused: connect
+Unable to connect 10.105.250.7:10540.
+Connection refused: connect
+Unable to connect 10.105.250.7:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.7 changed to 10.105.250.8.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "206"
+	heartbeat {
+		time : "2017-10-02T03:57:59"
+	}
+}
+Unable to connect 10.105.250.8:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.8:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.8:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.8 changed to 10.105.250.9.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "207"
+	heartbeat {
+		time : "2017-10-02T03:59:03"
+	}
+}
+Unable to connect 10.105.250.9:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.9:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.9:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.9 changed to 10.105.250.10.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "208"
+	heartbeat {
+		time : "2017-10-02T04:00:06"
+	}
+}
+Unable to connect 10.105.250.10:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.10:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.10:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.10 changed to 10.105.250.11.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "209"
+	heartbeat {
+		time : "2017-10-02T04:01:09"
+	}
+}
+Unable to connect 10.105.250.11:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.11:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.11:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.11 changed to 10.105.250.12.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "210"
+	heartbeat {
+		time : "2017-10-02T04:02:13"
+	}
+}
+Unable to connect 10.105.250.12:10540.
+Connection refused: connect
+Unable to connect 10.105.250.12:10540.
+Connection refused: connect
+Unable to connect 10.105.250.12:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.12 changed to 10.105.250.13.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "211"
+	heartbeat {
+		time : "2017-10-02T04:02:17"
+	}
+}
+Unable to connect 10.105.250.13:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.13:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.13:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.13 changed to 10.105.250.14.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "212"
+	heartbeat {
+		time : "2017-10-02T04:03:21"
+	}
+}
+Unable to connect 10.105.250.14:10540.
+Connection refused: connect
+Unable to connect 10.105.250.14:10540.
+Connection refused: connect
+Unable to connect 10.105.250.14:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.14 changed to 10.105.250.15.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "213"
+	heartbeat {
+		time : "2017-10-02T04:03:25"
+	}
+}
+Unable to connect 10.105.250.15:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.15:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.15:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.15 changed to 10.105.250.16.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "214"
+	heartbeat {
+		time : "2017-10-02T04:04:29"
+	}
+}
+Unable to connect 10.105.250.16:10540.
+Connection refused: connect
+Unable to connect 10.105.250.16:10540.
+Connection refused: connect
+Unable to connect 10.105.250.16:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.16 changed to 10.105.250.17.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "215"
+	heartbeat {
+		time : "2017-10-02T04:04:33"
+	}
+}
+Unable to connect 10.105.250.17:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.17:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.17:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.17 changed to 10.105.250.18.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "216"
+	heartbeat {
+		time : "2017-10-02T04:05:37"
+	}
+}
+Unable to connect 10.105.250.18:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.18:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.18:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.18 changed to 10.105.250.19.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "217"
+	heartbeat {
+		time : "2017-10-02T04:06:40"
+	}
+}
+Unable to connect 10.105.250.19:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.19:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.19:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.19 changed to 10.105.250.20.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "218"
+	heartbeat {
+		time : "2017-10-02T04:07:43"
+	}
+}
+Unable to connect 10.105.250.20:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.20:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.20:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.20 changed to 10.105.250.21.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "219"
+	heartbeat {
+		time : "2017-10-02T04:08:47"
+	}
+}
+Unable to connect 10.105.250.21:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.21:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.21:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.21 changed to 10.105.250.22.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "220"
+	heartbeat {
+		time : "2017-10-02T04:09:50"
+	}
+}
+Unable to connect 10.105.250.22:10540.
+Connection refused: connect
+Unable to connect 10.105.250.22:10540.
+Connection refused: connect
+Unable to connect 10.105.250.22:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.22 changed to 10.105.250.23.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "221"
+	heartbeat {
+		time : "2017-10-02T04:09:55"
+	}
+}
+Unable to connect 10.105.250.23:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.23:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.23:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.23 changed to 10.105.250.24.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "222"
+	heartbeat {
+		time : "2017-10-02T04:10:58"
+	}
+}
+Unable to connect 10.105.250.24:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.24:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.24:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.24 changed to 10.105.250.25.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "223"
+	heartbeat {
+		time : "2017-10-02T04:12:02"
+	}
+}
+Unable to connect 10.105.250.25:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.25:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.25:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.25 changed to 10.105.250.26.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "224"
+	heartbeat {
+		time : "2017-10-02T04:13:05"
+	}
+}
+Unable to connect 10.105.250.26:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.26:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.26:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.26 changed to 10.105.250.27.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "225"
+	heartbeat {
+		time : "2017-10-02T04:14:08"
+	}
+}
+Unable to connect 10.105.250.27:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.27:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.27:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.27 changed to 10.105.250.28.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "226"
+	heartbeat {
+		time : "2017-10-02T04:15:12"
+	}
+}
+Unable to connect 10.105.250.28:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.28:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.28:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.28 changed to 10.105.250.29.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "227"
+	heartbeat {
+		time : "2017-10-02T04:16:15"
+	}
+}
+Unable to connect 10.105.250.29:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.29:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.29:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.29 changed to 10.105.250.30.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "228"
+	heartbeat {
+		time : "2017-10-02T04:17:19"
+	}
+}
+Unable to connect 10.105.250.30:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.30:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.30:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.30 changed to 10.105.250.31.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "229"
+	heartbeat {
+		time : "2017-10-02T04:18:22"
+	}
+}
+Unable to connect 10.105.250.31:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.31:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.31:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.31 changed to 10.105.250.32.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "230"
+	heartbeat {
+		time : "2017-10-02T04:19:25"
+	}
+}
+Unable to connect 10.105.250.32:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.32:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.32:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.32 changed to 10.105.250.33.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "231"
+	heartbeat {
+		time : "2017-10-02T04:20:29"
+	}
+}
+Unable to connect 10.105.250.33:10540.
+Connection refused: connect
+Unable to connect 10.105.250.33:10540.
+Connection refused: connect
+Unable to connect 10.105.250.33:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.33 changed to 10.105.250.34.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "232"
+	heartbeat {
+		time : "2017-10-02T04:20:33"
+	}
+}
+Sent.
+Response not received
+Target host 10.105.250.34 changed to 10.105.250.35.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "233"
+	heartbeat {
+		time : "2017-10-02T04:20:35"
+	}
+}
+Unable to connect 10.105.250.35:10540.
+Connection refused: connect
+Unable to connect 10.105.250.35:10540.
+Connection refused: connect
+Unable to connect 10.105.250.35:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.35 changed to 10.105.250.36.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "234"
+	heartbeat {
+		time : "2017-10-02T04:20:39"
+	}
+}
+Unable to connect 10.105.250.36:10540.
+Connection refused: connect
+Unable to connect 10.105.250.36:10540.
+Connection refused: connect
+Unable to connect 10.105.250.36:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.36 changed to 10.105.250.37.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "235"
+	heartbeat {
+		time : "2017-10-02T04:20:44"
+	}
+}
+Unable to connect 10.105.250.37:10540.
+Connection refused: connect
+Unable to connect 10.105.250.37:10540.
+Connection refused: connect
+Unable to connect 10.105.250.37:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.37 changed to 10.105.250.38.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "236"
+	heartbeat {
+		time : "2017-10-02T04:20:49"
+	}
+}
+Unable to connect 10.105.250.38:10540.
+Connection refused: connect
+Unable to connect 10.105.250.38:10540.
+Connection refused: connect
+Unable to connect 10.105.250.38:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.38 changed to 10.105.250.39.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "237"
+	heartbeat {
+		time : "2017-10-02T04:20:53"
+	}
+}
+Unable to connect 10.105.250.39:10540.
+Connection refused: connect
+Unable to connect 10.105.250.39:10540.
+Connection refused: connect
+Unable to connect 10.105.250.39:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.39 changed to 10.105.250.40.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "238"
+	heartbeat {
+		time : "2017-10-02T04:20:58"
+	}
+}
+Unable to connect 10.105.250.40:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.40:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.40:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.40 changed to 10.105.250.41.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "239"
+	heartbeat {
+		time : "2017-10-02T04:22:01"
+	}
+}
+Unable to connect 10.105.250.41:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.41:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.41:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.41 changed to 10.105.250.42.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "240"
+	heartbeat {
+		time : "2017-10-02T04:23:04"
+	}
+}
+Unable to connect 10.105.250.42:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.42:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.42:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.42 changed to 10.105.250.43.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "241"
+	heartbeat {
+		time : "2017-10-02T04:24:08"
+	}
+}
+Unable to connect 10.105.250.43:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.43:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.43:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.43 changed to 10.105.250.44.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "242"
+	heartbeat {
+		time : "2017-10-02T04:25:11"
+	}
+}
+Unable to connect 10.105.250.44:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.44:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.44:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.44 changed to 10.105.250.45.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "243"
+	heartbeat {
+		time : "2017-10-02T04:26:15"
+	}
+}
+Unable to connect 10.105.250.45:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.45:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.45:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.45 changed to 10.105.250.46.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "244"
+	heartbeat {
+		time : "2017-10-02T04:27:18"
+	}
+}
+Unable to connect 10.105.250.46:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.46:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.46:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.46 changed to 10.105.250.47.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "245"
+	heartbeat {
+		time : "2017-10-02T04:28:22"
+	}
+}
+Unable to connect 10.105.250.47:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.47:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.47:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.47 changed to 10.105.250.48.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "246"
+	heartbeat {
+		time : "2017-10-02T04:29:25"
+	}
+}
+Unable to connect 10.105.250.48:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.48:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.48:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.48 changed to 10.105.250.49.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "247"
+	heartbeat {
+		time : "2017-10-02T04:30:28"
+	}
+}
+Unable to connect 10.105.250.49:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.49:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.49:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.49 changed to 10.105.250.50.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "248"
+	heartbeat {
+		time : "2017-10-02T04:31:32"
+	}
+}
+Unable to connect 10.105.250.50:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.50:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.50:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.50 changed to 10.105.250.51.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "249"
+	heartbeat {
+		time : "2017-10-02T04:32:35"
+	}
+}
+Unable to connect 10.105.250.51:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.51:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.51:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.51 changed to 10.105.250.52.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "250"
+	heartbeat {
+		time : "2017-10-02T04:33:39"
+	}
+}
+Unable to connect 10.105.250.52:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.52:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.52:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.52 changed to 10.105.250.53.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "251"
+	heartbeat {
+		time : "2017-10-02T04:34:42"
+	}
+}
+Unable to connect 10.105.250.53:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.53:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.53:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.53 changed to 10.105.250.54.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "252"
+	heartbeat {
+		time : "2017-10-02T04:35:45"
+	}
+}
+Unable to connect 10.105.250.54:10540.
+Connection refused: connect
+Unable to connect 10.105.250.54:10540.
+Connection refused: connect
+Unable to connect 10.105.250.54:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.54 changed to 10.105.250.55.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "253"
+	heartbeat {
+		time : "2017-10-02T04:35:50"
+	}
+}
+Unable to connect 10.105.250.55:10540.
+Connection refused: connect
+Unable to connect 10.105.250.55:10540.
+Connection refused: connect
+Unable to connect 10.105.250.55:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.55 changed to 10.105.250.56.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "254"
+	heartbeat {
+		time : "2017-10-02T04:35:55"
+	}
+}
+Unable to connect 10.105.250.56:10540.
+Connection refused: connect
+Unable to connect 10.105.250.56:10540.
+Connection refused: connect
+Unable to connect 10.105.250.56:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.56 changed to 10.105.250.57.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "255"
+	heartbeat {
+		time : "2017-10-02T04:36:00"
+	}
+}
+Unable to connect 10.105.250.57:10540.
+Connection refused: connect
+Unable to connect 10.105.250.57:10540.
+Connection refused: connect
+Unable to connect 10.105.250.57:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.57 changed to 10.105.250.58.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "256"
+	heartbeat {
+		time : "2017-10-02T04:36:05"
+	}
+}
+Unable to connect 10.105.250.58:10540.
+Connection refused: connect
+Unable to connect 10.105.250.58:10540.
+Connection refused: connect
+Unable to connect 10.105.250.58:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.58 changed to 10.105.250.59.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "257"
+	heartbeat {
+		time : "2017-10-02T04:36:10"
+	}
+}
+Unable to connect 10.105.250.59:10540.
+Connection refused: connect
+Unable to connect 10.105.250.59:10540.
+Connection refused: connect
+Unable to connect 10.105.250.59:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.59 changed to 10.105.250.60.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "258"
+	heartbeat {
+		time : "2017-10-02T04:36:15"
+	}
+}
+Sent.
+Response not received
+Target host 10.105.250.60 changed to 10.105.250.61.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "259"
+	heartbeat {
+		time : "2017-10-02T04:36:17"
+	}
+}
+Sent.
+Response not received
+Target host 10.105.250.61 changed to 10.105.250.62.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "260"
+	heartbeat {
+		time : "2017-10-02T04:36:18"
+	}
+}
+Unable to connect 10.105.250.62:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.62:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.62:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.62 changed to 10.105.250.63.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "261"
+	heartbeat {
+		time : "2017-10-02T04:37:22"
+	}
+}
+Unable to connect 10.105.250.63:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.63:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.63:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.63 changed to 10.105.250.64.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "262"
+	heartbeat {
+		time : "2017-10-02T04:38:25"
+	}
+}
+Sent.
+Response not received
+Target host 10.105.250.64 changed to 10.105.250.65.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "263"
+	heartbeat {
+		time : "2017-10-02T04:38:27"
+	}
+}
+Sent.
+Response not received
+Target host 10.105.250.65 changed to 10.105.250.66.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "264"
+	heartbeat {
+		time : "2017-10-02T04:38:28"
+	}
+}
+Unable to connect 10.105.250.66:10540.
+Connection refused: connect
+Unable to connect 10.105.250.66:10540.
+Connection refused: connect
+Unable to connect 10.105.250.66:10540.
+Connection refused: connect
+Coudln't send the message.
+Target host 10.105.250.66 changed to 10.105.250.67.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "265"
+	heartbeat {
+		time : "2017-10-02T04:38:33"
+	}
+}
+Unable to connect 10.105.250.67:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.67:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.67:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.67 changed to 10.105.250.68.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "266"
+	heartbeat {
+		time : "2017-10-02T04:39:36"
+	}
+}
+Unable to connect 10.105.250.68:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.68:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.68:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.68 changed to 10.105.250.69.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "267"
+	heartbeat {
+		time : "2017-10-02T04:40:40"
+	}
+}
+Unable to connect 10.105.250.69:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.69:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.69:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.69 changed to 10.105.250.70.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "268"
+	heartbeat {
+		time : "2017-10-02T04:41:43"
+	}
+}
+Unable to connect 10.105.250.70:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.70:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.70:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.70 changed to 10.105.250.71.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "269"
+	heartbeat {
+		time : "2017-10-02T04:42:46"
+	}
+}
+Unable to connect 10.105.250.71:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.71:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.71:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.71 changed to 10.105.250.72.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "270"
+	heartbeat {
+		time : "2017-10-02T04:43:50"
+	}
+}
+Unable to connect 10.105.250.72:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.72:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.72:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.72 changed to 10.105.250.73.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "271"
+	heartbeat {
+		time : "2017-10-02T04:44:53"
+	}
+}
+Unable to connect 10.105.250.73:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.73:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.73:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.73 changed to 10.105.250.74.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "272"
+	heartbeat {
+		time : "2017-10-02T04:45:57"
+	}
+}
+Unable to connect 10.105.250.74:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.74:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.74:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.74 changed to 10.105.250.75.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "273"
+	heartbeat {
+		time : "2017-10-02T04:47:00"
+	}
+}
+Unable to connect 10.105.250.75:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.75:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.75:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.75 changed to 10.105.250.76.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "274"
+	heartbeat {
+		time : "2017-10-02T04:48:04"
+	}
+}
+Unable to connect 10.105.250.76:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.76:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.76:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.76 changed to 10.105.250.77.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "275"
+	heartbeat {
+		time : "2017-10-03T08:07:41"
+	}
+}
+Unable to connect 10.105.250.77:10540.
+Network is unreachable: connect
+Unable to connect 10.105.250.77:10540.
+Network is unreachable: connect
+Unable to connect 10.105.250.77:10540.
+Network is unreachable: connect
+Coudln't send the message.
+Target host 10.105.250.77 changed to 10.105.250.78.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "276"
+	heartbeat {
+		time : "2017-10-03T08:07:41"
+	}
+}
+Unable to connect 10.105.250.78:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.78:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.78:10540.
+Connection timed out: connect
+Coudln't send the message.
+Target host 10.105.250.78 changed to 10.105.250.79.
+Sending - Heartbeat:
+mos {
+	mosID : "aurora.msn-gvg.burl.avid.mos"
+	ncsID : "INEWS6x"
+	messageID : "277"
+	heartbeat {
+		time : "2017-10-03T08:08:45"
+	}
+}
+Unable to connect 10.105.250.79:10540.
+Connection timed out: connect
+Unable to connect 10.105.250.79:10540.
+Connection timed out: connect

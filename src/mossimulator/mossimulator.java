@@ -2,8 +2,9 @@ package mossimulator;
 
 public class MosSimulator{
 	public static void main(String[] args) {
-		//String[] tab = {"m", "mosack -ref 232 -uid niepowiem sta ack mosack mosack -ref 666 -uid niepowiem2 sta ok"};
+		//String[] tab = {"s", "host", "w2012cmd2"};
 		//console.Console.start(tab);
 		console.Console.start(args);
+		Model.Exit();
 	}
 }

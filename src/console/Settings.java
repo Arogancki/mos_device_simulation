@@ -45,21 +45,22 @@ public class Settings {
 				else{
 					String option = args[optionIndex];
 					if (type.equalsIgnoreCase("h") || type.equalsIgnoreCase("host")){
+						System.out.println("Target host " + Model.TARGETHOST + " changed to " + option + ".");
 						Model.setTARGETHOST(option);
-						System.out.println("Target host " + Model.TARGETHOST + " changed to " + option + ".");	
 					}
 					else if (type.equalsIgnoreCase("mosid") || type.equalsIgnoreCase("mid")){
-						Model.setMOSID(option);
 						System.out.println("MOSID " + Model.MOSID + " changed to " + option + ".");
+						Model.setMOSID(option);
 					}
 					else if (type.equalsIgnoreCase("ncsid") || type.equalsIgnoreCase("nid")){
-						Model.setNCSID(option);
 						System.out.println("NCSID " + Model.NCSID + " changed to " + option + ".");
+						Model.setNCSID(option);
 					}
 					else if (type.equalsIgnoreCase("wait") || type.equalsIgnoreCase("w")){
 						try {
-							Model.setSECTOWAIT(Long.valueOf(option));
+							Long lon = Long.valueOf(option);
 							System.out.println("Maximum waiting time for response " + Model.SECTOWAIT + " changed to " + option + " (seconds).");
+							Model.setSECTOWAIT(lon);
 						}
 						catch (NumberFormatException e){
 							System.out.println("Wrong format for argument: " + type + " Excepted Long.");
@@ -68,8 +69,9 @@ public class Settings {
 					}
 					else if (type.equalsIgnoreCase("retransmissions") || type.equalsIgnoreCase("retransmission") || type.equalsIgnoreCase("r")){
 						try {
-							Model.setRETRANSMISSON(Integer.parseInt(option));
+							int in = Integer.parseInt(option);
 							System.out.println("Maximum retransmissions " + Model.RETRANSMISSON + " changed to " + option + ".");
+							Model.setRETRANSMISSON(in);
 						}
 						catch (NumberFormatException e){
 							System.out.println("Wrong format for argument: " + type + " Excepted int.");
@@ -78,8 +80,9 @@ public class Settings {
 					}
 					else if (type.equalsIgnoreCase("messageid") || type.equalsIgnoreCase("mes") || type.equalsIgnoreCase("mesid")){
 						try {
-							Model.setmessageID(Integer.parseInt(option));
+							int in = Integer.parseInt(option);
 							System.out.println("MessageID " + Model.messageID + " changed to " + option + ".");
+							Model.setmessageID(in);
 						}
 						catch (NumberFormatException e){
 							System.out.println("Wrong format for argument: " + type + " Excepted int.");
@@ -88,8 +91,9 @@ public class Settings {
 					}
 					else if (type.equalsIgnoreCase("lp") || type.equalsIgnoreCase("lower")){
 						try {
-							Model.setLower(Integer.parseInt(option));
+							int in = Integer.parseInt(option);
 							System.out.println("Lower port " + Model.getLowerNu() + " changed to " + option + ".");
+							Model.setLower(in);
 						}
 						catch (NumberFormatException e){
 							System.out.println("Wrong format for argument: " + type + " Excepted int.");
@@ -98,8 +102,9 @@ public class Settings {
 					}
 					else if (type.equalsIgnoreCase("up") || type.equalsIgnoreCase("upper")){
 						try {
-							Model.setUpper(Integer.parseInt(option));
+							int in =Integer.parseInt(option);
 							System.out.println("Upper port " + Model.getUpperNu() + " changed to " + option + ".");
+							Model.setUpper(in);
 						}
 						catch (NumberFormatException e){
 							System.out.println("Wrong format for argument: " + type + " Excepted int.");

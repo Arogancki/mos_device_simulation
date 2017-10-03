@@ -1,5 +1,10 @@
 package console;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 //import java.util.Scanner;
 
 public class Console {
@@ -7,20 +12,21 @@ public class Console {
 		boolean powerSwitch = false;
 		do{
 			if (args.length < 1){
-				printManual();
-				break;
-				/*
 				if (!powerSwitch){
 					System.out.println("Interactive mode (type 'q' to quit).");
 					powerSwitch = true;
 				}
 				do {
-					args = (new Scanner(System.in)).nextLine().split(" ");
+					ArrayList<String> list = new ArrayList<String>();
+					Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher((new Scanner(System.in)).nextLine());
+					while (m.find())
+						list.add(m.group(1).replace("\"", "")); 
+					args = new String[list.size()];
+					args = list.toArray(args);
 				}while(args[0].length() <= 0);
 				if (args[0].equalsIgnoreCase("q")){
 					break;
 				}
-				*/
 			}
 			String type = args[0].toLowerCase();
 			type = type.charAt(0)=='-' ? type.substring(1) : type;

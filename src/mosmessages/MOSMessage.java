@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public abstract class MosMessage {
+	private static boolean isListening = false;
 	protected Document xmlDoc;
 	protected String name="";
 	protected int messageID;
@@ -84,11 +85,17 @@ public abstract class MosMessage {
 		 }
 		 return new PrintNode(xmlDoc.getDocumentElement()).toString();
 	}
+	public static void setIsListening(boolean v){
+		isListening=v;
+	}
 	public void Send(){
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
 		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
-		if (!port.Send(this)){
+		if (isListening && !port.SendOnOpenSocket(this)){
+			System.out.println("Coudln't send the message.");
+		}
+		else if (!port.Send(this)){
 			System.out.println("Coudln't send the message.");
 		}
 	};
