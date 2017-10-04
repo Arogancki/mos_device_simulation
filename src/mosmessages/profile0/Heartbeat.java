@@ -8,21 +8,25 @@ import mossimulator.Model;
 import org.w3c.dom.Element;
 
 public class Heartbeat extends MosMessage {
+	private static boolean expectingForHeartbeat = true;
 	public Heartbeat() {
 		super(Model.getLowerPort());
 	}
 	//@Override
-	public static void AfterReceiving(Model.MessageInfo message){
-		MosMessage.AfterReceiving(message);
-		if (!expectingForHeartbeat)
-			new Heartbeat().Send();
+	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
+		MosMessage.AfterReceiving(message, _port);
+		if (expectingForHeartbeat){
+			expectingForHeartbeat=false;
+			new Heartbeat().setPort(_port).Send();
+			expectingForHeartbeat=true;
+		}
 	}
 	@Override
 	public void AfterSending(){
-		expectingForHeartbeat = true;
-		Model.MessageInfo recived = getResponse();
-		if (recived != null && recived.getMosType().toLowerCase().equals(this.getClass().getSimpleName().toLowerCase()));
-			expectingForHeartbeat = false;
+		if (expectingForHeartbeat){
+			Model.MessageInfo recived = getResponse();
+			if (recived != null && recived.getMosType().toLowerCase().equals(this.getClass().getSimpleName().toLowerCase()));
+		}
 	}
 	@Override
 	public void PrepareToSend() {
@@ -37,5 +41,4 @@ public class Heartbeat extends MosMessage {
 					+ "T" + new SimpleDateFormat("hh:mm:ss").format(now)));
 		    heartbeat.appendChild(time);
 	}
-	private static boolean expectingForHeartbeat = false;
 }

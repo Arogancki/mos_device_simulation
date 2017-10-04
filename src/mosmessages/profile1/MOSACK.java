@@ -37,8 +37,8 @@ public class MosAck extends MosMessage {
 		statusDescription.appendChild(xmlDoc.createTextNode(getStatusDescription()));
 		mosAck.appendChild(statusDescription);
 	}
-	public static void AfterReceiving(Model.MessageInfo message){
-		MosMessage.AfterReceiving(message);
+	public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
+		MosMessage.AfterReceiving(message, _port);
 	}
 	@Override
 	public void AfterSending(){

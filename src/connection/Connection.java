@@ -14,56 +14,47 @@ import mossimulator.Model;
 import mossimulator.Model.Port;
 
 public class Connection extends Thread{
-	private volatile Socket socket = null;
+	private volatile Hashtable<Port, Socket> socket = new Hashtable<Port, Socket>();
 	private volatile ServerSocket serverSocket = null;
 	private volatile static Hashtable<Integer, ServerSocket> serverSockets = new Hashtable<Integer, ServerSocket>();
-	private volatile Semaphore mutex = new Semaphore(1);
-	private volatile Semaphore mutexSecond = new Semaphore(1);
-	private volatile Semaphore mutexInner = new Semaphore(1);
+	private volatile Hashtable<Port,Semaphore> mutex = new Hashtable<Port,Semaphore>();
+	private volatile Hashtable<Port,Semaphore> mutexSecond = new Hashtable<Port,Semaphore>();
+	private volatile Hashtable<Port,Semaphore> mutexInner = new Hashtable<Port,Semaphore>();
 	private Port port;
 	private volatile boolean powerSwitch = true;
 	public Connection(Port _receiver){
 		port = _receiver;
-		socket = new Socket();
+		socket.put(port, new Socket());
+		mutex.put(_receiver, new Semaphore(1));
+		mutexSecond.put(_receiver, new Semaphore(1));
+		mutexInner.put(_receiver, new Semaphore(1));
 	}
 	public void TurnOff(){
 		powerSwitch = false;
-		try {
-			mutexSecond.acquire();
-			mutexInner.acquire();
-			mutex.acquire();
-			if (!socket.isClosed()){
+		for (Port key : socket.keySet()){
+			if (!socket.get(key).isClosed()){
 				try {
-					socket.close();
+					socket.get(key).close();
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 				}
 			}
-			mutexSecond.release();
-			mutexInner.release();
-			mutex.release();
-		}
-		catch (InterruptedException e1) {
-			e1.printStackTrace();
 		}
 	}
 	public void run(){
 		while(true){
 			ServerSocket serverSocket = null;
 			try {
-				mutexSecond.acquire();
-				mutex.acquire();
-				mutexSecond.release();
+				mutexSecond.get(port).acquire();
+				mutex.get(port).acquire();
+				mutexSecond.get(port).release();
 				serverSocket = new ServerSocket(port.getPortNumber());
 				serverSockets.put(port.getPortNumber(), serverSocket);
-				socket = serverSocket.accept();
-				mutexInner.acquire();
-				System.out.println(socket.getRemoteSocketAddress());
-				DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
+				System.out.println("Waiting for connevtion on "+port.getPortNumber()+":");
+				socket.put(port, serverSocket.accept());
+				mutexInner.get(port).acquire();
+				DataInputStream  socketIn = new DataInputStream(socket.get(port).getInputStream());
 				long startTime = System.currentTimeMillis();
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {}
 				String readSocket="";
 				while (socketIn.available()<=0 && (System.currentTimeMillis()-startTime)<Model.SECTOWAIT*1000){
 					try {
@@ -73,30 +64,32 @@ public class Connection extends Thread{
 				while(socketIn.available()>0) {
 		        	readSocket += socketIn.readChar();
 				}
-				System.out.println("New message received: " + readSocket);
-				MosMessage.setIsListening(true);
-				try {
-					new Model.MessageInfo(Model.MessageInfo.Direction.IN, readSocket).CallReceiveFunction();
-					// aby zrobic reagowanie tutej trzeba zrobic druga funkcje caalreceivefuncion
-					// ktora bedzie wykorzystywala otwarty juz socket i z niego brala in
-					// bedzie uzywac sendwithoutclosiing i close
-					// aby zrobic odbieranie wysylanie musze stworzyc 4 potry (dla przyhodch jesli sa ruzne)
-					// i tylko dla wysylacjacych nie startowac run
-					// aby zrobic to w comand line aplikacjia musi miec przelacznik z server i wtedy dzialac
-					// w trybie interaktywnym 
-					// wtedy ni emozna zmieniac ustawien
-				} catch (Throwable e) {
-					System.out.println("Received broken message. ");
+				if (readSocket!=""){
+					System.out.println(port.getPortNumber()+": New message received:");
+					MosMessage.setIsListening(true);
+					try {
+						new Model.MessageInfo(Model.MessageInfo.Direction.IN, readSocket).CallReceiveFunction(port);
+						// aby zrobic reagowanie tutej trzeba zrobic druga funkcje caalreceivefuncion
+						// ktora bedzie wykorzystywala otwarty juz socket i z niego brala in
+						// bedzie uzywac sendwithoutclosiing i close
+						// aby zrobic odbieranie wysylanie musze stworzyc 4 potry (dla przyhodch jesli sa ruzne)
+						// i tylko dla wysylacjacych nie startowac run
+						// aby zrobic to w comand line aplikacjia musi miec przelacznik z server i wtedy dzialac
+						// w trybie interaktywnym 
+						// wtedy ni emozna zmieniac ustawien
+					} catch (Throwable e) {
+						System.out.println("Received broken message. ");
+					}
+					MosMessage.setIsListening(false);
 				}
-				MosMessage.setIsListening(false);
-				mutexInner.release();
-				mutex.release();
+				mutexInner.get(port).release();
+				mutex.get(port).release();
 			}
 			catch (InterruptedException e) {
 				System.out.println(e.getMessage());
 			}
 			catch(SocketException e){
-				mutex.release();
+				mutex.get(port).release();
 			}
 			catch(IOException e){
 				System.out.println("Unable to connect " + 
@@ -116,17 +109,17 @@ public class Connection extends Thread{
 		}
 	}
 	public String GetFromSocket(){
-		if (socket.isClosed())
+		if (socket.get(port).isClosed())
 			return "";
 		try {
-			DataInputStream  socketIn = new DataInputStream(socket.getInputStream());
+			DataInputStream  socketIn = new DataInputStream(socket.get(port).getInputStream());
 			long startTime = System.currentTimeMillis();
 			String readSocket="";
 			while (socketIn.available()<=0 && (System.currentTimeMillis()-startTime)<Model.SECTOWAIT*1000){
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {}
-				socketIn = new DataInputStream(socket.getInputStream());
+				socketIn = new DataInputStream(socket.get(port).getInputStream());
 			}
 			while(socketIn.available()>0) {
 		        	readSocket += socketIn.readChar();
@@ -139,13 +132,13 @@ public class Connection extends Thread{
 	}
 	public boolean SendOnOpenSocket(MosMessage message){
 		boolean result = false;
-		if (socket.isClosed())
+		if (socket.get(port).isClosed())
 			return result;
 		int attempts = 0;
 		do{
 			DataOutputStream socketInput;
 			try {
-				socketInput = new DataOutputStream(socket.getOutputStream());
+				socketInput = new DataOutputStream(socket.get(port).getOutputStream());
 				String content = message.toString();
 				byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
 				socketInput.write(toByte, 0 , content.length() * 2);
@@ -162,21 +155,21 @@ public class Connection extends Thread{
 	}
 	public void Close(){
 		try {
-			if (!socket.isClosed())
-				socket.close();	
+			if (!socket.get(port).isClosed())
+				socket.get(port).close();	
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		mutexInner.release();
-		mutexSecond.release();
-		mutex.release();
+		mutexInner.get(port).release();
+		mutexSecond.get(port).release();
+		mutex.get(port).release();
 	}
 	public boolean SendWithoutClosing(MosMessage message){
 		int attempts = 0;
 		boolean result = false;
 		try{
-			mutexInner.acquire();
-			mutexSecond.acquire();
+			mutexInner.get(port).acquire();
+			mutexSecond.get(port).acquire();
 			try {
 				if (!serverSocket.isClosed()){
 					serverSocket.close();	
@@ -184,11 +177,11 @@ public class Connection extends Thread{
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
-			mutex.acquire();
+			mutex.get(port).acquire();
 			do{
 				try{
-					socket = new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber());
-					DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
+					socket.put(port, new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber()));
+					DataOutputStream socketInput = new DataOutputStream(socket.get(port).getOutputStream());
 					String content = message.toString();
 					byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
 					socketInput.write(toByte, 0 , content.length() * 2);
@@ -199,8 +192,8 @@ public class Connection extends Thread{
 					result = true;
 				}
 				catch(IOException e){
-					System.out.println("Unable to connect " + 
-							mossimulator.Model.TARGETHOST + ":" + port.getPortNumber() 
+					System.out.println("Unable to connect " +
+							mossimulator.Model.TARGETHOST + ":" + port.getPortNumber()
 							+ ".\n" + e.getMessage());
 				}
 			}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
@@ -214,8 +207,8 @@ public class Connection extends Thread{
 		int attempts = 0;
 		boolean result = false;
 		try{
-			mutexInner.acquire();
-			mutexSecond.acquire();
+			mutexInner.get(port).acquire();
+			mutexSecond.get(port).acquire();
 			try {
 				serverSocket = serverSockets.get(port.getPortNumber());
 				if (serverSocket!=null && !serverSocket.isClosed()){
@@ -225,11 +218,11 @@ public class Connection extends Thread{
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
-			mutex.acquire();
+			mutex.get(port).acquire();
 			do{
 				try{
-					socket = new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber());
-					DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
+					socket.put(port, new Socket(mossimulator.Model.TARGETHOST, port.getPortNumber()));
+					DataOutputStream socketInput = new DataOutputStream(socket.get(port).getOutputStream());
 					String content = message.toString();
 					byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
 					socketInput.write(toByte, 0 , content.length() * 2);
@@ -246,16 +239,16 @@ public class Connection extends Thread{
 				}
 				finally {
 					try {
-						if (!socket.isClosed())
-							socket.close();	
+						if (!socket.get(port).isClosed())
+							socket.get(port).close();	
 					} catch (IOException e) {
 						System.out.println(e.getMessage());
 					}
 				}
 			}while(Model.RETRANSMISSON > attempts++ && !result && powerSwitch);
-			mutexInner.release();
-			mutexSecond.release();
-			mutex.release();
+			mutexInner.get(port).release();
+			mutexSecond.get(port).release();
+			mutex.get(port).release();
 			}
 		catch(InterruptedException e){
 			System.out.println(e.getMessage());

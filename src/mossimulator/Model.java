@@ -177,26 +177,26 @@ public class Model {
 				return nodeList.item(0).getTextContent();
 			return null;
 		}
-		public void CallReceiveFunction(){
+		public void CallReceiveFunction(Model.Port port){
 			switch (getMosType().toLowerCase()) {
 			// profile 0
 			case "heartbeat":
-				Heartbeat.AfterReceiving(this); break;
+				Heartbeat.AfterReceiving(this, port); break;
 			case "reqmachinfo":
-				ReqMachInfo.AfterReceiving(this); break;
+				ReqMachInfo.AfterReceiving(this, port); break;
 			case "listmachinfo":
-				ListMachInfo.AfterReceiving(this); break;
+				ListMachInfo.AfterReceiving(this, port); break;
             //profile 1
 			case "mosack":
-				MosAck.AfterReceiving(this);break;
+				MosAck.AfterReceiving(this, port);break;
 			case "mosobj":
-				MosAck.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this, port); break;
 			case "mosreqobj":
-				MosAck.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this, port); break;
 			case "mosreqall":
-				MosAck.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this, port); break;
 			case "moslistall":
-				MosAck.AfterReceiving(this); break;
+				MosAck.AfterReceiving(this, port); break;
 			//profile 2
 			//profile 3
 			//profile 4

@@ -27,6 +27,10 @@ public abstract class MosMessage {
 		port = _port;
 		BuildXmlDoc();
 	}
+	public MosMessage setPort(Model.Port _port){
+		port=_port;
+		return this;
+	}
 	private void BuildXmlDoc(){
 		try {
 			xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -92,8 +96,10 @@ public abstract class MosMessage {
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
 		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
-		if (isListening && !port.SendOnOpenSocket(this)){
-			System.out.println("Coudln't send the message.");
+		if (isListening){
+			if (!port.SendOnOpenSocket(this)){
+				System.out.println("Coudln't send the message.");
+			}
 		}
 		else if (!port.Send(this)){
 			System.out.println("Coudln't send the message.");
@@ -137,7 +143,7 @@ public abstract class MosMessage {
 	}
 	public abstract void PrepareToSend();
 	public void AfterSending(){}
-	public static void AfterReceiving(Model.MessageInfo message){
+	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
 		System.out.println("Recived - " + message.getMosType() + ":\n" + MosMessage.PrintXML(message.getDocument()));
 	}
 	public Document getDocument(){return xmlDoc;}
@@ -147,7 +153,7 @@ public abstract class MosMessage {
 		if (message!=""){
 			try {
 				result = new Model.MessageInfo(Model.MessageInfo.Direction.IN, message);
-				result.CallReceiveFunction();
+				result.CallReceiveFunction(this.port);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}

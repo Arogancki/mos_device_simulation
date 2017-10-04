@@ -18,10 +18,10 @@ public class MosObj extends MosMessage {
 	}
 	
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message){
-		MosMessage.AfterReceiving(message);
+	public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
+		MosMessage.AfterReceiving(message,_port);
 		mossimulator.MosObj newObj = new mossimulator.MosObj(message);
-		new MosAck().setStatusDescription(newObj.getObjID()).SendOnOpenSocket();
+		new MosAck().setStatusDescription(newObj.getObjID()).setPort(_port).SendOnOpenSocket();
 	}
 
 	public void AfterSending() {

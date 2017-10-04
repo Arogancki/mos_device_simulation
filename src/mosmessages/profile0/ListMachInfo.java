@@ -17,14 +17,12 @@ public class ListMachInfo extends MosMessage {
 	}
 
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message){
-		MosMessage.AfterReceiving(message);
+	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
+		MosMessage.AfterReceiving(message,_port);
 	}
-
 	public void AfterSending() {
 		getResponse();
 	}
-
 	@Override
 	public void PrepareToSend() {
 		Element mos = xmlDoc.getDocumentElement();

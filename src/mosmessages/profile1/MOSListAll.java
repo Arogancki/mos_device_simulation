@@ -11,8 +11,8 @@ public class MosListAll extends MosMessage {
 		super(Model.getLowerPort());
 	}
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message){
-		MosMessage.AfterReceiving(message);
+	public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
+		MosMessage.AfterReceiving(message,_port);
 		String[] objs = message.getString().split("<mosObj>");
 		for (int i=1; i<objs.length; i++){
 			new mossimulator.MosObj(new mossimulator.Model.MessageInfo(mossimulator.Model.MessageInfo.Direction.IN, "<mosObj>"+objs[i].split("</mosObj>")[0]+"</mosObj>", true));

@@ -9,9 +9,9 @@ public class ReqMachInfo extends MosMessage {
 		super(Model.getLowerPort());
 	}
 	//@Override
-		public static void AfterReceiving(Model.MessageInfo message){
-			MosMessage.AfterReceiving(message);
-			new ListMachInfo().Send();
+		public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
+			MosMessage.AfterReceiving(message,_port);
+			new ListMachInfo().setPort(_port).Send();
 		}
 		@Override
 		public void AfterSending(){

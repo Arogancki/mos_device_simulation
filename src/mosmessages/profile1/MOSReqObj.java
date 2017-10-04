@@ -14,14 +14,14 @@ public class MosReqObj extends MosMessage {
 	}
 
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message){
-		MosMessage.AfterReceiving(message);
+	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
+		MosMessage.AfterReceiving(message, _port);
 		String key = message.GetFromXML("objID");
 		if (mossimulator.MosObj.Contains(key)){
-			new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).Send();
+			new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).setPort(_port).Send();
 		}
 		else{
-			new MosAck().setObjectUID(key).setStatus(Status.OK).setStatusDescription("MOSObj not found").Send();
+			new MosAck().setObjectUID(key).setStatus(Status.OK).setStatusDescription("MOSObj not found").setPort(_port).Send();
 		}
 		
 	}
