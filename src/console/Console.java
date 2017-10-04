@@ -13,7 +13,7 @@ public class Console {
 		do{
 			if (args.length < 1){
 				if (!powerSwitch){
-					System.out.println("Interactive mode (type 'q' to quit).");
+					System.out.println("Interactive mode (type 'CTR-C' to quit).");
 					powerSwitch = true;
 				}
 				do {

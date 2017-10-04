@@ -24,8 +24,11 @@ public class Heartbeat extends MosMessage {
 	@Override
 	public void AfterSending(){
 		if (expectingForHeartbeat){
+			expectingForHeartbeat = false;
 			Model.MessageInfo recived = getResponse();
-			if (recived != null && recived.getMosType().toLowerCase().equals(this.getClass().getSimpleName().toLowerCase()));
+			if (recived != null && recived.getMosType().toLowerCase().equals(this.getClass().getSimpleName().toLowerCase()))
+				System.out.println("Connection is ok.");
+			expectingForHeartbeat = true;
 		}
 	}
 	@Override
