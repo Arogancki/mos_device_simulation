@@ -1,5 +1,7 @@
 package mosmessages;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,20 +17,26 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import connection.ClientConnection;
+
 public abstract class MosMessage {
-	private static boolean isListening = false;
 	protected Document xmlDoc;
 	protected String name="";
 	protected int messageID;
-	protected Model.Port port;
-	protected MosMessage(Model.Port _port){
+	protected int port=Model.TARGETPORT;
+	protected String host=Model.TARGETHOST;
+	protected MosMessage(int _port){
 		messageID = Model.takeMessageId();
 		name = this.getClass().getSimpleName() + ":" + messageID;
 		port = _port;
 		BuildXmlDoc();
 	}
-	public MosMessage setPort(Model.Port _port){
+	public MosMessage setPort(int _port){
 		port=_port;
+		return this;
+	}
+	public MosMessage setHost(String _port){
+		host=_port;
 		return this;
 	}
 	private void BuildXmlDoc(){
@@ -89,45 +97,38 @@ public abstract class MosMessage {
 		 }
 		 return new PrintNode(xmlDoc.getDocumentElement()).toString();
 	}
-	public static void setIsListening(boolean v){
-		isListening=v;
-	}
-	public void Send(){
+	public void Send(ArrayList<MosMessage> list){
 		PrepareToSend();
 		String info = "Sending - " + getClass().getSimpleName();
 		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
-		if (isListening){
-			if (!port.SendOnOpenSocket(this)){
-				System.out.println("Coudln't send the message.");
+		list.add(this);
+	};
+	public void Send(){
+		if (host.equals("")||port<0){
+			System.out.println("Error: Host or port is not set");
+		}
+		else{
+			PrepareToSend();
+			String info = "Sending - " + getClass().getSimpleName();
+			System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
+			if (!Model.SendToHosted(host, port, this)){
+				if (Model.clients.containsKey(host)){
+					Hashtable<Integer, ClientConnection> ht = Model.clients.get(host);
+					if (ht.containsKey(port)){
+						ht.get(port).newMessage(this);
+					}
+					else{
+						ht.put(port, new connection.ClientConnection(host, port, this));
+					}
+				}
+				else{
+					Hashtable<Integer, ClientConnection> ht = new Hashtable<Integer, ClientConnection>();
+					ht.put(port, new connection.ClientConnection(host, port, this));
+					Model.clients.put(host, ht);
+				}
 			}
 		}
-		else if (!port.Send(this)){
-			System.out.println("Coudln't send the message.");
-		}
 	};
-	public boolean SendWithouClosing(){
-		PrepareToSend();
-		String info = "Sending - " + getClass().getSimpleName();
-		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
-		boolean result = port.SendWithoutClosing(this);
-		if (!result){
-			System.out.println("Coudln't send the message.");
-		}
-		return result;
-	}
-	public void CloseSocket(){
-		port.CloseSocket();
-	}
-	public boolean SendOnOpenSocket(){
-		PrepareToSend();
-		String info = "Sending - " + getClass().getSimpleName();
-		System.out.println(info + ":\n" + MosMessage.PrintXML(xmlDoc));
-		boolean result = port.SendOnOpenSocket(this);
-		if (!result){
-			System.out.println("Coudln't send the message.");
-		}
-		return result;
-	}
 	@Override
 	public String toString(){
 		 try{
@@ -135,19 +136,18 @@ public abstract class MosMessage {
 		       TransformerFactory.newInstance().newTransformer().transform(new DOMSource(xmlDoc), new StreamResult(writer));
 		       return writer.toString();
 		    }
-		    catch(TransformerException e)
-		    {
+		    catch(TransformerException e) {
 		       System.out.println(e.getMessage());
 		       return "";
 		    }
 	}
 	public abstract void PrepareToSend();
 	public void AfterSending(){}
-	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
+	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
 		System.out.println("Recived - " + message.getMosType() + ":\n" + MosMessage.PrintXML(message.getDocument()));
 	}
 	public Document getDocument(){return xmlDoc;}
-	protected Model.MessageInfo getResponse(){
+	/*protected Model.MessageInfo getResponse(){
 		String message = port.GetMessage();
 		Model.MessageInfo result = null;
 		if (message!=""){
@@ -162,5 +162,5 @@ public abstract class MosMessage {
 			System.out.println("Response not received");
 		}
 		return result;
-	}
+	}*/
 }

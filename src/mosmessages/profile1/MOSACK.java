@@ -1,4 +1,6 @@
 package mosmessages.profile1;
+import java.util.ArrayList;
+
 import org.w3c.dom.Element;
 
 import mosmessages.MosMessage;
@@ -37,8 +39,8 @@ public class MosAck extends MosMessage {
 		statusDescription.appendChild(xmlDoc.createTextNode(getStatusDescription()));
 		mosAck.appendChild(statusDescription);
 	}
-	public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
-		MosMessage.AfterReceiving(message, _port);
+	public static void AfterReceiving(Model.MessageInfo message,ArrayList<MosMessage> m){
+		MosMessage.AfterReceiving(message, m);
 	}
 	@Override
 	public void AfterSending(){

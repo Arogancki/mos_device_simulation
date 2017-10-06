@@ -1,6 +1,8 @@
 package mosmessages.profile0;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 
 import mosmessages.MosMessage;
 import mossimulator.Model;
@@ -8,28 +10,23 @@ import mossimulator.Model;
 import org.w3c.dom.Element;
 
 public class Heartbeat extends MosMessage {
-	private static boolean expectingForHeartbeat = true;
+	private static boolean expectingReply = false; // jesli wiadomosc jest zainicjowana ze strony clienta zmienic na true
 	public Heartbeat() {
 		super(Model.getLowerPort());
 	}
 	//@Override
-	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
-		MosMessage.AfterReceiving(message, _port);
-		if (expectingForHeartbeat){
-			expectingForHeartbeat=false;
-			new Heartbeat().setPort(_port).Send();
-			expectingForHeartbeat=true;
+	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
+		MosMessage.AfterReceiving(message, m);
+		if (!expectingReply){
+			new Heartbeat().Send(m);
 		}
 	}
 	@Override
 	public void AfterSending(){
-		if (expectingForHeartbeat){
-			expectingForHeartbeat = false;
-			Model.MessageInfo recived = getResponse();
-			if (recived != null && recived.getMosType().toLowerCase().equals(this.getClass().getSimpleName().toLowerCase()))
-				System.out.println("Connection is ok.");
-			expectingForHeartbeat = true;
-		}
+	}
+	public Heartbeat activeExpectingReply() {
+		expectingReply=true;
+		return this;
 	}
 	@Override
 	public void PrepareToSend() {

@@ -1,5 +1,7 @@
 package mosmessages.profile1;
 
+import java.util.ArrayList;
+
 import mosmessages.MosMessage;
 import mosmessages.defined.Status;
 import mossimulator.Model;
@@ -14,9 +16,9 @@ public class MosReqAll extends MosMessage {
 	}
 
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
-		MosMessage.AfterReceiving(message,_port);
-		new MosAck().setStatus(mosmessages.defined.Status.OK).setPort(_port).Send();
+	public static void AfterReceiving(Model.MessageInfo message,ArrayList<MosMessage> m){
+		MosMessage.AfterReceiving(message,m);
+		new MosAck().setStatus(mosmessages.defined.Status.OK).Send(m);
 		int pause = 0;
 		try {
 			pause = Integer.parseInt(message.GetFromXML("pause"));
@@ -27,16 +29,13 @@ public class MosReqAll extends MosMessage {
 			if (pause > 0){
 				MosAck ack = new MosAck();
 				ack.setStatus(Status.OK);
-				boolean success = ack.setPort(_port).SendWithouClosing();
-				if (success){
-					for (String key : mossimulator.MosObj.GetKeys()) {
-						new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).setPort(_port).SendOnOpenSocket();
-					}
+				ack.Send(m);
+				for (String key : mossimulator.MosObj.GetKeys()) {
+					new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).Send(m);
 				}
-				ack.CloseSocket();
 			}
 			else if (pause == 0){
-				new MosListAll().Send();
+				new MosListAll().Send(m);
 			}
 			else
 				System.out.println("Wrong pasue value: " + pause);
@@ -44,7 +43,7 @@ public class MosReqAll extends MosMessage {
 	}
 
 	public void AfterSending() {
-		MessageInfo response = getResponse();
+		/*MessageInfo response = getResponse();
 		if (response.getMosType().equals("mosack")){
 			if (pause <= 0){
 				getResponse();
@@ -55,7 +54,7 @@ public class MosReqAll extends MosMessage {
 				}
 				Model.SECTOWAIT -= pause;
 			}
-		}
+		}*/
 	}
 
 	@Override

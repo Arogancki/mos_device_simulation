@@ -1,5 +1,7 @@
 package mosmessages.profile1;
 
+import java.util.ArrayList;
+
 import mosmessages.MosMessage;
 import mosmessages.defined.Status;
 import mossimulator.Model;
@@ -14,20 +16,20 @@ public class MosReqObj extends MosMessage {
 	}
 
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
-		MosMessage.AfterReceiving(message, _port);
+	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
+		MosMessage.AfterReceiving(message,  m);
 		String key = message.GetFromXML("objID");
 		if (mossimulator.MosObj.Contains(key)){
-			new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).setPort(_port).Send();
+			new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).Send(m);
 		}
 		else{
-			new MosAck().setObjectUID(key).setStatus(Status.OK).setStatusDescription("MOSObj not found").setPort(_port).Send();
+			new MosAck().setObjectUID(key).setStatus(Status.OK).setStatusDescription("MOSObj not found").Send(m);
 		}
 		
 	}
 	
 	public void AfterSending() {
-		MessageInfo response = getResponse();
+		/*MessageInfo response = getResponse();
 		if (response.getMosType().toLowerCase().equals(MosObj.class.getSimpleName().toLowerCase())){
 			String objID = response.GetFromXML("objID");
 			if (objID != null && objID.equals(objID)){
@@ -36,7 +38,7 @@ public class MosReqObj extends MosMessage {
 		}
 		else if (response.getMosType().toLowerCase().equals(MosAck.class.getSimpleName().toLowerCase())) {
 			System.out.println("Object wasn't found.");
-		}
+		}*/
 	}
 
 	@Override

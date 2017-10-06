@@ -84,7 +84,7 @@ public class MosObjCreate extends MosMessage {
 	}
 	@Override
 	public void AfterSending(){
-		MessageInfo response = getResponse();
+		/*MessageInfo response = getResponse();
 		if (response != null){
 			String responseType = response.getMosType().toLowerCase();
 			if (responseType.equals("mosack")){
@@ -112,7 +112,7 @@ public class MosObjCreate extends MosMessage {
 				//TODO czy to bedzdie kiedykollewiek mozeliwe
 				System.out.println("Object created. ObjID: " + ".");
 			}	
-		}
+		}*/
 	}
 	@Override
 	public void PrepareToSend() {

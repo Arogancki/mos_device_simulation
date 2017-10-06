@@ -1,5 +1,7 @@
 package mosmessages.profile1;
 
+import java.util.ArrayList;
+
 import mosmessages.MosMessage;
 import mossimulator.Model;
 
@@ -18,17 +20,17 @@ public class MosObj extends MosMessage {
 	}
 	
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
-		MosMessage.AfterReceiving(message,_port);
+	public static void AfterReceiving(Model.MessageInfo message,ArrayList<MosMessage> m){
+		MosMessage.AfterReceiving(message,m);
 		mossimulator.MosObj newObj = new mossimulator.MosObj(message);
-		new MosAck().setStatusDescription(newObj.getObjID()).setPort(_port).SendOnOpenSocket();
+		new MosAck().setStatusDescription(newObj.getObjID()).Send(m);
 	}
 
 	public void AfterSending() {
-		Model.MessageInfo recived = getResponse();
+		/*Model.MessageInfo recived = getResponse();
 		if (recived == null || !recived.getMosType().toLowerCase().equals(MosAck.class.getSimpleName().toLowerCase())){
 			System.out.println("Receiving not acknowledged");
-		}
+		}*/
 	}
 
 	@Override

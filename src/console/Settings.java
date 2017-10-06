@@ -14,13 +14,14 @@ public class Settings {
 			}
 			else if (type.equalsIgnoreCase("s") || type.equalsIgnoreCase("show") ){
 				System.out.println("Target host: " + Model.TARGETHOST + ".");	
+				System.out.println("Target port: " + Model.TARGETPORT + ".");	
 				System.out.println("MOSID: " + Model.MOSID + ".");
 				System.out.println("NCSID: " + Model.NCSID + ".");
 				System.out.println("Maximum waiting time for response: " + Model.SECTOWAIT + " (seconds).");						
 				System.out.println("Maximum retransmissions: " + Model.RETRANSMISSON + ".");
 				System.out.println("MessageID: " + Model.messageID + ".");
-				System.out.println("Lower port: " + Model.getLowerNu() + ".");
-				System.out.println("Upper port: " + Model.getUpperNu() + ".");
+				System.out.println("Lower port: " + Model.getLowerPort() + ".");
+				System.out.println("Upper port: " + Model.getUpperPort() + ".");
 				long nowMilli = System.currentTimeMillis() - Model.STARTDATE;
 				long miliseconds = nowMilli % 1000;
 				long seconds = (nowMilli / 1000) % 100;
@@ -47,6 +48,17 @@ public class Settings {
 					if (type.equalsIgnoreCase("h") || type.equalsIgnoreCase("host")){
 						System.out.println("Target host " + Model.TARGETHOST + " changed to " + option + ".");
 						Model.setTARGETHOST(option);
+					}
+					else if (type.equalsIgnoreCase("hp") || type.equalsIgnoreCase("hostport")){
+						try {
+							int intt = Integer.valueOf(option);
+							System.out.println("Target host's port " + Model.TARGETPORT + " changed to " + option + ".");
+							Model.setTARGETPORT(intt);
+						}
+						catch (NumberFormatException e){
+							System.out.println("Wrong format for argument: " + type + " Excepted Long.");
+							break;
+						}
 					}
 					else if (type.equalsIgnoreCase("mosid") || type.equalsIgnoreCase("mid")){
 						System.out.println("MOSID " + Model.MOSID + " changed to " + option + ".");
@@ -92,7 +104,7 @@ public class Settings {
 					else if (type.equalsIgnoreCase("lp") || type.equalsIgnoreCase("lower")){
 						try {
 							int in = Integer.parseInt(option);
-							System.out.println("Lower port " + Model.getLowerNu() + " changed to " + option + ".");
+							System.out.println("Lower port " + Model.getLowerPort() + " changed to " + option + ".");
 							Model.setLower(in);
 						}
 						catch (NumberFormatException e){
@@ -103,7 +115,7 @@ public class Settings {
 					else if (type.equalsIgnoreCase("up") || type.equalsIgnoreCase("upper")){
 						try {
 							int in =Integer.parseInt(option);
-							System.out.println("Upper port " + Model.getUpperNu() + " changed to " + option + ".");
+							System.out.println("Upper port " + Model.getUpperPort() + " changed to " + option + ".");
 							Model.setUpper(in);
 						}
 						catch (NumberFormatException e){
