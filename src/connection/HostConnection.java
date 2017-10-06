@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -47,7 +46,6 @@ class HandleConnection extends Thread{
 		return string!=null && !string.equalsIgnoreCase("") && !string.matches("<\\?xml.*>");
 	}
 	public void run(){
-		String[] address = socket.getRemoteSocketAddress().toString().split(":");
 		host = (socket.getRemoteSocketAddress().toString().split(":"))[0].substring(1);
 		try{
 			port = Integer.parseInt((socket.getLocalSocketAddress().toString().split(":")[1]));
