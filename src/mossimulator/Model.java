@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,6 +32,7 @@ import connection.ClientConnection;
 import connection.HostConnection;
 
 public class Model {
+	private static Semaphore semaphoreHashtable = new Semaphore(1);
 	public static Hashtable<String, Hashtable<Integer, ClientConnection>> clients=new  Hashtable<String, Hashtable<Integer, ClientConnection>>();
 	private final static String SAVEFILE = "Settings.ser";
 	private static final String MESSAVE = "Messages.ser";
@@ -43,6 +45,7 @@ public class Model {
 	public static int RETRANSMISSON;
 	public static long STARTDATE;
 	public static int messageID;
+	public static int heartbeatSpace;
 	public static ArrayList<MosMessage> toSendMessagesLower = new ArrayList<MosMessage>();
 	public static ArrayList<MosMessage> toSendMessagesUpper = new ArrayList<MosMessage>();
 	private static HostConnection Hostlower = null;
@@ -60,6 +63,7 @@ public class Model {
 		public int RETRANSMISSON= 3;
 		public long STARTDATE= System.currentTimeMillis();
 		public int messageID = 0;
+		public int heartbeatSpace= 30000;
 		public int lower = 10540;
 		public int upper = 10541;
 		public void serialize(){
@@ -85,12 +89,13 @@ public class Model {
 			 messageID = saveState.messageID;
 			 lower = saveState.lower;
 			 upper = saveState.upper;
+			 heartbeatSpace = saveState.heartbeatSpace;
 		}
 		catch (IOException | ClassNotFoundException e){
 			saveState = new SaveState();
 			SECTOWAIT = 3L;
 			TARGETHOST = "0.0.0.1";
-			 TARGETPORT =10540;
+			 TARGETPORT = 10540;
 			MOSID = "MOSSimulator";
 			NCSID = "NCSSimulator";
 			RETRANSMISSON = 3;
@@ -98,6 +103,7 @@ public class Model {
 			messageID = 0;
 			lower = 10540;
 			upper = 10541;
+			heartbeatSpace = 30000;
 			System.out.println("Warrning: Settings save file wasn't read! Creating new save file with default values.");
 			saveState.serialize();
 		}
@@ -120,6 +126,24 @@ public class Model {
 	public static int getLowerPort(){return lower;};
 	public static int getUpperPort(){return upper;};
 	public static LinkedList<MessageInfo> messages = null;
+	public static boolean removeClientConnection(ClientConnection cc){
+		try {
+			semaphoreHashtable.acquire();
+			for (String key : clients.keySet()){
+				if (clients.contains(cc)){
+					clients.remove(cc);
+					semaphoreHashtable.release();
+					return true;
+				}
+			}
+			semaphoreHashtable.release();
+			return false;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 	public static boolean LoadList(){
 		try (FileInputStream fis = new FileInputStream(MESSAVE);
 	            ObjectInputStream ois = new ObjectInputStream(fis)){
@@ -215,13 +239,13 @@ public class Model {
 			case "mosack":
 				MosAck.AfterReceiving(this, m);break;
 			case "mosobj":
-				MosAck.AfterReceiving(this, m); break;
+				mosmessages.profile1.MosObj.AfterReceiving(this, m); break;
 			case "mosreqobj":
-				MosAck.AfterReceiving(this, m); break;
+				mosmessages.profile1.MosReqObj.AfterReceiving(this, m); break;
 			case "mosreqall":
-				MosAck.AfterReceiving(this, m); break;
+				mosmessages.profile1.MosReqAll.AfterReceiving(this, m); break;
 			case "moslistall":
-				MosAck.AfterReceiving(this, m); break;
+				mosmessages.profile1.MosListAll.AfterReceiving(this, m); break;
 			//profile 2
 			//profile 3
 			//profile 4
@@ -252,12 +276,17 @@ public class Model {
 			Hostlower.TurnOff();
 		if (Hostupper!=null)
 			Hostupper.TurnOff();
-		for (String keys1 : clients.keySet()){
-			Hashtable<Integer, ClientConnection> client = clients.get(keys1);
-			for (int keys2 : client.keySet()){
-				client.get(keys2).TurnOff();
+		try{
+			semaphoreHashtable.acquire();
+			for (String keys1 : clients.keySet()){
+				Hashtable<Integer, ClientConnection> client = clients.get(keys1);
+				for (int keys2 : client.keySet()){
+					client.get(keys2).TurnOff();
+				}
 			}
+			semaphoreHashtable.release();
 		}
+		catch(InterruptedException e){}
 		//System.out.println("Closed succesfully.");
 	}
 	protected void finalize() throws Throwable{
@@ -310,6 +339,11 @@ public class Model {
 	public static void resetTime(){
 		saveState.STARTDATE = System.currentTimeMillis();
 		STARTDATE = System.currentTimeMillis();
+		saveState.serialize();
+	}
+	public static void setHeartbeatSpace(int _hs){
+		saveState.heartbeatSpace = _hs;
+		STARTDATE = _hs;
 		saveState.serialize();
 	}
 }

@@ -17,7 +17,8 @@ public class Settings {
 				System.out.println("Target port: " + Model.TARGETPORT + ".");	
 				System.out.println("MOSID: " + Model.MOSID + ".");
 				System.out.println("NCSID: " + Model.NCSID + ".");
-				System.out.println("Maximum waiting time for response: " + Model.SECTOWAIT + " (seconds).");						
+				System.out.println("Maximum waiting time for response: " + Model.SECTOWAIT + " (seconds).");	
+				System.out.println("Send checking heartbeat after : " + Model.heartbeatSpace + " (miliseconds).");	
 				System.out.println("Maximum retransmissions: " + Model.RETRANSMISSON + ".");
 				System.out.println("MessageID: " + Model.messageID + ".");
 				System.out.println("Lower port: " + Model.getLowerPort() + ".");
@@ -56,7 +57,18 @@ public class Settings {
 							Model.setTARGETPORT(intt);
 						}
 						catch (NumberFormatException e){
-							System.out.println("Wrong format for argument: " + type + " Excepted Long.");
+							System.out.println("Wrong format for argument: " + type + " Excepted Int.");
+							break;
+						}
+					}
+					else if (type.equalsIgnoreCase("ms") || type.equalsIgnoreCase("messagespace")){
+						try {
+							int intt = Integer.valueOf(option);
+							System.out.println("Send checking heartbeat time " + Model.heartbeatSpace + " changed to " + option + ".");
+							Model.setHeartbeatSpace(intt);
+						}
+						catch (NumberFormatException e){
+							System.out.println("Wrong format for argument: " + type + " Excepted Int.");
 							break;
 						}
 					}
@@ -124,7 +136,7 @@ public class Settings {
 						}
 					}
 					else{
-						System.out.println("Unsupported option for Settings: " + option);
+						System.out.println("Unsupported option for Settings: " + type);
 						break;
 					}
 				}

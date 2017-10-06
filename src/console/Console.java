@@ -27,7 +27,7 @@ public class Console {
 						list.add(m.group(1).replace("\"", "")); 
 					args = new String[list.size()];
 					args = list.toArray(args);
-				}while(args[0].length() <= 0);
+				}while(args.length<=0 || args[0].length() <= 0);
 				if (args[0].equalsIgnoreCase("q")){
 					break;
 				}

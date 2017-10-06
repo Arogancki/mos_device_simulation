@@ -6,6 +6,7 @@ public class MosSimulator{
 	public static void main(String[] args) {
 		try{
 			//String[] tab = {"heartbeat"};
+			//String[] tab = {"s", "host", "10.105.250.217", "mosid", "tester Artur"};
 			//console.Console.start(tab);
 			console.Console.start(args);
 			}

@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 import mosmessages.MosMessage;
+import mosmessages.profile0.Heartbeat;
 import mossimulator.Model;
 
 public class ClientConnection extends Thread{
+	private boolean connectionCheck = false;
+	private long lastConnectionCheckTime = 0L;
 	private String host;
 	private volatile boolean powerSwitch = true;
 	private int port;
@@ -41,7 +44,18 @@ public class ClientConnection extends Thread{
 	public void run(){
 		try{
 			socket = new Socket(host, port);
+			lastConnectionCheckTime=System.currentTimeMillis();
 			while(powerSwitch){
+				if ((System.currentTimeMillis()-lastConnectionCheckTime) >= Model.heartbeatSpace && Model.heartbeatSpace>0){
+					if (connectionCheck){
+						powerSwitch=false;
+						System.out.println(host+":"+port+"Connection closed - heartbeat response wasn't received.");
+					}else{
+						connectionCheck = true;
+						new Heartbeat().activeExpectingReply().Send(messages);
+						lastConnectionCheckTime=System.currentTimeMillis();
+					}
+				}
 				// sending
 				if (socket.isClosed()){
 					System.out.println(host+":"+port+"Connection closed.");
@@ -89,14 +103,27 @@ public class ClientConnection extends Thread{
 						readSocket = "<mos>"+oneMessage;
 						try {
 							new Model.MessageInfo(Model.MessageInfo.Direction.IN, readSocket).CallReceiveFunction(messages);
+							lastConnectionCheckTime = System.currentTimeMillis();
+							connectionCheck=false;
 						} catch (Throwable e) {
 							System.out.println("Receiving corrupted message:\n\"\n"+messages+"\n\"\n");
 						}
+					}
+				}
+				if ((System.currentTimeMillis()-lastConnectionCheckTime) >= Model.heartbeatSpace){
+					if (connectionCheck){
+						powerSwitch=false;
+						System.out.println(host+":"+port+"Connection closed - heartbeat response wasn't received.");
+					}else{
+						connectionCheck = true;
+						new Heartbeat().activeExpectingReply().Send(messages);
+						lastConnectionCheckTime=System.currentTimeMillis();
 					}
 				}
 			}
 		} catch (IOException e) {
 			System.out.println("Connection broken");
 		}
+		mossimulator.Model.removeClientConnection(this);
 	}
 }

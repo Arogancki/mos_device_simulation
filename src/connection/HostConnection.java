@@ -10,17 +10,22 @@ import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
 
 import mosmessages.MosMessage;
+import mosmessages.profile0.Heartbeat;
 import mossimulator.Model;
 
 class HandleConnection extends Thread{
+	private HostConnection parent;
+	private boolean connectionCheck = false;
+	private long lastConnectionCheckTime = 0L;
 	private String host = null;
 	private int port = -1;
 	private ArrayList<MosMessage> messages = new ArrayList<MosMessage>();
 	private Socket socket = null;
 	private Semaphore semaphore = new Semaphore(1);
 	private volatile boolean powerSwitch = true;
-	HandleConnection(Socket _socket){
+	HandleConnection(HostConnection Parent, Socket _socket){
 		socket=_socket;
+		parent=Parent;
 		this.setName("HostHandling: " + socket.getLocalSocketAddress());
 		this.start();
 	}
@@ -51,6 +56,7 @@ class HandleConnection extends Thread{
 			port = Integer.parseInt((socket.getLocalSocketAddress().toString().split(":")[1]));
 		}catch (NumberFormatException e){}
 		System.out.println("Client connected: " + host + ":" + port);
+		lastConnectionCheckTime = System.currentTimeMillis();
 		while (powerSwitch){
 			try{
 				//get
@@ -77,12 +83,25 @@ class HandleConnection extends Thread{
 						readSocket = "<mos>"+oneMessage;
 						try {
 							Model.MessageInfo mi = new Model.MessageInfo(Model.MessageInfo.Direction.IN, readSocket);
+							lastConnectionCheckTime = System.currentTimeMillis();
+							connectionCheck=false;
 							semaphore.acquire();
 							mi.CallReceiveFunction(messages);
 							semaphore.release();
 						} catch (Throwable e) {
 							System.out.println("Receiving corrupted message:\n\"\n"+messages+"\n\"\n");
 						}
+					}
+				}
+				if ((System.currentTimeMillis()-lastConnectionCheckTime) >= Model.heartbeatSpace && Model.heartbeatSpace>0){
+					if (connectionCheck){
+						powerSwitch=false;
+						System.out.println(host+":"+port+"Connection closed - heartbeat response wasn't received.");
+						break;
+					}else{
+						connectionCheck = true;
+						new Heartbeat().activeExpectingReply().Send(messages);
+						lastConnectionCheckTime=System.currentTimeMillis();
 					}
 				}
 				//send
@@ -112,6 +131,7 @@ class HandleConnection extends Thread{
 			}
 			catch(IOException e){}
 		}
+		parent.removeConnection(this);
 	}
 }
 
@@ -171,6 +191,30 @@ public class HostConnection extends Thread{
 		} catch (InterruptedException e1) {}
 		return false;
 	}
+	boolean removeConnection(HandleConnection hc){
+		try{
+			hashSemaphore.acquire();
+			for (String key: hashConnections.keySet()){
+				if (hashConnections.get(key).contains(hc)){
+					hashConnections.get(key).remove(hc);
+					hashSemaphore.release();
+					return true;
+				}
+			}
+			hashSemaphore.release();
+			if (connections.contains(hc)){
+				connections.remove(hc);
+				semaphore.release();
+				return true;
+			}
+			semaphore.release();
+			return removeConnection(hc);
+		}
+		catch(InterruptedException e){
+			
+		}
+		return false;
+	}
 	public void TurnOff(){
 		powerSwitch = false;
 		try {
@@ -190,7 +234,7 @@ public class HostConnection extends Thread{
 			while(powerSwitch){
 				try {
 					if (powerSwitch){
-						HandleConnection hc = new HandleConnection(serverSocket.accept());
+						HandleConnection hc = new HandleConnection(this, serverSocket.accept());
 						semaphore.acquire();
 						connections.add(hc);
 						semaphore.release();

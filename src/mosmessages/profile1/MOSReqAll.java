@@ -27,9 +27,6 @@ public class MosReqAll extends MosMessage {
 		}
 		finally{
 			if (pause > 0){
-				MosAck ack = new MosAck();
-				ack.setStatus(Status.OK);
-				ack.Send(m);
 				for (String key : mossimulator.MosObj.GetKeys()) {
 					new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).Send(m);
 				}
