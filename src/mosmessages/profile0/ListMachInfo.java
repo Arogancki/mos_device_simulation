@@ -2,6 +2,7 @@ package mosmessages.profile0;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -17,11 +18,11 @@ public class ListMachInfo extends MosMessage {
 	}
 
 	// @Override
-	public static void AfterReceiving(Model.MessageInfo message, Model.Port _port){
-		MosMessage.AfterReceiving(message,_port);
+	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
+		MosMessage.AfterReceiving(message, m);
 	}
 	public void AfterSending() {
-		getResponse();
+		
 	}
 	@Override
 	public void PrepareToSend() {

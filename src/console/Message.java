@@ -15,7 +15,7 @@ public class Message {
 		args = input;
 		for (int index = 0; index < args.length; index++){
 			if (args[index].equalsIgnoreCase("heartbeat")){
-				new Heartbeat().Send();
+				new Heartbeat().activeExpectingReply().Send();
 			}
 			else if (args[index].equalsIgnoreCase("reqmachinfo")){
 				new ReqMachInfo().Send();

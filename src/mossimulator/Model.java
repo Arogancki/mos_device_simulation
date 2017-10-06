@@ -7,7 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,28 +27,34 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import connection.Connection;
+import connection.ClientConnection;
+import connection.HostConnection;
 
 public class Model {
+	public static Hashtable<String, Hashtable<Integer, ClientConnection>> clients=new  Hashtable<String, Hashtable<Integer, ClientConnection>>();
 	private final static String SAVEFILE = "Settings.ser";
 	private static final String MESSAVE = "Messages.ser";
 	private static boolean powerSwitch = true;
 	public static long SECTOWAIT;
 	public static String TARGETHOST;
+	public static int TARGETPORT;
 	public static String MOSID;
 	public static String NCSID;
 	public static int RETRANSMISSON;
 	public static long STARTDATE;
 	public static int messageID;
-	public static int getLowerNu(){return lower.getPortNumber();}
-	public static int getUpperNu(){return upper.getPortNumber();}
-	private static Port lower;
-	private static Port upper;
+	public static ArrayList<MosMessage> toSendMessagesLower = new ArrayList<MosMessage>();
+	public static ArrayList<MosMessage> toSendMessagesUpper = new ArrayList<MosMessage>();
+	private static HostConnection Hostlower = null;
+	private static HostConnection Hostupper = null;
+	private static int lower;
+	private static int upper;
 	private static SaveState saveState;
 	private static class SaveState implements Serializable{
 		private static final long serialVersionUID = 1L;
 		public long SECTOWAIT= 3L;
 		public String TARGETHOST= "10.105.250.217";
+		public int TARGETPORT=10540;
 		public String MOSID = "COMMAND";
 		public String NCSID= "NCSSimulator";
 		public int RETRANSMISSON= 3;
@@ -69,31 +77,48 @@ public class Model {
 	         saveState = (SaveState) ois.readObject();
 	         SECTOWAIT = saveState.SECTOWAIT;
 	         TARGETHOST = saveState.TARGETHOST;
+	         TARGETPORT = saveState.TARGETPORT;
 	         MOSID = saveState.MOSID;
 			 NCSID = saveState.NCSID;
 			 RETRANSMISSON = saveState.RETRANSMISSON;
 			 STARTDATE = saveState.STARTDATE;
 			 messageID = saveState.messageID;
-			 lower =  new Port(saveState.lower);
-			 upper =  new Port(saveState.upper);
+			 lower = saveState.lower;
+			 upper = saveState.upper;
 		}
 		catch (IOException | ClassNotFoundException e){
 			saveState = new SaveState();
 			SECTOWAIT = 3L;
 			TARGETHOST = "0.0.0.1";
+			 TARGETPORT =10540;
 			MOSID = "MOSSimulator";
 			NCSID = "NCSSimulator";
 			RETRANSMISSON = 3;
 			STARTDATE = System.currentTimeMillis();
 			messageID = 0;
-			lower = new Port(10540);
-			upper = new Port(10541);
+			lower = 10540;
+			upper = 10541;
 			System.out.println("Warrning: Settings save file wasn't read! Creating new save file with default values.");
 			saveState.serialize();
 		}
+		if (console.Console.IS_INTERACTIVE_MODE_ON){
+			Hostlower = new HostConnection(lower);
+			Hostupper = new HostConnection(upper);
+		}
 	}
-	public static Port getLowerPort(){return lower;};
-	public static Port getUpperPort(){return upper;};
+	public static boolean SendToHosted(String _host, int _port, MosMessage _mes){
+		if (Hostlower!=null)
+			if (Hostlower.newMessage(_host, _port, _mes)){
+				return true;
+			}
+		if (Hostupper!=null)
+			if (Hostupper.newMessage(_host, _port, _mes)){
+				return true;
+			}
+		return false;
+	}
+	public static int getLowerPort(){return lower;};
+	public static int getUpperPort(){return upper;};
 	public static LinkedList<MessageInfo> messages = null;
 	public static boolean LoadList(){
 		try (FileInputStream fis = new FileInputStream(MESSAVE);
@@ -177,26 +202,26 @@ public class Model {
 				return nodeList.item(0).getTextContent();
 			return null;
 		}
-		public void CallReceiveFunction(Model.Port port){
+		public void CallReceiveFunction(ArrayList<MosMessage> m){
 			switch (getMosType().toLowerCase()) {
 			// profile 0
 			case "heartbeat":
-				Heartbeat.AfterReceiving(this, port); break;
+				Heartbeat.AfterReceiving(this, m); break;
 			case "reqmachinfo":
-				ReqMachInfo.AfterReceiving(this, port); break;
+				ReqMachInfo.AfterReceiving(this, m); break;
 			case "listmachinfo":
-				ListMachInfo.AfterReceiving(this, port); break;
-            //profile 1
+				ListMachInfo.AfterReceiving(this, m); break;
+            //profile 1mm
 			case "mosack":
-				MosAck.AfterReceiving(this, port);break;
+				MosAck.AfterReceiving(this, m);break;
 			case "mosobj":
-				MosAck.AfterReceiving(this, port); break;
+				MosAck.AfterReceiving(this, m); break;
 			case "mosreqobj":
-				MosAck.AfterReceiving(this, port); break;
+				MosAck.AfterReceiving(this, m); break;
 			case "mosreqall":
-				MosAck.AfterReceiving(this, port); break;
+				MosAck.AfterReceiving(this, m); break;
 			case "moslistall":
-				MosAck.AfterReceiving(this, port); break;
+				MosAck.AfterReceiving(this, m); break;
 			//profile 2
 			//profile 3
 			//profile 4
@@ -212,48 +237,28 @@ public class Model {
 			return ( direction==Direction.IN ? "<- " : "-> " ) + getMosType() + " (" + time + ")";
 		}
 	}
-	public static class Port{
-		private int number;
-		private Thread connection;
-		Port(int _number){
-			number = _number;
-			connection = new Connection(this);
-			connection.start(); // run simulator also as an receiver (mos server)
-		}
-		public int getPortNumber(){return number;}
-		public String GetMessage(){
-			return ((Connection)connection).GetFromSocket();
-		}
-		public boolean Send(MosMessage message){
-			return ((Connection)connection).Send(message);
-		}
-		public boolean SendOnOpenSocket(MosMessage message){
-			return ((Connection)connection).SendOnOpenSocket(message);
-		}
-		public boolean SendWithoutClosing(MosMessage message){
-			return ((Connection)connection).SendWithoutClosing(message);
-		}
-		public void CloseSocket(){
-			((Connection)connection).Close();
-		}
-	}
 	public static int takeMessageId(){
 		messageID+=1;
 		saveState.messageID=messageID;
 		saveState.serialize();
 		return messageID;
 	}
-	public static void ListPorts(){
-		System.out.println("Lower:" + lower.getPortNumber());
-		System.out.println("Upper:" + upper.getPortNumber());
-	}
 	public static boolean getPowerSwitch(){
 		return powerSwitch;
 	}
 	public static void Exit(){
 		powerSwitch = false;
-		((Connection)lower.connection).TurnOff();
-		((Connection)upper.connection).TurnOff();
+		if (Hostlower!=null)
+			Hostlower.TurnOff();
+		if (Hostupper!=null)
+			Hostupper.TurnOff();
+		for (String keys1 : clients.keySet()){
+			Hashtable<Integer, ClientConnection> client = clients.get(keys1);
+			for (int keys2 : client.keySet()){
+				client.get(keys2).TurnOff();
+			}
+		}
+		//System.out.println("Closed succesfully.");
 	}
 	protected void finalize() throws Throwable{
 		Exit();
@@ -267,6 +272,11 @@ public class Model {
 	public static void setTARGETHOST(String _TARGETHOST){
 		saveState.TARGETHOST = _TARGETHOST;
 		TARGETHOST = _TARGETHOST;
+		saveState.serialize();
+	}
+	public static void setTARGETPORT(int intt){
+		saveState.TARGETPORT =  intt;
+		TARGETPORT =  intt;
 		saveState.serialize();
 	}
 	public static void setMOSID(String _MOSID){

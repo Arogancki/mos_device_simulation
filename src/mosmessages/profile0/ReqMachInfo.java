@@ -1,4 +1,6 @@
 package mosmessages.profile0;
+import java.util.ArrayList;
+
 import mosmessages.MosMessage;
 import mossimulator.Model;
 
@@ -9,13 +11,13 @@ public class ReqMachInfo extends MosMessage {
 		super(Model.getLowerPort());
 	}
 	//@Override
-		public static void AfterReceiving(Model.MessageInfo message,Model.Port _port){
-			MosMessage.AfterReceiving(message,_port);
-			new ListMachInfo().setPort(_port).Send();
+		public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
+			MosMessage.AfterReceiving(message,m);
+			new ListMachInfo().Send(m);
 		}
 		@Override
 		public void AfterSending(){
-			getResponse();
+			
 		}
 		@Override
 		public void PrepareToSend() {

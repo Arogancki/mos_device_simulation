@@ -5,17 +5,21 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import mosmessages.profile1.MosAck;
+
 //import java.util.Scanner;
 
 public class Console {
+	public static boolean IS_INTERACTIVE_MODE_ON = false;
 	public static void start(String[] args){
-		boolean powerSwitch = false;
+		boolean powerSwitch = true;
+		if (args.length < 1){
+			IS_INTERACTIVE_MODE_ON = true;
+		}
+		System.out.println("type 'q' to quit.");
+		new MosAck(); // to iniciate all static field etc
 		do{
 			if (args.length < 1){
-				if (!powerSwitch){
-					System.out.println("Interactive mode (type 'CTR-C' to quit).");
-					powerSwitch = true;
-				}
 				do {
 					ArrayList<String> list = new ArrayList<String>();
 					Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher((new Scanner(System.in)).nextLine());
