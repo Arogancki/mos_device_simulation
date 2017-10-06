@@ -14,7 +14,7 @@ public class Settings {
 			}
 			else if (type.equalsIgnoreCase("s") || type.equalsIgnoreCase("show") ){
 				System.out.println("Target host: " + Model.TARGETHOST + ".");	
-				System.out.println("Target port: " + Model.TARGETPORT + ".");	
+				System.out.println("Host port: " + Model.TARGETPORT + ".");	
 				System.out.println("MOSID: " + Model.MOSID + ".");
 				System.out.println("NCSID: " + Model.NCSID + ".");
 				System.out.println("Maximum waiting time for response: " + Model.SECTOWAIT + " (seconds).");	

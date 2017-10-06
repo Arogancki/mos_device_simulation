@@ -43,7 +43,6 @@ public class Print {
 							Model.MessageInfo message = iterator.next();
 							if (deleteFlag){
 								Model.RemoveFromList(start);
-								iterator = Model.messages.listIterator(start);
 								System.out.print("Deleted: \n");
 							}
 							System.out.print(message.toString());

@@ -253,7 +253,7 @@ public class Model {
 			//profile 6
 			//profile 7
 			default:
-				System.out.println("Unsupported MOS message recived."); break;
+				System.out.println("Unsupported MOS message recived: "+getMosType()); break;
 			}
 		}
 		@Override
