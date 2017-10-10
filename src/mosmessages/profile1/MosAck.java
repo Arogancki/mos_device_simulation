@@ -9,7 +9,7 @@ import mossimulator.Model;
 public class MosAck extends MosMessage {
 	
 	private String objectUID = "";
-	private String objRev = "";
+	private String objRev = "0";
 	private String StatusDescription = "";
 	private mosmessages.defined.Status status = mosmessages.defined.Status.OK;
 	

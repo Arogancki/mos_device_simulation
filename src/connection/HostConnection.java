@@ -112,11 +112,10 @@ class HandleConnection extends Thread{
 				}
 				try {
 					semaphore.acquire();
-					if (messages.size()>0){
+					while (messages.size()>0){
 						DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
 						MosMessage message = messages.get(0);
 						messages.remove(0);
-						semaphore.release();
 						String content = message.toString();
 						byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
 						socketInput.write(toByte, 0 , content.length() * 2);
@@ -124,9 +123,7 @@ class HandleConnection extends Thread{
 						System.out.println("Message sent: "+new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument()).getMosType());
 						message.AfterSending();
 					}
-					else{
-						semaphore.release();
-					}
+					semaphore.release();
 				} catch (InterruptedException e){}
 			}
 			catch(IOException e){}
@@ -195,8 +192,11 @@ public class HostConnection extends Thread{
 		try{
 			hashSemaphore.acquire();
 			for (String key: hashConnections.keySet()){
-				if (hashConnections.get(key).contains(hc)){
-					hashConnections.get(key).remove(hc);
+				Hashtable<Integer, HandleConnection> ht = hashConnections.get(key);
+				if (ht.contains(hc)){
+					ht.remove(hc);
+					if (ht.size()==0)
+						hashConnections.remove(key);
 					hashSemaphore.release();
 					return true;
 				}

@@ -56,7 +56,7 @@ public class ClientConnection extends Thread{
 						lastConnectionCheckTime=System.currentTimeMillis();
 					}
 				}
-				// sending
+				// send
 				if (socket.isClosed()){
 					System.out.println(host+":"+port+"Connection closed.");
 					powerSwitch=false;
@@ -64,11 +64,10 @@ public class ClientConnection extends Thread{
 				}
 				try {
 					semaphore.acquire();
-					if (messages.size()>0){
+					while (messages.size()>0){
 						DataOutputStream socketInput = new DataOutputStream(socket.getOutputStream());
 						MosMessage message = messages.get(0);
 						messages.remove(0);
-						semaphore.release();
 						String content = message.toString();
 						byte[] toByte = content.getBytes(StandardCharsets.UTF_16BE);
 						socketInput.write(toByte, 0 , content.length() * 2);
@@ -76,10 +75,9 @@ public class ClientConnection extends Thread{
 						System.out.println("Sent message: "+new Model.MessageInfo(Model.MessageInfo.Direction.OUT, content, message.getDocument()).getMosType());
 						message.AfterSending();
 					}
-					else
-						semaphore.release();
+					semaphore.release();
 				} catch (InterruptedException e){}
-				// receiving
+				// get
 				if (socket.isClosed()){
 					System.out.println(host+":"+port+"Connection closed.");
 					powerSwitch=false;

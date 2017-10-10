@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Hashtable;
 
 import mosmessages.MosMessage;
+import mosmessages.profile1.MosAck;
 import mossimulator.Model;
 
 import org.w3c.dom.Element;

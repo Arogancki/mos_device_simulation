@@ -294,10 +294,12 @@ public class MosObj implements Serializable{
 		    AddMosObj();
 		else
 			System.out.println("Uncorrect UID.");
+		Serialize();
 	}
 	public MosObj(String _objID){
 		objID = _objID;
 		AddMosObj();
+		Serialize();
 	}
 	public MosObj(){
 		try{

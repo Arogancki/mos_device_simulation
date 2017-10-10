@@ -130,8 +130,12 @@ public class Model {
 		try {
 			semaphoreHashtable.acquire();
 			for (String key : clients.keySet()){
-				if (clients.contains(cc)){
+				Hashtable<Integer, ClientConnection> ht = clients.get(key);
+				if (ht.contains(cc)){
 					clients.remove(cc);
+					if (ht.size()==0){
+						clients.remove(key);
+					}
 					semaphoreHashtable.release();
 					return true;
 				}
@@ -139,7 +143,6 @@ public class Model {
 			semaphoreHashtable.release();
 			return false;
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -226,6 +229,28 @@ public class Model {
 				return nodeList.item(0).getTextContent();
 			return null;
 		}
+		public static Node GetFromElement(Node input, String tagname){
+			if (input.getNodeName().equalsIgnoreCase(tagname))
+				return input;
+			NodeList nodeList = input.getChildNodes();
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Node node = nodeList.item(i);
+				if (node.getNodeName().equalsIgnoreCase(tagname)){
+					return node;
+				}
+			}
+			return null;
+		}
+		public static String GetNodeContext(Node input){
+			return input.getTextContent();
+		}
+		public static String GetNodeContext(Node input, String tagname){
+			Node node = GetFromElement(input, tagname);
+			if (node==null){
+				return ""; 
+			}
+			return GetNodeContext(node);
+		}
 		public void CallReceiveFunction(ArrayList<MosMessage> m){
 			switch (getMosType().toLowerCase()) {
 			// profile 0
@@ -235,7 +260,7 @@ public class Model {
 				ReqMachInfo.AfterReceiving(this, m); break;
 			case "listmachinfo":
 				ListMachInfo.AfterReceiving(this, m); break;
-            //profile 1mm
+            //profile 1
 			case "mosack":
 				MosAck.AfterReceiving(this, m);break;
 			case "mosobj":
@@ -247,7 +272,33 @@ public class Model {
 			case "moslistall":
 				mosmessages.profile1.MosListAll.AfterReceiving(this, m); break;
 			//profile 2
+			case "roack":
+				mosmessages.profile2.roAck.AfterReceiving(this, m); break;
+			case "rocreate":
+				mosmessages.profile2.roCreate.AfterReceiving(this, m); break;
+			case "roreplace":
+				mosmessages.profile2.roReplace.AfterReceiving(this, m); break;
+			case "rodelete":
+				mosmessages.profile2.roDelete.AfterReceiving(this, m); break;
+			case "roreq":
+				mosmessages.profile2.roReq.AfterReceiving(this, m); break;
+			case "rolist":
+				mosmessages.profile2.roList.AfterReceiving(this, m); break;
+			case "rometadatareplace":
+				mosmessages.profile2.roMetadataReplace.AfterReceiving(this, m); break;
+			case "roelementstat":
+				mosmessages.profile2.roElementStat.AfterReceiving(this, m); break;
+			case "roelementaction":
+				mosmessages.profile2.roElementAction.AfterReceiving(this, m); break;
+			case "roreadytoair":
+				mosmessages.profile2.roReadyToAir.AfterReceiving(this, m); break;
 			//profile 3
+			case "osobjcreate":
+				mosmessages.profile3.MosObjCreate.AfterReceiving(this, m); break;
+			case "rolistall":
+				mosmessages.profile3.roListAll.AfterReceiving(this, m); break;
+			case "roreqall":
+				mosmessages.profile3.roReqAll.AfterReceiving(this, m); break;
 			//profile 4
 			//profile 5
 			//profile 6

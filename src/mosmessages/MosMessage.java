@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import mosmessages.profile1.MosAck;
 import mossimulator.Model;
 
 import org.w3c.dom.Document;
@@ -145,22 +146,41 @@ public abstract class MosMessage {
 	public void AfterSending(){}
 	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
 		System.out.println("Recived - " + message.getMosType() + ":\n" + MosMessage.PrintXML(message.getDocument()));
+		String id = message.GetFromXML("messageID");
+		if (id!=null){
+			new MosAck().setObjectUID(id).setStatus(mosmessages.defined.Status.ACK).setStatusDescription(id).Send(m);
+		}
 	}
 	public Document getDocument(){return xmlDoc;}
-	/*protected Model.MessageInfo getResponse(){
-		String message = port.GetMessage();
-		Model.MessageInfo result = null;
-		if (message!=""){
-			try {
-				result = new Model.MessageInfo(Model.MessageInfo.Direction.IN, message);
-				result.CallReceiveFunction(this.port);
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-		}
-		else{
-			System.out.println("Response not received");
-		}
-		return result;
-	}*/
 }
+
+
+
+/*
+
+MESSAGE CLASS TEMPLATE
+
+public class [messageName] extends MosMessage{
+	protected [messageName]() {
+		super([option]); options: Model.getUpperPort() or Model.getLowerPort() // set default port 
+	}
+	//@Override
+	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
+		MosMessage.AfterReceiving(message, m);// run to print that is received
+		
+	}
+	@Override
+	public void AfterSending(){
+	// behavior after sending - for example delete some items or something
+	}
+	@Override
+	public void PrepareToSend() {
+		Element mos = xmlDoc.getDocumentElement();
+		
+		Element x = xmlDoc.createElement("XML_ELEMENT_NAME");
+		x.appendChild(xmlDoc.createTextNode("Value_of_element"));
+		mos.appendChild(x); // save element as child of an other element
+	}
+}
+
+*/
