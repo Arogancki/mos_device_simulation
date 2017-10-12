@@ -146,10 +146,15 @@ public abstract class MosMessage {
 	public void AfterSending(){}
 	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
 		System.out.println("Recived - " + message.getMosType() + ":\n" + MosMessage.PrintXML(message.getDocument()));
+		/*
 		String id = message.GetFromXML("messageID");
 		if (id!=null){
 			new MosAck().setObjectUID(id).setStatus(mosmessages.defined.Status.ACK).setStatusDescription(id).Send(m);
 		}
+		else{
+			System.out.println("Received corrupted message - no messageID - MOSmEssage");
+		}
+		*/
 	}
 	public Document getDocument(){return xmlDoc;}
 }

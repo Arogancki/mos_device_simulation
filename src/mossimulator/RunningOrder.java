@@ -288,4 +288,7 @@ public class RunningOrder implements Serializable{
 			return roTrigger.toString()+" "+(this.trigerChainedValue>=0?"+"+this.trigerChainedValue:this.trigerChainedValue);
 		return roTrigger.toString();
 	}
+	public ArrayList<Story> getStoryArray(){
+		return this.stories;
+	}
 }

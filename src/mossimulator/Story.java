@@ -188,5 +188,7 @@ public class Story implements Serializable{
 		}
 		return this;
 	}
-	
+	public ArrayList<Item> getItemsArray(){
+		return this.items;
+	}
 }

@@ -5,13 +5,25 @@ import java.util.ArrayList;
 import org.w3c.dom.Element;
 
 public class roReplace extends MosMessage{
+	private String roID = "";
+	public roReplace setRoID(String roID){
+		this.roID = roID;
+		return this;
+	}
 	protected roReplace() {
 		super(Model.getUpperPort());
 	}
 	//@Override
 		public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
-			MosMessage.AfterReceiving(message, m);
-			
+			MosMessage.AfterReceiving(message, m);		
+			String requestedRoID = message.GetFromXML("roID");
+			if (requestedRoID!=null && !requestedRoID.equals("")){
+				new mossimulator.RunningOrder(message.GetFromElement(message.getDocument().getChildNodes().item(0), "roReplace"));
+				new roAck().setRoID(requestedRoID).addRoAckInner(mosmessages.defined.Status.OK).Send(m);
+			}else{
+				System.out.println("Error during parsing the message! no roID - Received roReplace");
+				new roAck().setRoID(requestedRoID).addRoAckInner(mosmessages.defined.Status.NACK).Send(m);
+			}
 		}
 		@Override
 		public void AfterSending(){
@@ -20,8 +32,10 @@ public class roReplace extends MosMessage{
 		public void PrepareToSend() {
 			Element mos = xmlDoc.getDocumentElement();
 			
-			Element x = xmlDoc.createElement("x");
-			x.appendChild(xmlDoc.createTextNode("x"));
-			mos.appendChild(x);
+			if (!this.roID.equals("")){
+				Element roReplace = xmlDoc.createElement("roReplace");
+				mossimulator.RunningOrder.getRunningOrderObj(this.roID).BuildXml(roReplace, xmlDoc);
+				mos.appendChild(roReplace);
+			}
 		}
 }

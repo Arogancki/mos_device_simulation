@@ -19,11 +19,16 @@ public class MosReqObj extends MosMessage {
 	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
 		MosMessage.AfterReceiving(message,  m);
 		String key = message.GetFromXML("objID");
-		if (mossimulator.MosObj.Contains(key)){
-			new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).Send(m);
+		if (key==null){
+			System.out.println("Received coruppted message: no objID - mosreqobj");
 		}
 		else{
-			new MosAck().setObjectUID(key).setStatus(Status.OK).setStatusDescription("MOSObj not found").Send(m);
+			if (mossimulator.MosObj.Contains(key)){
+				new MosObj().setMosObj(mossimulator.MosObj.getMosObj(key)).Send(m);
+			}
+			else{
+				new MosAck().setObjectUID(key).setStatus(Status.OK).setStatusDescription("MOSObj not found").Send(m);
+			}
 		}
 		
 	}

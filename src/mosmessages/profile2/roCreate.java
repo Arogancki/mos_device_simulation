@@ -28,9 +28,8 @@ public class roCreate extends MosMessage{
 		Element roCreate = xmlDoc.createElement("roCreate");
 		mos.appendChild(roCreate);
 		
-		if (roID!=""){
-			RunningOrder ro = RunningOrder.getRunningOrderObj(roID);
-			ro.BuildXml(roCreate, xmlDoc);
+		if (!roID.equals("")){
+			RunningOrder.getRunningOrderObj(roID).BuildXml(roCreate, xmlDoc);
 		}
 	}
 	public boolean setRoID(String roID){

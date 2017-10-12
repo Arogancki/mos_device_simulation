@@ -7,31 +7,30 @@ import mosmessages.MosMessage;
 import mossimulator.Model;
 
 public class roAck extends MosMessage{
-	class RoAckInner{
+	class RoStatus{
 		private String storyID = "";
 		private String itemID = "";
 		private String objID = "";
 		private String itemChannel = "";
 		private mosmessages.defined.Status status = null;
-		public RoAckInner(String storyID, String itemID, String objID, mosmessages.defined.Status status){
+		public RoStatus(String storyID, String itemID, String objID, mosmessages.defined.Status status){
 			this.storyID=storyID;
 			this.itemID=itemID;
 			this.objID=objID;
 			this.status=status;
 		}
-		public RoAckInner setItemChannel(String itemChannel){
+		public RoStatus(mosmessages.defined.Status status){
+			this.status = status;
+		}
+		public RoStatus setItemChannel(String itemChannel){
 			this.itemChannel = itemChannel;
 			return this;
 		}
 	}
-	private ArrayList<RoAckInner> roAckInners = new ArrayList<RoAckInner>();
+	private ArrayList<RoStatus> roStatuses = new ArrayList<RoStatus>();
 	private String roID="";
-	private String roStatus="";
 	public String getRoID(){
 		return this.roID;
-	}
-	public String getRoStatus(){
-		return this.roStatus;
 	}
 	public roAck setRoID(String roID){
 		if (roID.length()<=128){
@@ -39,17 +38,17 @@ public class roAck extends MosMessage{
 		}
 		return this;
 	}
-	public roAck setRoStatus(String roStatus){
-		if (roStatus.length()<=128){
-			this.roStatus=roStatus;
-		}
+	public roAck addRoAckInner(String storyID, String itemID, String objI, mosmessages.defined.Status status, String itemChannel){
+		roStatuses.add(new RoStatus(storyID, itemID, objI, status).setItemChannel(itemChannel));
 		return this;
 	}
-	public void addRoAckInner(String storyID, String itemID, String objI, mosmessages.defined.Status status){
-		roAckInners.add(new RoAckInner(storyID, itemID, objI, status));
+	public roAck addRoAckInner(String storyID, String itemID, String objI, mosmessages.defined.Status status){
+		roStatuses.add(new RoStatus(storyID, itemID, objI, status));
+		return this;
 	}
-	public void addAckInner(String storyID, String itemID, String objI, mosmessages.defined.Status status, String itemChannel){
-		roAckInners.add(new RoAckInner(storyID, itemID, objI, status).setItemChannel(itemChannel));
+	public roAck addRoAckInner(mosmessages.defined.Status status){
+		roStatuses.add(new RoStatus(status));
+		return this;
 	}
 	protected roAck() {
 		super(Model.getUpperPort());
@@ -68,36 +67,38 @@ public class roAck extends MosMessage{
 		Element roAck = xmlDoc.createElement("roAck");
 		mos.appendChild(roAck);
 		
-		Element roID = xmlDoc.createElement("roID");
-		roID.appendChild(xmlDoc.createTextNode(this.roID));
-		roAck.appendChild(roID);
+		if (!this.roID.equals("")){
+			Element roID = xmlDoc.createElement("roID");
+			roID.appendChild(xmlDoc.createTextNode(this.roID));
+			roAck.appendChild(roID);
+		}
 		
-		Element roStatus = xmlDoc.createElement("roStatus");
-		roStatus.appendChild(xmlDoc.createTextNode(this.roStatus));
-		roAck.appendChild(roStatus);
+		Element roStatusElement = xmlDoc.createElement("roStatus");
+		roAck.appendChild(roStatusElement);
 		
-		for (RoAckInner roAckInner : roAckInners){
+		for (RoStatus roStatus : roStatuses){
+			
 			Element storyID = xmlDoc.createElement("storyID");
-			storyID.appendChild(xmlDoc.createTextNode(roAckInner.storyID));
-			roAck.appendChild(storyID);
+			storyID.appendChild(xmlDoc.createTextNode(roStatus.storyID));
+			roStatusElement.appendChild(storyID);
 			
 			Element itemID = xmlDoc.createElement("itemID");
-			itemID.appendChild(xmlDoc.createTextNode(roAckInner.itemID));
-			roAck.appendChild(itemID);
+			itemID.appendChild(xmlDoc.createTextNode(roStatus.itemID));
+			roStatusElement.appendChild(itemID);
 			
 			Element objID = xmlDoc.createElement("objID");
-			objID.appendChild(xmlDoc.createTextNode(roAckInner.objID));
-			roAck.appendChild(objID);
+			objID.appendChild(xmlDoc.createTextNode(roStatus.objID));
+			roStatusElement.appendChild(objID);
 			
-			if (!roAckInner.itemChannel.equals("")){
+			if (!roStatus.itemChannel.equals("")){
 				Element itemChannel = xmlDoc.createElement("itemChannel");
-				itemChannel.appendChild(xmlDoc.createTextNode(roAckInner.itemChannel));
-				roAck.appendChild(itemChannel);	
+				itemChannel.appendChild(xmlDoc.createTextNode(roStatus.itemChannel));
+				roStatusElement.appendChild(itemChannel);	
 			}
 			
 			Element status = xmlDoc.createElement("status");
-			status.appendChild(xmlDoc.createTextNode(roAckInner.status.toString()));
-			roAck.appendChild(status);
+			status.appendChild(xmlDoc.createTextNode(roStatus.status.toString()));
+			roStatusElement.appendChild(status);
 		}
 	}
 }

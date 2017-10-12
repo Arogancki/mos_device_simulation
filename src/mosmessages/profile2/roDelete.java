@@ -13,16 +13,17 @@ public class roDelete extends MosMessage{
 	public static void AfterReceiving(Model.MessageInfo message, ArrayList<MosMessage> m){
 		MosMessage.AfterReceiving(message, m);
 		String key = message.GetFromXML("roID");
-		if (mossimulator.RunningOrder.Contains(key)){
-			mossimulator.RunningOrder.remove(key);
+		if (key!=null && mossimulator.RunningOrder.Contains(key)){
+				new roAck().addRoAckInner(mosmessages.defined.Status.OK).Send(m);
+				mossimulator.RunningOrder.remove(key);
 		}
-		new roAck().Send(m);
+		else{
+			System.out.println("Received corrupted message - no roID - roDelete");
+			new roAck().addRoAckInner(mosmessages.defined.Status.NACK).Send(m);
+		}
 	}
 	@Override
 	public void AfterSending(){
-		if (mossimulator.RunningOrder.Contains(roID)){
-			mossimulator.RunningOrder.remove(roID);
-		}
 	}
 	@Override
 	public void PrepareToSend() {
@@ -31,9 +32,11 @@ public class roDelete extends MosMessage{
 		Element roDelete = xmlDoc.createElement("roDelete");
 		mos.appendChild(roDelete);
 
-		Element roID = xmlDoc.createElement("roID");
-		roID.appendChild(xmlDoc.createTextNode(this.roID));
-		mos.appendChild(roID);
+		if (!this.roID.equals("")){
+			Element roID = xmlDoc.createElement("roID");
+			roID.appendChild(xmlDoc.createTextNode(this.roID));
+			roDelete.appendChild(roID);
+		}
 	}
 	public boolean setRoID(String roID){
 		if (mossimulator.RunningOrder.Contains(roID)){
