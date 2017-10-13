@@ -326,13 +326,31 @@ public class Item implements Serializable{
 		Serialize();
 		return this;
 	}
-	public Item setItemTrigger(String itemTrigger) {
-		mosmessages.defined.Trigger trigger = mosmessages.defined.Trigger.getFromString(itemTrigger);
-		if (trigger!=null){
-			setItemTrigger(trigger);
+	public Item setRoTrigger(String roTrigger) {
+		if (roTrigger.startsWith("CHAINED")){
+			String[] chainedArray = roTrigger.split(" ");
+			if (chainedArray.length >= 2){
+				chainedArray[1] = chainedArray[1].startsWith("+") ? chainedArray[1].substring(1) : chainedArray[1];
+				mosmessages.defined.Trigger backup = this.itemTrigger;
+				try {
+					setItemTrigger(mosmessages.defined.Trigger.CHAINED);
+					setTrigerChainedvalue(Integer.valueOf(chainedArray[1]));
+				}
+				catch(NumberFormatException e){
+					setItemTrigger(backup);
+					System.out.println("Wrong format - setRoTrigger: excepted "+mosmessages.defined.Trigger.values());
+				}
+			}
+			else{
+				System.out.println("Wrong format - setRoTrigger: excepted "+mosmessages.defined.Trigger.values());
+			}
 		}
 		else{
-			System.out.println("Wrong format - setItemTrigger: excepted "+mosmessages.defined.Trigger.values());
+			Trigger parsed = mosmessages.defined.Trigger.getFromString(roTrigger);
+			if (parsed!=null)
+				setItemTrigger(parsed);
+			else
+				System.out.println("Wrong format - setRoTrigger: excepted "+mosmessages.defined.Trigger.values());
 		}
 		return this;
 	}

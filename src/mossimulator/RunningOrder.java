@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
 
+import mosmessages.defined.Trigger;
+import mosmessages.profile2.RoMetadataReplace;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -185,6 +188,13 @@ public class RunningOrder implements Serializable{
 	public String getRoID() {
 		return roID;
 	}
+	public Story getStory(String storyID){
+		for (Story story : stories){
+			if (story.getStoryID().equalsIgnoreCase(storyID))
+				return story;
+		}
+		return null;
+	}
 	public RunningOrder setRoID(String roID) {
 		if (roID.length()<=128){
 			this.roID = roID;
@@ -241,12 +251,30 @@ public class RunningOrder implements Serializable{
 		return this;
 	}
 	public RunningOrder setRoTrigger(String roTrigger) {
-		mosmessages.defined.Trigger trigger = mosmessages.defined.Trigger.getFromString(roTrigger);
-		if (trigger!=null){
-			setRoTrigger(trigger); 
+		if (roTrigger.startsWith("CHAINED")){
+			String[] chainedArray = roTrigger.split(" ");
+			if (chainedArray.length >= 2){
+				chainedArray[1] = chainedArray[1].startsWith("+") ? chainedArray[1].substring(1) : chainedArray[1];
+				mosmessages.defined.Trigger backup = this.roTrigger;
+				try {
+					setRoTrigger(mosmessages.defined.Trigger.CHAINED);
+					setTrigerChainedvalue(Integer.valueOf(chainedArray[1]));
+				}
+				catch(NumberFormatException e){
+					setRoTrigger(backup);
+					System.out.println("Wrong format - setRoTrigger: excepted "+mosmessages.defined.Trigger.values());
+				}
+			}
+			else{
+				System.out.println("Wrong format - setRoTrigger: excepted "+mosmessages.defined.Trigger.values());
+			}
 		}
 		else{
-			System.out.println("Wrong format - setItemTrigger: excepted "+mosmessages.defined.Trigger.values());
+			Trigger parsed = mosmessages.defined.Trigger.getFromString(roTrigger);
+			if (parsed!=null)
+				setRoTrigger(parsed);
+			else
+				System.out.println("Wrong format - setRoTrigger: excepted "+mosmessages.defined.Trigger.values());
 		}
 		return this;
 	}
@@ -291,4 +319,5 @@ public class RunningOrder implements Serializable{
 	public ArrayList<Story> getStoryArray(){
 		return this.stories;
 	}
+	
 }

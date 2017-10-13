@@ -273,25 +273,25 @@ public class Model {
 				mosmessages.profile1.MosListAll.AfterReceiving(this, m); break;
 			//profile 2
 			case "roack":
-				mosmessages.profile2.roAck.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoAck.AfterReceiving(this, m); break;
 			case "rocreate":
-				mosmessages.profile2.roCreate.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoCreate.AfterReceiving(this, m); break;
 			case "roreplace":
-				mosmessages.profile2.roReplace.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoReplace.AfterReceiving(this, m); break;
 			case "rodelete":
-				mosmessages.profile2.roDelete.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoDelete.AfterReceiving(this, m); break;
 			case "roreq":
-				mosmessages.profile2.roReq.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoReq.AfterReceiving(this, m); break;
 			case "rolist":
-				mosmessages.profile2.roList.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoList.AfterReceiving(this, m); break;
 			case "rometadatareplace":
-				mosmessages.profile2.roMetadataReplace.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoMetadataReplace.AfterReceiving(this, m); break;
 			case "roelementstat":
-				mosmessages.profile2.roElementStat.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoElementStat.AfterReceiving(this, m); break;
 			case "roelementaction":
-				mosmessages.profile2.roElementAction.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoElementAction.AfterReceiving(this, m); break;
 			case "roreadytoair":
-				mosmessages.profile2.roReadyToAir.AfterReceiving(this, m); break;
+				mosmessages.profile2.RoReadyToAir.AfterReceiving(this, m); break;
 			//profile 3
 			case "osobjcreate":
 				mosmessages.profile3.MosObjCreate.AfterReceiving(this, m); break;
