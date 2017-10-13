@@ -12,7 +12,7 @@ public class RoReadyToAir extends MosMessage{
 		this.roID=roID;
 		return this;
 	}
-	protected RoReadyToAir() {
+	public RoReadyToAir() {
 		super(Model.getUpperPort());
 	}
 	//@Override

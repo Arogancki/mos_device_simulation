@@ -18,7 +18,7 @@ public class RoElementAction extends MosMessage{
 	private String TargetItemID = "";
 	private ArrayList<String> storyIDs = new ArrayList<String>();
 	private ArrayList<String> itemIDs = new ArrayList<String>();
-	protected RoElementAction() {
+	public RoElementAction() {
 		super(Model.getUpperPort());
 	}
 	//@Override
@@ -488,6 +488,24 @@ public class RoElementAction extends MosMessage{
 	}
 	public RoElementAction setTargetItemID(String itemID) {
 		this.TargetItemID = itemID;
+		return this;
+	}
+	public RoElementAction addItem(String roID){
+			if (mossimulator.Item.Contains(roID)){
+				this.itemIDs.add(roID);
+			}
+			else{
+				System.out.println("Not known roID for Item on roElementAction-add Item.");
+			}
+			return this;
+		}
+	public RoElementAction addStory(String roID){
+		if (mossimulator.Story.Contains(roID)){
+			this.storyIDs.add(roID);
+		}
+		else{
+			System.out.println("Not known roID for Story on roElementAction-add Story.");
+		}
 		return this;
 	}
 }

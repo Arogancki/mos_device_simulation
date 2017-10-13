@@ -9,7 +9,7 @@ import mossimulator.RunningOrder;
 
 public class RoCreate extends MosMessage{
 	private String roID="";
-	protected RoCreate() {
+	public RoCreate() {
 		super(Model.getUpperPort());
 	}
 	//@Override

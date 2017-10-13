@@ -18,7 +18,7 @@ public class RoElementStat extends MosMessage{
 	private String itemChannel = "";
 	private mosmessages.defined.Status status = null;
 	private String time = "";
-	protected RoElementStat() {
+	public RoElementStat() {
 		super(Model.getUpperPort());
 	}
 	//@Override

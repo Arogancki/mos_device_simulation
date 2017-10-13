@@ -50,7 +50,7 @@ public class RoAck extends MosMessage{
 		roStatuses.add(new RoStatus(status));
 		return this;
 	}
-	protected RoAck() {
+	public RoAck() {
 		super(Model.getUpperPort());
 	}
 	//@Override

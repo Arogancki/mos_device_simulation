@@ -10,7 +10,7 @@ public class RoReplace extends MosMessage{
 		this.roID = roID;
 		return this;
 	}
-	protected RoReplace() {
+	public RoReplace() {
 		super(Model.getUpperPort());
 	}
 	//@Override

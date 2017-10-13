@@ -8,12 +8,23 @@ import mosmessages.profile1.MosListAll;
 import mosmessages.profile1.MosObj;
 import mosmessages.profile1.MosReqAll;
 import mosmessages.profile1.MosReqObj;
+import mosmessages.profile2.RoAck;
+import mosmessages.profile2.RoCreate;
+import mosmessages.profile2.RoDelete;
+import mosmessages.profile2.RoElementAction;
+import mosmessages.profile2.RoElementStat;
+import mosmessages.profile2.RoList;
+import mosmessages.profile2.RoMetadataReplace;
+import mosmessages.profile2.RoReadyToAir;
+import mosmessages.profile2.RoReplace;
+import mosmessages.profile2.RoReq;
 
 public class Message {
 	private static String[] args;
 	static void start(String[] input){
 		args = input;
 		for (int index = 0; index < args.length; index++){
+			//profile 1
 			if (args[index].equalsIgnoreCase("heartbeat")){
 				new Heartbeat().activeExpectingReply().Send();
 			}
@@ -26,6 +37,7 @@ public class Message {
 			else if (args[index].equalsIgnoreCase("mosack")){
 				index = mosack(index);
 			}
+			//profile 2
 			else if (args[index].equalsIgnoreCase("moslistall")){
 				new MosListAll().Send();
 			}
@@ -38,6 +50,41 @@ public class Message {
 			else if (args[index].equalsIgnoreCase("mosreqobj")){
 				index = mosreqobj(index);
 			}
+			//profile 3
+			else if (args[index].equalsIgnoreCase("roack")){
+				index = roack(index);
+			}
+			else if (args[index].equalsIgnoreCase("rocreate")){
+				index = rocreate(index);
+			}
+			else if (args[index].equalsIgnoreCase("roreplace")){
+				index = roreplace(index);
+			}
+			else if (args[index].equalsIgnoreCase("rodelete")){
+				index = rodelete(index);
+			}
+			else if (args[index].equalsIgnoreCase("roreq")){
+				index = roreq(index);
+			}
+			else if (args[index].equalsIgnoreCase("rolist")){
+				index = rolist(index);
+			}
+			else if (args[index].equalsIgnoreCase("rometadatareplace")){
+				index = rometadatareplace(index);
+			}
+			else if (args[index].equalsIgnoreCase("roelementstat")){
+				index = roelementstat(index);
+			}
+			else if (args[index].equalsIgnoreCase("roelementaction")){
+				index = roelementaction(index);
+			}
+			else if (args[index].equalsIgnoreCase("roreadytoair")){
+				index = roreadytoair(index);
+			}
+			//profile 4
+			//profile 5
+			//profile 6
+			//profile 7
 			else {
 				System.out.println("Unsupported option: " + args[index] + ".");
 				break;
@@ -307,6 +354,375 @@ public class Message {
 						System.out.println("Wrong argument: " + args[index] + ". Excepted Long.");
 					}
 					
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int roack(int index){
+		RoAck mess = new RoAck();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int rocreate(int index){
+		RoCreate mess = new RoCreate ();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int roreplace(int index){
+		RoReplace mess = new RoReplace();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int rodelete(int index){
+		RoDelete mess = new RoDelete();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int roreq(int index){
+		RoReq mess = new RoReq();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int rolist(int index){
+		RoList mess = new RoList();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int rometadatareplace(int index){
+		RoMetadataReplace mess = new RoMetadataReplace();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("roSlug") || args[index].equalsIgnoreCase("-roSlug")){
+				if (++index < args.length){
+					mess.setRoSlug(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("roChannel") || args[index].equalsIgnoreCase("-roChannel")){
+				if (++index < args.length){
+					mess.setRoChannel(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("roEdStart") || args[index].equalsIgnoreCase("-roEdStart")){
+				if (++index < args.length){
+					mess.setRoEdStart(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("roEdDur") || args[index].equalsIgnoreCase("-roEdDur")){
+				if (++index < args.length){
+					mess.setRoEdDur(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("macroOut") || args[index].equalsIgnoreCase("-macroOut")){
+				if (++index < args.length){
+					mess.setMacroOut(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("roTrigger") || args[index].equalsIgnoreCase("-roTrigger")){
+				if (++index < args.length){
+					mess.setRoTrigger(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("macroIn") || args[index].equalsIgnoreCase("-macroIn")){
+				if (++index < args.length){
+					mess.setMacroIn(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int roelementstat(int index){
+		RoElementStat mess = new RoElementStat ();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("storyID") || args[index].equalsIgnoreCase("-storyID")){
+				if (++index < args.length){
+					mess.setStoryID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("itemID") || args[index].equalsIgnoreCase("-itemID")){
+				if (++index < args.length){
+					mess.setItemID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("objID") || args[index].equalsIgnoreCase("-objID")){
+				if (++index < args.length){
+					mess.setObjID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("itemChannel") || args[index].equalsIgnoreCase("-itemChannel")){
+				if (++index < args.length){
+					mess.setItemChannel(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("status") || args[index].equalsIgnoreCase("-status")){
+				if (++index < args.length){
+					mess.setStatus(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("time") || args[index].equalsIgnoreCase("-time")){
+				mess.setTimeNow();
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int roelementaction(int index){
+		RoElementAction mess = new RoElementAction();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("operation") || args[index].equalsIgnoreCase("-operation")){
+				if (++index < args.length){
+					mess.setRoElementAction(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("storyID") || args[index].equalsIgnoreCase("-storyID")){
+				if (++index < args.length){
+					mess.setTargetStoryID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("itemID") || args[index].equalsIgnoreCase("-itemID")){
+				if (++index < args.length){
+					mess.setTargetItemID(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("addStory") || args[index].equalsIgnoreCase("-addStory")){
+				if (++index < args.length){
+					mess.addStory(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else if (args[index].equalsIgnoreCase("addItem") || args[index].equalsIgnoreCase("-addItem")){
+				if (++index < args.length){
+					mess.addItem(args[index]);
+				}
+				else{
+					System.out.println("Missing pause value for " + args[index-1] + ".");
+				}
+			}
+			else{
+				mess.Send();
+				break;
+			}
+		}
+		return index;
+	}
+	private static int roreadytoair(int index){
+		RoReadyToAir mess = new RoReadyToAir();
+		while(true){
+			index++;
+			if (index >= args.length){
+				mess.Send();
+				break;
+			}
+			if (args[index].equalsIgnoreCase("roID") || args[index].equalsIgnoreCase("-roID")){
+				if (++index < args.length){
+					mess.setRoID(args[index]);
 				}
 				else{
 					System.out.println("Missing pause value for " + args[index-1] + ".");

@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 
 public class RoList extends MosMessage{
 	private String roID="";
-	protected RoList() {
+	public RoList() {
 		super(Model.getUpperPort());
 	}
 	public RoList setRoID(String roID){

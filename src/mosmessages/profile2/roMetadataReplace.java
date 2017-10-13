@@ -18,7 +18,7 @@ public class RoMetadataReplace extends MosMessage{
 	private int trigerChainedValue = 0;
 	private String macroIn = "";
 	private String macroOut = "";
-	protected RoMetadataReplace() {
+	public RoMetadataReplace() {
 		super(Model.getUpperPort());
 	}
 	//@Override

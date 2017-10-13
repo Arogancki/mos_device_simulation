@@ -6,7 +6,7 @@ import mossimulator.Model;
 
 public class RoDelete extends MosMessage{
 	private String roID="";
-	protected RoDelete() {
+	public RoDelete() {
 		super(Model.getUpperPort());
 	}
 	//@Override

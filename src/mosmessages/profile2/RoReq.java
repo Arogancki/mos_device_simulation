@@ -7,11 +7,11 @@ import mossimulator.Model;
 
 public class RoReq extends MosMessage{
 	private String roID="";
-	public RoReq setRoReq(String roID){
+	public RoReq setRoID(String roID){
 		this.roID = roID;
 		return this;
 	}
-	protected RoReq() {
+	public RoReq() {
 		super(Model.getUpperPort());
 	}
 	//@Override
