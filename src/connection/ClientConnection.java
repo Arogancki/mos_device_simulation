@@ -8,6 +8,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import mosmessages.MosMessage;
 import mosmessages.profile0.Heartbeat;
 import mossimulator.Model;
@@ -103,12 +107,12 @@ public class ClientConnection extends Thread{
 							new Model.MessageInfo(Model.MessageInfo.Direction.IN, readSocket).CallReceiveFunction(messages);
 							lastConnectionCheckTime = System.currentTimeMillis();
 							connectionCheck=false;
-						} catch (Throwable e) {
+						} catch (SAXException|IOException|ParserConfigurationException e) {
 							System.out.println("Receiving corrupted message:\n\"\n"+messages+"\n\"\n");
 						}
 					}
 				}
-				if ((System.currentTimeMillis()-lastConnectionCheckTime) >= Model.heartbeatSpace){
+				if (Model.heartbeatSpace>0 && (System.currentTimeMillis()-lastConnectionCheckTime) >= Model.heartbeatSpace){
 					if (connectionCheck){
 						powerSwitch=false;
 						System.out.println(host+":"+port+"Connection closed - heartbeat response wasn't received.");

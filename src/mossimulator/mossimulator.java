@@ -7,8 +7,7 @@ public class MosSimulator{
 	public static void main(String[] args) {
 		try{
 			Model.init();
-			//String[] tab = {"heartbeat"};
-			//String[] tab = {"s", "host", "10.105.250.217", "mosid", "tester Artur"};
+			//String[] tab = {"s", "ms", "-1"};
 			//console.Console.start(tab);
 			console.Console.start(args);
 		}
@@ -18,6 +17,5 @@ public class MosSimulator{
 		finally{
 			Model.Exit();
 		}
-		RoStoryItemPadding.ShowRo();
 	}
 }

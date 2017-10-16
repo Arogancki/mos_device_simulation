@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import mosmessages.MosMessage;
 import mosmessages.profile0.Heartbeat;
 import mossimulator.Model;
@@ -88,7 +92,7 @@ class HandleConnection extends Thread{
 							semaphore.acquire();
 							mi.CallReceiveFunction(messages);
 							semaphore.release();
-						} catch (Throwable e) {
+						} catch (SAXException|IOException|ParserConfigurationException|InterruptedException e) {
 							System.out.println("Receiving corrupted message:\n\"\n"+messages+"\n\"\n");
 						}
 					}

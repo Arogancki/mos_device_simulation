@@ -189,7 +189,7 @@ public class RunningOrder implements Serializable{
 		for (Story story : stories){
 			Element itemElement = xmlDoc.createElement("story");
 			story.BuildXml(itemElement, xmlDoc);
-			itemElement.appendChild(itemElement);
+			element.appendChild(itemElement);
 		}
 	}
 	public String getRoID() {

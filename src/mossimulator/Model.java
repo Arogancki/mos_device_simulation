@@ -207,7 +207,7 @@ public class Model {
 			direction = _direction;
 			AddToList(this);
 		}
-		public MessageInfo(Direction direction, String _message) throws Throwable{
+		public MessageInfo(Direction direction, String _message) throws SAXException, IOException, ParserConfigurationException{
 			this(direction, _message, DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(_message))));
 		}
 		public Document getDocument(){return xmlDoc;}

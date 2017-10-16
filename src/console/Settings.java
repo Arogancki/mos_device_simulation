@@ -64,7 +64,10 @@ public class Settings {
 					else if (type.equalsIgnoreCase("ms") || type.equalsIgnoreCase("messagespace")){
 						try {
 							int intt = Integer.valueOf(option);
-							System.out.println("Send checking heartbeat time " + Model.heartbeatSpace + " changed to " + option + ".");
+							if(intt>0)
+								System.out.println("Send checking heartbeat time " + Model.heartbeatSpace + " changed to " + option + ".");
+							else
+								System.out.println("Send checking heartbeat turned off.");
 							Model.setHeartbeatSpace(intt);
 						}
 						catch (NumberFormatException e){
