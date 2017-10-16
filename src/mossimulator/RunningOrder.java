@@ -319,5 +319,8 @@ public class RunningOrder implements Serializable{
 	public ArrayList<Story> getStoryArray(){
 		return this.stories;
 	}
+	public void AddStories(Story e){
+		this.stories.add(e);
+	}
 	
 }
