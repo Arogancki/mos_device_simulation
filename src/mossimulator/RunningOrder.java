@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -19,6 +20,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class RunningOrder implements Serializable{
+	public static void init(){
+		new RunningOrder(true);
+	}
+	private RunningOrder(boolean init){
+		
+	}
 	private static final long serialVersionUID = 1L;
 	static private Hashtable<String, RunningOrder> runningOrders = null;
 	private static final String ROFILE = "RunningOrders.ser";
@@ -197,7 +204,9 @@ public class RunningOrder implements Serializable{
 	}
 	public RunningOrder setRoID(String roID) {
 		if (roID.length()<=128){
+			runningOrders.remove(this.roID);
 			this.roID = roID;
+			runningOrders.put(this.roID, this);
 			Serialize();
 		}
 		return this;
@@ -321,6 +330,17 @@ public class RunningOrder implements Serializable{
 	}
 	public void AddStories(Story e){
 		this.stories.add(e);
+		Serialize();
 	}
-	
+	public void addItem(int ix, Story i){
+		this.stories.add(ix, i);
+		Serialize();
+	}
+	public void remove(int i) {
+		stories.remove(i);
+		Serialize();
+	}
+	public void swap(int index1, int index2) {
+		Collections.swap(this.stories, index1, index2);
+	}
 }

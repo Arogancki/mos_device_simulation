@@ -205,9 +205,12 @@ public class Item implements Serializable{
 		return itemID;
 	}
 	public Item setItemID(String itemID) {
-		if (itemID.length()<=128)
+		if (itemID.length()<=128){
+			items.remove(this.itemID);
 			this.itemID = itemID;
-		Serialize();
+			items.put(this.itemID, this);
+			Serialize();
+		}
 		return this;
 	}
 	public String getItemSlug() {
@@ -386,5 +389,9 @@ public class Item implements Serializable{
 			Serialize();
 		}
 		return this;
+	}
+	private Item(boolean r){}
+	public static void init(){
+		new Item(true);
 	}
 }

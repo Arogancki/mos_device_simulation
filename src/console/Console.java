@@ -10,14 +10,12 @@ import mosmessages.profile1.MosAck;
 //import java.util.Scanner;
 
 public class Console {
-	public static boolean IS_INTERACTIVE_MODE_ON = false;
 	public static void start(String[] args){
 		boolean powerSwitch = true;
-		if (args.length < 1){
-			IS_INTERACTIVE_MODE_ON = true;
+		if (args.length<1){
+			mossimulator.Model.HostConnections();			
 		}
 		System.out.println("type 'q' to quit.");
-		new MosAck(); // to iniciate all static field etc
 		do{
 			if (args.length < 1){
 				do {

@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -54,6 +55,10 @@ public class Story implements Serializable{
 	}
 	public void addItem(Item item){
 		items.add(item);
+		Serialize();
+	}
+	public void addItem(int ix, Item i){
+		items.add(ix, i);
 		Serialize();
 	}
 	public void removeItem(Item item){
@@ -163,7 +168,9 @@ public class Story implements Serializable{
 	}
 	public Story setStoryID(String storyID) {
 		if (storyID.length()<=128){
+			stories.remove(this.storyID);
 			this.storyID = storyID;
+			stories.put(this.storyID, this);
 			Serialize();
 		}
 		return this;
@@ -190,5 +197,16 @@ public class Story implements Serializable{
 	}
 	public ArrayList<Item> getItemsArray(){
 		return this.items;
+	}
+	private Story(boolean r){}
+	public static void init(){
+		new Story(true);
+	}
+	public void remove(int i) {
+		items.remove(i);
+		Serialize();
+	}
+	public void swap(int index1, int index2) {
+		Collections.swap(this.items, index1, index2);
 	}
 }

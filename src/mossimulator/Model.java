@@ -107,7 +107,9 @@ public class Model {
 			System.out.println("Warrning: Settings save file wasn't read! Creating new save file with default values.");
 			saveState.serialize();
 		}
-		if (console.Console.IS_INTERACTIVE_MODE_ON){
+	}
+	public static void HostConnections(){
+		if (Hostlower==null && Hostupper==null){
 			Hostlower = new HostConnection(lower);
 			Hostupper = new HostConnection(upper);
 		}
@@ -396,5 +398,13 @@ public class Model {
 		saveState.heartbeatSpace = _hs;
 		STARTDATE = _hs;
 		saveState.serialize();
+	}
+	private Model(boolean r){}
+	public static void init(){
+		new Model(true);
+		MosObj.init();
+		Item.init();
+		Story.init();
+		RunningOrder.init();
 	}
 }

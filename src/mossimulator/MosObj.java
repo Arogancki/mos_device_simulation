@@ -494,4 +494,8 @@ public class MosObj implements Serializable{
 		Change();
 		return this;
 	}
+	private MosObj(boolean r){}
+	public static void init(){
+		new MosObj(true);
+	}
 }

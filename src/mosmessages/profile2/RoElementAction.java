@@ -59,7 +59,7 @@ public class RoElementAction extends MosMessage{
 													}
 												}
 												for (int i=nodes.getLength()-1; i>=0; i--){
-													items.add(start,new mossimulator.Item(nodes.item(i)));
+													story.addItem(start,new mossimulator.Item(nodes.item(i)));
 												}
 												new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
 												break;
@@ -81,7 +81,7 @@ public class RoElementAction extends MosMessage{
 										}
 									}
 									for (int i=nodes.getLength()-1; i>=0; i--){
-										stories.add(start,new Story(nodes.item(i)));
+										ro.addItem(start,new Story(nodes.item(i)));
 									}
 									new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
 								}
@@ -125,9 +125,9 @@ public class RoElementAction extends MosMessage{
 													}
 												}
 												for (int i=nodes.getLength()-1; i>=0; i--){
-													items.add(start,new mossimulator.Item(nodes.item(i)));
+													story.addItem(start,new mossimulator.Item(nodes.item(i)));
 												}
-												items.remove(start+nodes.getLength());
+												story.remove(start+nodes.getLength());
 												new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
 												break;
 											}
@@ -148,9 +148,9 @@ public class RoElementAction extends MosMessage{
 										}
 									}
 									for (int i=nodes.getLength()-1; i>=0; i--){
-										stories.add(start,new Story(nodes.item(i)));
+										ro.addItem(start,new Story(nodes.item(i)));
 									}
-									stories.remove(start+nodes.getLength());
+									ro.remove(start+nodes.getLength());
 									new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
 								}
 							}
@@ -173,7 +173,7 @@ public class RoElementAction extends MosMessage{
 						if (storyID!=null && !storyID.equals("")){
 							String itemID = mossimulator.Model.MessageInfo.GetNodeContext(element_targetNode, "itemID");
 							if (itemID!=null  && !itemID.equals("")){
-								//itemy
+								//items
 								mossimulator.RunningOrder ro =mossimulator.RunningOrder.getRunningOrderObj(roID);
 								ArrayList<Story> al = ro.getStoryArray();
 								for (Story story : al){
@@ -193,8 +193,8 @@ public class RoElementAction extends MosMessage{
 												for (int ii=0; ii<alI.size(); ii++){
 													Item itemToMove = alI.get(ii);
 													if (itemToMove.getItemID().equals(id)){
-														alI.remove(ii);
-														alI.add(where, itemToMove);
+														story.remove(ii);
+														story.addItem(where, itemToMove);
 														break;
 													}
 												}
@@ -223,8 +223,8 @@ public class RoElementAction extends MosMessage{
 											for (int ii=0; ii<al.size();ii++){
 												Story storyToMove = al.get(ii);
 												if (storyToMove.getStoryID().equals(id)){
-													al.remove(ii);
-													al.add(where, storyToMove);
+													ro.remove(ii);
+													ro.addItem(where, storyToMove);
 													break;
 												}
 											}
@@ -265,7 +265,12 @@ public class RoElementAction extends MosMessage{
 											for (int i=0; i<nodelist.getLength(); i++){
 												String id = mossimulator.Model.MessageInfo.GetNodeContext(nodelist.item(i));
 												if (id!=null){
-													alI.removeIf(x->x.getItemID().equals(id));
+													for (int r=0; r<alI.size(); r++){
+														Item item = alI.get(r);
+														if (item.getItemID().equals(id)){
+															story.remove(r);
+														}
+													}
 												}
 											}
 											new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
@@ -279,13 +284,18 @@ public class RoElementAction extends MosMessage{
 								}
 							}
 							else{
-								mossimulator.RunningOrder ro =mossimulator.RunningOrder.getRunningOrderObj(roID);
+								mossimulator.RunningOrder ro = mossimulator.RunningOrder.getRunningOrderObj(roID);
 								ArrayList<Story> al = ro.getStoryArray();
 								NodeList nodelist = element_sourceNode.getChildNodes();
 								for (int i=0; i<nodelist.getLength(); i++){
 									String id = mossimulator.Model.MessageInfo.GetNodeContext(nodelist.item(i));
 									if (id!=null){
-										al.removeIf(x->x.getStoryID().equals(id));
+										for (int r=0; r<al.size(); r++){
+											Story story = al.get(r);
+											if (story.getStoryID().equals(id)){
+												ro.remove(r);
+											}
+										}
 									}
 								}
 								new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
@@ -328,7 +338,7 @@ public class RoElementAction extends MosMessage{
 													index2=i;
 												}
 												if (index1!=-1 && index2!=-1){
-													Collections.swap(alI, index1, index2);
+													story.swap(index1, index2);
 													new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
 												}
 											}
@@ -365,7 +375,7 @@ public class RoElementAction extends MosMessage{
 											index2=i;
 										}
 										if (index1!=-1 && index2!=-1){
-											Collections.swap(al, index1, index2);
+											ro.swap(index1, index2);
 											new RoAck().addRoAckInner(mosmessages.defined.Status.OK).setRoID(roID).Send(m);
 										}
 									}
